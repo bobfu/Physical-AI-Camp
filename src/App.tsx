@@ -67,7 +67,7 @@ export default function App() {
             <div className="w-8 h-8 bg-neon-green flex items-center justify-center">
               <Rocket className="w-5 h-5 text-black" />
             </div>
-            <span className="font-mono font-bold tracking-tighter text-xl">PHYSICAL AI CAMP</span>
+            <span className="font-mono font-bold tracking-tighter text-xl">PHYSICAL AI CAMP 2026</span>
           </div>
           <div className="hidden md:flex gap-8 font-mono text-xs uppercase tracking-widest">
             <a href="#insight" className="hover:text-neon-green transition-colors">Insight</a>

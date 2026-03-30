@@ -233,9 +233,9 @@ export default function App() {
                 这里没有高高在上的导师，只有互为镜像的同路人。我们强调 Maker 之间高密度的灵感碰撞与经验开源。
               </p>
               <div className="flex flex-wrap gap-4 text-xs font-bold uppercase">
-                <span className="border border-black px-3 py-1">HiDock 团队</span>
-                <span className="border border-black px-3 py-1">前 LOOI Co-founder</span>
-                <span className="border border-black px-3 py-1">灵宇宙儿童硬件</span>
+                <span className="border border-black px-3 py-1">会议记录硬件 HiDock 创始人</span>
+                <span className="border border-black px-3 py-1">桌面陪伴机器人 Co-founder</span>
+                <span className="border border-black px-3 py-1">ClawStage 桌面硬件创始人</span>
               </div>
             </div>
           </div>

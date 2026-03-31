@@ -290,7 +290,7 @@ export default function App() {
                   <div className="w-1 h-1 bg-neon-green mt-2 shrink-0"></div>
                   <div>
                     <h4 className="font-bold uppercase mb-1">上午 | 闭门出海早自习</h4>
-                    <p className="text-gray-400 text-sm">联合 Kickstarter 合作伙伴 Inno100，拆解硬件出海第一步、众筹避坑指南。</p>
+                    <p className="text-gray-400 text-sm">联合资深硬件众筹和出海专家，拆解硬件出海第一步、众筹避坑指南。</p>
                   </div>
                 </li>
                 <li className="flex gap-4">
@@ -321,7 +321,7 @@ export default function App() {
               <Badge>Workshop 1</Badge>
               <h3 className="text-2xl font-bold uppercase mb-6 leading-tight">ASR 微调与 <br />前端声学挑战</h3>
               <p className="text-sm font-medium mb-8">聚焦实体硬件在真实环境下的收音降噪、人声分离、VAD。</p>
-              <div className="text-[10px] font-mono uppercase font-bold opacity-60">拟邀：阿里通义千问 / 声网工程师</div>
+              <div className="text-[10px] font-mono uppercase font-bold opacity-60">拟邀：通义语音模型 / 声网工程师</div>
             </div>
             <div className="border-t-4 border-black pt-8">
               <Badge>Workshop 2</Badge>

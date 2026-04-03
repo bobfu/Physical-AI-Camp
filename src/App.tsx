@@ -22,10 +22,88 @@ import {
   ExternalLink,
   Mail,
   MessageSquare,
-  MapPin
+  MapPin,
+  X,
+  Copy,
+  Check
 } from 'lucide-react';
 
 // --- Components ---
+
+const Modal = ({ isOpen, onClose, wechatId }: { isOpen: boolean; onClose: () => void; wechatId: string }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(wechatId);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy: ', err);
+    }
+  };
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            className="relative bg-brutal-gray border border-neon-green/50 p-8 max-w-md w-full shadow-[0_0_50px_rgba(0,255,0,0.1)]"
+          >
+            <button 
+              onClick={onClose}
+              className="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors"
+            >
+              <X className="w-6 h-6" />
+            </button>
+            
+            <div className="mb-8">
+              <Badge>Application</Badge>
+              <h3 className="text-2xl font-bold uppercase tracking-tighter mb-4">立即加入同行者网络</h3>
+              <p className="text-gray-400 leading-relaxed">
+                请添加负责人微信为好友并备注<span className="text-neon-green">「Physical AI Camp 报名」</span>，我们将尽快与你联系。
+              </p>
+            </div>
+
+            <div className="bg-black border border-white/10 p-4 flex items-center justify-between mb-6">
+              <div className="flex flex-col">
+                <span className="text-[10px] font-mono text-gray-500 uppercase mb-1">WeChat ID</span>
+                <span className="font-mono text-neon-green font-bold">{wechatId}</span>
+              </div>
+              <button 
+                onClick={handleCopy}
+                className="flex items-center gap-2 bg-neon-green/10 hover:bg-neon-green/20 text-neon-green px-4 py-2 font-mono text-xs transition-colors"
+              >
+                {copied ? (
+                  <><Check className="w-4 h-4" /> COPIED</>
+                ) : (
+                  <><Copy className="w-4 h-4" /> COPY ID</>
+                )}
+              </button>
+            </div>
+
+            <button 
+              onClick={onClose}
+              className="w-full bg-neon-green text-black py-4 font-bold uppercase hover:bg-white transition-colors"
+            >
+              GOT IT
+            </button>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
+};
 
 const SectionHeader = ({ title, subtitle, number }: { title: string; subtitle?: string; number: string }) => (
   <div className="mb-12 border-l-4 border-neon-green pl-6">
@@ -51,6 +129,8 @@ const Badge = ({ children }: { children: React.ReactNode }) => (
 
 export default function App() {
   const [scrolled, setScrolled] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const WECHAT_ID = 'bob_fu';
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -60,6 +140,11 @@ export default function App() {
 
   return (
     <div className="min-h-screen grid-pattern">
+      <Modal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        wechatId={WECHAT_ID} 
+      />
       {/* Navigation */}
       <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-brutal-black/90 backdrop-blur-md border-b border-white/10 py-4' : 'py-6'}`}>
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
@@ -75,7 +160,10 @@ export default function App() {
             <a href="#workshop" className="hover:text-neon-green transition-colors">Workshop</a>
             <a href="#market" className="hover:text-neon-green transition-colors">Global</a>
           </div>
-          <button className="bg-neon-green text-black px-4 py-2 font-mono text-xs font-bold hover:bg-white transition-colors">
+          <button 
+            onClick={() => setIsModalOpen(true)}
+            className="bg-neon-green text-black px-4 py-2 font-mono text-xs font-bold hover:bg-white transition-colors"
+          >
             APPLY NOW
           </button>
         </div>
@@ -108,7 +196,10 @@ export default function App() {
                   寻找下一代“软硬结合”的 AI 创新者。打破屏幕边界，让 AI 触及物理世界。
                 </p>
                 <div className="flex flex-wrap gap-4">
-                  <button className="bg-neon-green text-black px-8 py-4 font-bold uppercase flex items-center gap-2 hover:bg-white transition-colors group">
+                  <button 
+                    onClick={() => setIsModalOpen(true)}
+                    className="bg-neon-green text-black px-8 py-4 font-bold uppercase flex items-center gap-2 hover:bg-white transition-colors group"
+                  >
                     立即加入同行者网络 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </button>
                   <div className="flex flex-col justify-center">
@@ -463,7 +554,10 @@ export default function App() {
             </p>
             
             <div className="flex flex-col md:flex-row justify-center gap-6 mb-20">
-              <button className="bg-neon-green text-black px-12 py-6 text-xl font-bold uppercase hover:bg-white transition-colors">
+              <button 
+                onClick={() => setIsModalOpen(true)}
+                className="bg-neon-green text-black px-12 py-6 text-xl font-bold uppercase hover:bg-white transition-colors"
+              >
                 立即投递申请
               </button>
               <div className="flex items-center justify-center gap-8 border border-white/10 px-8 py-6">

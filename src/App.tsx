@@ -69,7 +69,8 @@ const Modal = ({ isOpen, onClose, wechatId }: { isOpen: boolean; onClose: () => 
             
             <div className="mb-8">
               <Badge>Application</Badge>
-              <h3 className="text-2xl font-bold uppercase tracking-tighter mb-4">立即加入同行者网络</h3>
+              <h3 className="text-2xl font-bold uppercase tracking-tighter mb-2">立即加入同行者网络</h3>
+              <p className="text-neon-green font-mono text-[10px] uppercase tracking-widest mb-4">截止报名：2026 年 4 月 20 日 24:00</p>
               <p className="text-gray-400 leading-relaxed">
                 请添加负责人微信为好友并备注<span className="text-neon-green">「Physical AI Camp 报名」</span>，我们将尽快与你联系。
               </p>
@@ -155,9 +156,9 @@ export default function App() {
             <span className="font-mono font-bold tracking-tighter text-xl">PHYSICAL AI CAMP 2026</span>
           </div>
           <div className="hidden md:flex gap-8 font-mono text-xs uppercase tracking-widest">
-            <a href="#insight" className="hover:text-neon-green transition-colors">Insight</a>
-            <a href="#events" className="hover:text-neon-green transition-colors">Events</a>
+            <a href="#community" className="hover:text-neon-green transition-colors">Community</a>
             <a href="#workshop" className="hover:text-neon-green transition-colors">Workshop</a>
+            <a href="#resources" className="hover:text-neon-green transition-colors">Resources</a>
             <a href="#market" className="hover:text-neon-green transition-colors">Global</a>
           </div>
           <button 
@@ -193,16 +194,20 @@ export default function App() {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
               <div className="max-w-xl">
                 <p className="text-xl md:text-2xl text-gray-300 font-light leading-relaxed mb-8">
-                  寻找下一代“软硬结合”的 AI 创新者。打破屏幕边界，让 AI 触及物理世界。
+                  寻找下一代「软硬结合」的 AI 创新者。打破屏幕边界，让 AI 触及物理世界。
                 </p>
-                <div className="flex flex-wrap gap-4">
+                <div className="flex flex-wrap gap-4 items-center">
                   <button 
                     onClick={() => setIsModalOpen(true)}
                     className="bg-neon-green text-black px-8 py-4 font-bold uppercase flex items-center gap-2 hover:bg-white transition-colors group"
                   >
                     立即加入同行者网络 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </button>
-                  <div className="flex flex-col justify-center">
+                  <div className="flex flex-col">
+                    <span className="text-neon-green font-mono text-[10px] uppercase tracking-widest">截止报名</span>
+                    <span className="text-white font-mono text-xs">2026.04.20 24:00</span>
+                  </div>
+                  <div className="flex flex-col justify-center border-l border-white/10 pl-4">
                     <span className="text-gray-500 font-mono text-[10px] uppercase">Organizer</span>
                     <span className="font-bold">RTE 开发者社区</span>
                   </div>
@@ -259,7 +264,7 @@ export default function App() {
                   <Zap className="w-5 h-5 text-neon-green" /> 技术拐点
                 </h3>
                 <p className="text-gray-600 leading-relaxed">
-                  随着 Realtime API 和视觉/语音基础模型的成熟，AI 正在脱离纯粹的软件形态。我们正处于从“屏幕交互”走向“具身智能与物理交互”的转折点。
+                  随着 Realtime API 和视觉/语音基础模型的成熟，AI 正在脱离纯粹的软件形态。我们正处于从「屏幕交互」走向「具身智能与物理交互」的转折点。
                 </p>
               </div>
               <div>
@@ -267,7 +272,7 @@ export default function App() {
                   <Globe className="w-5 h-5 text-neon-green" /> 出海与代际差
                 </h3>
                 <p className="text-gray-600 leading-relaxed">
-                  将硅谷最前沿的 AI 算法浪潮，与国内无可替代的硬件供应链优势结合。利用这种“代际差”，通过“硬件触点 + Agent 订阅”模式，是我们这代 Maker 出海的最佳切入点。
+                  将硅谷最前沿的 AI 算法浪潮，与国内无可替代的硬件供应链优势结合。利用这种「代际差」，通过「硬件触点 + Agent 订阅」模式，是我们这代 Maker 出海的最佳切入点。
                 </p>
               </div>
               <div className="bg-black text-white p-8">
@@ -282,7 +287,7 @@ export default function App() {
       </section>
 
       {/* Slide 3: Community */}
-      <section className="py-24 border-y border-white/10">
+      <section id="community" className="py-24 border-y border-white/10">
         <div className="max-w-7xl mx-auto px-6">
           <SectionHeader 
             number="02 / COMMUNITY" 
@@ -300,9 +305,9 @@ export default function App() {
             </Card>
             <Card>
               <Code className="w-10 h-10 text-neon-green mb-6" />
-              <h3 className="text-xl font-bold mb-4 uppercase">Build in public</h3>
+              <h3 className="text-xl font-bold mb-4 uppercase">Build in Community</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
-                习惯在早期公开构建，乐于在社交平台分享沿途的思考与踩过的坑。
+                乐于分享自己在创业途中的思考和踩过的坑，共享教训共同进步。
               </p>
             </Card>
             <Card>
@@ -407,7 +412,7 @@ export default function App() {
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="border-t-4 border-black pt-8">
               <Badge>Workshop 1</Badge>
               <h3 className="text-2xl font-bold uppercase mb-6 leading-tight">ASR 微调与 <br />前端声学挑战</h3>
@@ -426,34 +431,56 @@ export default function App() {
               <p className="text-sm font-medium mb-8">探讨硬件限制下的软件架构选型、端云协同策略，做到体验闭环。</p>
               <div className="text-[10px] font-mono uppercase font-bold opacity-60">聚焦：软硬一体体验闭环</div>
             </div>
+            <div className="border-t-4 border-black pt-8">
+              <Badge>Workshop 4</Badge>
+              <h3 className="text-2xl font-bold uppercase mb-6 leading-tight">AI 硬件+IP</h3>
+              <p className="text-sm font-medium mb-8">对接 IP 资源方和硬件创业者，共同探讨 IP 与硬件共生之道。</p>
+              <div className="text-[10px] font-mono uppercase font-bold opacity-60">聚焦：IP 资源对接</div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Slide 6: Resources */}
-      <section className="py-24">
+      <section id="resources" className="py-24">
         <div className="max-w-7xl mx-auto px-6">
           <SectionHeader 
             number="05 / RESOURCES" 
-            title="实战弹药库" 
+            title="实战弹药库：Real-Time AI Devkit" 
             subtitle="为你准备好支撑起步 3-6 个月的专属技术包" 
           />
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10 border border-white/10">
             <div className="bg-brutal-black p-8">
               <Mic className="w-8 h-8 text-neon-green mb-6" />
-              <h4 className="font-bold uppercase mb-4">实时交互引擎</h4>
-              <p className="text-gray-400 text-sm">声网对话式 AI 引擎（提供 60,000 分钟免费额度，跑通早期验证）。</p>
+              <h4 className="font-bold uppercase mb-4">对话式 AI 引擎</h4>
+              <p className="text-gray-400 text-sm">声网对话式 AI 引擎 30 万分钟免费额度</p>
+            </div>
+            <div className="bg-brutal-black p-8">
+              <Monitor className="w-8 h-8 text-neon-green mb-6" />
+              <h4 className="font-bold uppercase mb-4">实时交互免费资源包</h4>
+              <p className="text-gray-400 text-sm">商汤数字人、SpatialWalk 实时交互数字人、小宿科技搜索 API、小樱桃科技 SIP</p>
             </div>
             <div className="bg-brutal-black p-8">
               <Cpu className="w-8 h-8 text-neon-green mb-6" />
-              <h4 className="font-bold uppercase mb-4">多模态大模型基座</h4>
-              <p className="text-gray-400 text-sm">智谱 AI、阶跃星辰等前沿大模型 Token 额度；高质量 TTS/ASR 支持。</p>
+              <h4 className="font-bold uppercase mb-4">多模态大模型</h4>
+              <p className="text-gray-400 text-sm">由 MiniMax、Z.AI Startup Program、阶跃星辰、月之暗面提供的语音模型（TTS、ASR 等）和 LLM Token 额度支持。</p>
             </div>
             <div className="bg-brutal-black p-8">
               <Box className="w-8 h-8 text-neon-green mb-6" />
               <h4 className="font-bold uppercase mb-4">硬件试用</h4>
-              <p className="text-gray-400 text-sm">声网 Physical AI 盒子参考方案、Rokid 智能眼镜等前沿硬件优先试用。</p>
+              <p className="text-gray-400 text-sm">声网 R1/R2 开发板试用、Seeed SenseCAP Watcher 开发板试用</p>
+            </div>
+            <div className="bg-brutal-black p-8">
+              <Rocket className="w-8 h-8 text-neon-green mb-6" />
+              <h4 className="font-bold uppercase mb-4">Build in Public 流量扶持</h4>
+              <p className="text-gray-400 text-sm">小红书科技流量支持</p>
+            </div>
+            <div className="bg-brutal-black p-8 flex items-center justify-center">
+              <div className="text-center">
+                <div className="text-neon-green font-mono text-xs mb-2">MORE COMING SOON</div>
+                <div className="w-12 h-1 bg-neon-green/20 mx-auto"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -471,9 +498,9 @@ export default function App() {
           <div className="space-y-4">
             {[
               { date: '5月', event: '硅谷 AI 生态考察', desc: '深入全球 AI 创新腹地，捕捉最真实的代际信号。' },
-              { date: '5月底', event: '澳门 Beyond Expo', desc: '依托 RTE 社区绿色通道，优先申请亚太级科技展会初创展位。' },
-              { date: '7月初', event: '日本京都 IVS 创投展', desc: '寻找出海日本市场（陪伴、高龄化、二次元）的优质切入点。' },
-              { date: '7月', event: '上海 WAIC', desc: 'Physical AI Camp 专属初创展区，集中展示营员阶段性 Demo。' },
+              { date: '5.27-30', event: '澳门 Beyond Expo', desc: '依托 RTE 社区绿色通道，优先申请亚太级科技展会初创展位。' },
+              { date: '7.2-4', event: '日本京都 IVS 创投展', desc: '寻找出海日本市场（陪伴、高龄化、二次元等场景）的优质切入点与本地伙伴。' },
+              { date: '7.3-6', event: '上海 WAIC 世界人工智能大会', desc: 'Physical AI Camp 专属初创展区，集中展示营员阶段性 Demo。' },
             ].map((item, i) => (
               <div key={i} className="flex flex-col md:flex-row md:items-center gap-4 md:gap-12 p-6 border border-white/5 hover:bg-white/5 transition-colors">
                 <div className="font-mono text-neon-green font-bold text-xl w-24 shrink-0">{item.date}</div>
@@ -493,7 +520,7 @@ export default function App() {
               <div className="space-y-8">
                 <div className="p-8 border-2 border-black">
                   <h3 className="font-bold uppercase mb-4">我们的理念</h3>
-                  <p className="text-gray-600">拒绝单向的“审问式”尽调。我们看重的是能提供真正 Insight、愿意亲自上手把玩硬件 Demo 的早期 VC。</p>
+                  <p className="text-gray-600">拒绝单向的「审问式」尽调。我们看重的是能提供真正 Insight、愿意亲自上手把玩硬件 Demo 的早期 VC。</p>
                 </div>
                 <div className="p-8 bg-black text-white">
                   <h3 className="font-bold uppercase mb-4 text-neon-green">行动路径</h3>
@@ -553,22 +580,27 @@ export default function App() {
               寻找同频的 Maker，一起 Hack 物理世界。
             </p>
             
-            <div className="flex flex-col md:flex-row justify-center gap-6 mb-20">
-              <button 
-                onClick={() => setIsModalOpen(true)}
-                className="bg-neon-green text-black px-12 py-6 text-xl font-bold uppercase hover:bg-white transition-colors"
-              >
-                立即投递申请
-              </button>
-              <div className="flex items-center justify-center gap-8 border border-white/10 px-8 py-6">
-                <div className="flex items-center gap-2">
-                  <Mail className="w-5 h-5 text-neon-green" />
-                  <span className="font-mono text-xs">EMAIL</span>
+            <div className="flex flex-col items-center gap-6 mb-20">
+              <div className="flex flex-col md:flex-row justify-center gap-6 w-full">
+                <button 
+                  onClick={() => setIsModalOpen(true)}
+                  className="bg-neon-green text-black px-12 py-6 text-xl font-bold uppercase hover:bg-white transition-colors"
+                >
+                  立即投递申请
+                </button>
+                <div className="flex items-center justify-center gap-8 border border-white/10 px-8 py-6">
+                  <div className="flex items-center gap-2">
+                    <Mail className="w-5 h-5 text-neon-green" />
+                    <span className="font-mono text-xs">EMAIL</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <MessageSquare className="w-5 h-5 text-neon-green" />
+                    <span className="font-mono text-xs">WECHAT</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <MessageSquare className="w-5 h-5 text-neon-green" />
-                  <span className="font-mono text-xs">WECHAT</span>
-                </div>
+              </div>
+              <div className="text-neon-green font-mono text-sm uppercase tracking-[0.2em] border-y border-neon-green/20 py-2">
+                截止报名：2026 年 4 月 20 日 24:00
               </div>
             </div>
 

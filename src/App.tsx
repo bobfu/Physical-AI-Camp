@@ -31,6 +31,183 @@ import {
 
 import wechatQr from './assets/wechat-qr.jpg';
 
+const FIXED_PARTNERS = [
+  { name: "RTE 开发者社区", category: "Organizer" },
+  { name: "超音速计划", category: "Organizer" },
+  { name: "声网", category: "Organizer" },
+];
+
+const PARTNERS_LIST = [
+  // Real-Time AI Devkit
+  { name: "声网对话式 AI", category: "Real-Time AI Devkit" },
+  { name: "商汤", category: "Real-Time AI Devkit" },
+  { name: "SpatialWalk", category: "Real-Time AI Devkit" },
+  { name: "小宿科技", category: "Real-Time AI Devkit" },
+  { name: "小樱桃科技", category: "Real-Time AI Devkit" },
+  { name: "MiniMax", category: "Real-Time AI Devkit" },
+  { name: "Z.AI Startup Program", category: "Real-Time AI Devkit" },
+  { name: "阶跃星辰", category: "Real-Time AI Devkit" },
+  { name: "月之暗面", category: "Real-Time AI Devkit" },
+  { name: "Seeed", category: "Real-Time AI Devkit" },
+  // VC
+  { name: "五源资本", category: "VC" },
+  { name: "高瓴资本", category: "VC" },
+  { name: "嘉程资本", category: "VC" },
+  { name: "真格基金", category: "VC" },
+  // 社区伙伴
+  { name: "S 创", category: "Community" },
+  { name: "柴火创客空间", category: "Community" },
+  { name: "INNO100", category: "Community" },
+  { name: "机智流", category: "Community" },
+  { name: "脑放电波", category: "Community" },
+  { name: "WAIC UP!", category: "Community" },
+  { name: "Bonjour!", category: "Community" },
+  { name: "Research AI+", category: "Community" },
+  { name: "小红书科技", category: "Community" },
+];
+
+const LogoWall = ({ onViewAll }: { onViewAll: () => void }) => {
+  const [shuffledPartners, setShuffledPartners] = useState<typeof PARTNERS_LIST>([]);
+  const [fixedIndex, setFixedIndex] = useState(0);
+
+  useEffect(() => {
+    // Randomize the list on load to be fair to all partners
+    setShuffledPartners([...PARTNERS_LIST].sort(() => Math.random() - 0.5));
+
+    // Cycle fixed partners every 3 seconds
+    const interval = setInterval(() => {
+      setFixedIndex((prev) => (prev + 1) % FIXED_PARTNERS.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  if (shuffledPartners.length === 0) return null;
+
+  // Triple the list and add a "VIEW ALL" card at the end of each set to make it interactive
+  const displayPartners = [...shuffledPartners, ...shuffledPartners, ...shuffledPartners];
+  const currentFixed = FIXED_PARTNERS[fixedIndex];
+
+  return (
+    <div className="py-12 border-y border-white/5 bg-black/50 overflow-hidden relative group flex items-center">
+      {/* Fixed Section - Cycling through Organizers */}
+      <div className="flex items-center bg-brutal-black/80 backdrop-blur-md z-30 px-8 border-r border-white/10 relative shadow-[20px_0_30px_-10px_rgba(0,0,0,0.5)] min-w-[280px]">
+        <AnimatePresence mode="wait">
+          <motion.div 
+            key={currentFixed.name}
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 10 }}
+            className="flex items-center gap-4 group/fixed cursor-default"
+          >
+            <div className="w-8 h-8 bg-neon-green flex items-center justify-center border border-neon-green shadow-[0_0_10px_rgba(0,255,0,0.3)]">
+              <span className="text-black font-mono text-[10px] font-bold">{currentFixed.name[0]}</span>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-neon-green font-bold tracking-tighter uppercase text-sm">
+                {currentFixed.name}
+              </span>
+              <span className="text-[8px] font-mono text-gray-400 uppercase tracking-widest">
+                {currentFixed.category}
+              </span>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {/* Marquee Section */}
+      <div className="flex-1 overflow-hidden relative">
+        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-brutal-black to-transparent z-10"></div>
+        
+        <div className="flex animate-marquee hover:[animation-play-state:paused] whitespace-nowrap">
+          {displayPartners.map((partner, idx) => (
+            <div 
+              key={idx} 
+              className="flex items-center gap-4 mx-12 group/item cursor-pointer"
+              onClick={onViewAll}
+            >
+              <div className="w-8 h-8 bg-white/5 border border-white/10 flex items-center justify-center group-hover/item:border-neon-green/50 transition-colors">
+                <span className="text-neon-green font-mono text-[10px] font-bold">{partner.name[0]}</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-white font-bold tracking-tighter uppercase text-sm group-hover/item:text-neon-green transition-colors">
+                  {partner.name}
+                </span>
+                <span className="text-[8px] font-mono text-gray-500 uppercase tracking-widest">
+                  {partner.category}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      
+      {/* Floating Hint */}
+      <div className="absolute bottom-2 right-12 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
+        <span className="text-[8px] font-mono text-neon-green uppercase tracking-[0.3em] animate-pulse">Click to view all partners</span>
+      </div>
+    </div>
+  );
+};
+
+const PartnerModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+  const allPartners = [...FIXED_PARTNERS, ...PARTNERS_LIST];
+  const categories = Array.from(new Set(allPartners.map(p => p.category)));
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-[110] flex items-center justify-center p-6">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="absolute inset-0 bg-black/90 backdrop-blur-md"
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            className="relative bg-brutal-gray border border-white/10 p-10 max-w-4xl w-full max-h-[80vh] overflow-y-auto shadow-2xl"
+          >
+            <button 
+              onClick={onClose}
+              className="absolute top-6 right-6 text-gray-500 hover:text-white transition-colors"
+            >
+              <X className="w-8 h-8" />
+            </button>
+            
+            <div className="mb-12">
+              <h3 className="text-4xl font-bold uppercase tracking-tighter mb-4">Partners & Sponsors</h3>
+              <p className="text-gray-400 font-mono text-xs uppercase tracking-widest">Physical AI Camp 2026 Ecosystem</p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+              {categories.map(category => (
+                <div key={category}>
+                  <h4 className="text-neon-green font-mono text-[10px] uppercase tracking-[0.2em] mb-6 border-b border-neon-green/20 pb-2">
+                    {category}
+                  </h4>
+                  <div className="space-y-3">
+                    {allPartners.filter(p => p.category === category).map(partner => (
+                      <div key={partner.name} className="flex items-center gap-3 group">
+                        <div className="w-1.5 h-1.5 bg-white/20 group-hover:bg-neon-green transition-colors"></div>
+                        <span className="text-white font-medium uppercase text-sm tracking-tight group-hover:text-neon-green transition-colors">
+                          {partner.name}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
+};
+
 // --- Components ---
 
 const Modal = ({ isOpen, onClose, wechatId }: { isOpen: boolean; onClose: () => void; wechatId: string }) => {
@@ -164,6 +341,7 @@ const FAQItem = ({ question, answer }: { question: string; answer: string }) => 
 export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPartnerModalOpen, setIsPartnerModalOpen] = useState(false);
   const WECHAT_ID = 'bob_fu';
 
   useEffect(() => {
@@ -277,6 +455,10 @@ export default function App() {
           <div className="absolute top-1/2 right-40 w-64 h-64 border border-white/20 rotate-45"></div>
         </div>
       </header>
+
+      <LogoWall onViewAll={() => setIsPartnerModalOpen(true)} />
+
+      <PartnerModal isOpen={isPartnerModalOpen} onClose={() => setIsPartnerModalOpen(false)} />
 
       {/* Slide 2: Insight */}
       <section id="insight" className="py-24 bg-white text-black">

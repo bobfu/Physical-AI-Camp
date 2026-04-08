@@ -7,6 +7,12 @@
   --color-neon-green: #00FF00;
   --color-brutal-black: #0a0a0a;
   --color-brutal-gray: #1a1a1a;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  --animate-marquee: marquee 30s linear infinite;
 }
 
 @layer base {

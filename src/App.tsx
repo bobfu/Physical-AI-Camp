@@ -360,11 +360,14 @@ export default function App() {
       {/* Navigation */}
       <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-brutal-black/90 backdrop-blur-md border-b border-white/10 py-4' : 'py-6'}`}>
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-neon-green flex items-center justify-center">
+          <div 
+            className="flex items-center gap-2 cursor-pointer group"
+            onClick={() => window.location.href = '/'}
+          >
+            <div className="w-8 h-8 bg-neon-green flex items-center justify-center group-hover:bg-white transition-colors">
               <Zap className="w-5 h-5 text-black" />
             </div>
-            <span className="font-mono font-bold tracking-tighter text-xl">PHYSICAL AI CAMP 2026</span>
+            <span className="font-mono font-bold tracking-tighter text-xl group-hover:text-neon-green transition-colors">PHYSICAL AI CAMP 2026</span>
           </div>
           <div className="hidden md:flex gap-8 font-mono text-xs uppercase tracking-widest">
             <a href="#community" className="hover:text-neon-green transition-colors">Community</a>

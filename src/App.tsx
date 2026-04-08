@@ -18,9 +18,10 @@ import {
   Layers, 
   Mic, 
   Monitor,
+  Twitter,
   ChevronRight,
+  ChevronDown,
   ExternalLink,
-  Mail,
   MessageSquare,
   MapPin,
   X,
@@ -69,7 +70,7 @@ const Modal = ({ isOpen, onClose, wechatId }: { isOpen: boolean; onClose: () => 
             
             <div className="mb-8">
               <Badge>Application</Badge>
-              <h3 className="text-2xl font-bold uppercase tracking-tighter mb-2">立即加入同行者网络</h3>
+              <h3 className="text-2xl font-bold uppercase tracking-tighter mb-2">立即加入超音速计划 2026</h3>
               <p className="text-neon-green font-mono text-[10px] uppercase tracking-widest mb-4">截止报名：2026 年 4 月 20 日 24:00</p>
               <p className="text-gray-400 leading-relaxed">
                 请添加负责人微信为好友并备注<span className="text-neon-green">「Physical AI Camp 报名」</span>，我们将尽快与你联系。
@@ -126,6 +127,36 @@ const Badge = ({ children }: { children: React.ReactNode }) => (
   </span>
 );
 
+const FAQItem = ({ question, answer }: { question: string; answer: string }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <div className="border-b border-white/10">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full py-6 flex items-center justify-between text-left hover:text-neon-green transition-colors group"
+      >
+        <span className="text-lg font-bold uppercase tracking-tight pr-8">{question}</span>
+        <ChevronDown className={`w-5 h-5 shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180 text-neon-green' : 'text-gray-500'}`} />
+      </button>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="overflow-hidden"
+          >
+            <div className="pb-8 text-gray-400 leading-relaxed text-sm">
+              {answer}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
 // --- Main App ---
 
 export default function App() {
@@ -151,7 +182,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-neon-green flex items-center justify-center">
-              <Rocket className="w-5 h-5 text-black" />
+              <Zap className="w-5 h-5 text-black" />
             </div>
             <span className="font-mono font-bold tracking-tighter text-xl">PHYSICAL AI CAMP 2026</span>
           </div>
@@ -201,7 +232,7 @@ export default function App() {
                     onClick={() => setIsModalOpen(true)}
                     className="bg-neon-green text-black px-8 py-4 font-bold uppercase flex items-center gap-2 hover:bg-white transition-colors group"
                   >
-                    立即加入同行者网络 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    立即加入超音速计划 2026 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </button>
                   <div className="flex flex-col">
                     <span className="text-neon-green font-mono text-[10px] uppercase tracking-widest">截止报名</span>
@@ -472,7 +503,7 @@ export default function App() {
               <p className="text-gray-400 text-sm">声网 R1/R2 开发板试用、Seeed SenseCAP Watcher 开发板试用</p>
             </div>
             <div className="bg-brutal-black p-8">
-              <Rocket className="w-8 h-8 text-neon-green mb-6" />
+              <Zap className="w-8 h-8 text-neon-green mb-6" />
               <h4 className="font-bold uppercase mb-4">Build in Public 流量扶持</h4>
               <p className="text-gray-400 text-sm">小红书科技流量支持</p>
             </div>
@@ -565,6 +596,55 @@ export default function App() {
         </div>
       </section>
 
+      {/* FAQ Section */}
+      <section className="py-24 border-t border-white/10">
+        <div className="max-w-7xl mx-auto px-6">
+          <SectionHeader 
+            number="09 / FAQ" 
+            title="常见问题" 
+            subtitle="解答关于申请、选拔及营地生活的疑问" 
+          />
+          <div className="max-w-3xl">
+            <FAQItem 
+              question="1. 申请和入选会产生任何费用吗？" 
+              answer="申请和入选不需要缴纳任何费用，入选团队如不在线下活动所在城市，需自行承担差旅费用，我们将提供活动日午餐及零食水果等。"
+            />
+            <FAQItem 
+              question="2. 完成报名表后接下来是什么？" 
+              answer="报名完成后，「超音速计划」将与您联系（请一定确保联系方式填写正确）。筛选滚动进行，建议有意向者尽快报名。选拔分为线上筛选和评委打分两部分，初筛后可能我们会与您进行时长约为 30-60 分钟的视频沟通， 来更好地了解您的产品与所需支持。"
+            />
+            <FAQItem 
+              question="3. 报名需要提供什么信息？需要准备 BP 吗？" 
+              answer="填写报名表即可报名， 但后续需要 BP。线上视频面试时申请者需要分享 BP 并做不超过十五分钟的公司介绍和产品展示，同时需要在面试前后提供 BP 文档，以便进行后续交叉评估。建议在申请时就有成型的 BP。"
+            />
+            <FAQItem 
+              question="4. 入选后需要投入多少时间与精力？可以线上参加吗？" 
+              answer="超音速创业伙伴营时间跨度约为三个月， 以线上线下相结合的方式进行。最初的开营和最后的结营的两个核心模块需要你在线下参与， 在上海（或北京） 线下进行，核心模块互动性强，无法线上参与， 主要时间节点为隔周的周末；另根据项目具体需求，会在工作日设置与行业专家或投资人的一对一沟通探讨环节。"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section className="py-24 bg-white text-black">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid md:grid-cols-2 gap-16">
+            <div>
+              <h3 className="text-2xl font-bold uppercase mb-6 border-l-4 border-black pl-4">关于超音速计划</h3>
+              <p className="text-gray-600 leading-relaxed">
+                「超音速计划」是面向实时互动（RTE，Real-Time Engagement）创业者发起的创业加速计划。重点关注实时互动领域新场景、新技术，旨在加速实时互动领域的创业企业价值成长，共同定义和扩大实时互动赛道，赋能开发者更低成本、更高效的实现创新创业。
+              </p>
+            </div>
+            <div>
+              <h3 className="text-2xl font-bold uppercase mb-6 border-l-4 border-black pl-4">关于 RTE 开发者社区</h3>
+              <p className="text-gray-600 leading-relaxed">
+                RTE 是一个聚焦实时互动（Real-Time Engagement）领域的开发者社区。我们致力于连接行业内的开发者与生态伙伴，激发新技术、新场景的火花，共同探索实时互动的无限可能。在这里，你将遇见一群志同道合的技术探索者，一同改变人与人、人与世界、人与 AI、AI 与 AI 的连接方式。
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Slide 10: CTA */}
       <footer className="py-32 border-t border-white/10 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
@@ -574,33 +654,60 @@ export default function App() {
             viewport={{ once: true }}
           >
             <h2 className="text-5xl md:text-8xl font-bold tracking-tighter uppercase mb-12">
-              加入 <br /><span className="text-neon-green">同行者网络</span>
+              加入 <br /><span className="text-neon-green">超音速计划 2026</span>
             </h2>
             <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
               寻找同频的 Maker，一起 Hack 物理世界。
             </p>
             
             <div className="flex flex-col items-center gap-6 mb-20">
-              <div className="flex flex-col md:flex-row justify-center gap-6 w-full">
-                <button 
-                  onClick={() => setIsModalOpen(true)}
-                  className="bg-neon-green text-black px-12 py-6 text-xl font-bold uppercase hover:bg-white transition-colors"
-                >
-                  立即投递申请
-                </button>
-                <div className="flex items-center justify-center gap-8 border border-white/10 px-8 py-6">
-                  <div className="flex items-center gap-2">
-                    <Mail className="w-5 h-5 text-neon-green" />
-                    <span className="font-mono text-xs">EMAIL</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <MessageSquare className="w-5 h-5 text-neon-green" />
-                    <span className="font-mono text-xs">WECHAT</span>
-                  </div>
-                </div>
-              </div>
+              <button 
+                onClick={() => setIsModalOpen(true)}
+                className="bg-neon-green text-black px-12 py-6 text-xl font-bold uppercase hover:bg-white transition-colors"
+              >
+                立即投递申请
+              </button>
               <div className="text-neon-green font-mono text-sm uppercase tracking-[0.2em] border-y border-neon-green/20 py-2">
                 截止报名：2026 年 4 月 20 日 24:00
+              </div>
+            </div>
+
+            <div className="flex flex-wrap justify-center gap-12 mb-16">
+              <a href="https://x.com/rtedevcommunity" target="_blank" rel="noopener noreferrer" className="group flex flex-col items-center gap-3">
+                <div className="w-12 h-12 border border-white/10 flex items-center justify-center group-hover:border-neon-green group-hover:bg-neon-green/10 transition-all">
+                  <Twitter className="w-5 h-5 text-gray-400 group-hover:text-neon-green" />
+                </div>
+                <span className="font-mono text-[10px] text-gray-500 uppercase tracking-widest">Twitter / X</span>
+              </a>
+              <a href="https://www.rtecommunity.dev/" target="_blank" rel="noopener noreferrer" className="group flex flex-col items-center gap-3">
+                <div className="w-12 h-12 border border-white/10 flex items-center justify-center group-hover:border-neon-green group-hover:bg-neon-green/10 transition-all">
+                  <Globe className="w-5 h-5 text-gray-400 group-hover:text-neon-green" />
+                </div>
+                <span className="font-mono text-[10px] text-gray-500 uppercase tracking-widest">Website</span>
+              </a>
+              <div className="group flex flex-col items-center gap-3 relative cursor-pointer">
+                <div className="w-12 h-12 border border-white/10 flex items-center justify-center group-hover:border-neon-green group-hover:bg-neon-green/10 transition-all">
+                  <MessageSquare className="w-5 h-5 text-gray-400 group-hover:text-neon-green" />
+                </div>
+                <span className="font-mono text-[10px] text-gray-500 uppercase tracking-widest">WeChat</span>
+                {/* QR Code Tooltip */}
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-300 translate-y-2 group-hover:translate-y-0 z-50">
+                  <div className="bg-white p-4 shadow-2xl border border-neon-green/20 w-56">
+                    <img 
+                      src="/wechat-qr.png" 
+                      alt="WeChat QR Code" 
+                      className="w-full h-auto object-contain mb-2" 
+                      referrerPolicy="no-referrer" 
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = "https://picsum.photos/seed/qr/200/200?blur=2";
+                      }}
+                    />
+                    <div className="text-black text-[10px] font-bold text-center uppercase tracking-tighter whitespace-nowrap">
+                      扫码关注 RTE 开发者社区微信公众号
+                    </div>
+                  </div>
+                  <div className="w-3 h-3 bg-white rotate-45 absolute -bottom-1.5 left-1/2 -translate-x-1/2 border-r border-b border-neon-green/10"></div>
+                </div>
               </div>
             </div>
 

@@ -1,0 +1,2 @@
+# Assets
+This directory is for static assets like images.

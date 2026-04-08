@@ -694,17 +694,12 @@ export default function App() {
                 <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-300 translate-y-2 group-hover:translate-y-0 z-50">
                   <div className="bg-white p-4 shadow-2xl border border-neon-green/20 w-56">
                     <img 
-                      src="wechat-qr.png" 
+                      src="wechat-qr.jpg" 
                       alt="WeChat QR Code" 
                       className="w-full h-auto object-contain mb-2" 
                       referrerPolicy="no-referrer" 
                       onError={(e) => {
-                        const img = e.target as HTMLImageElement;
-                        if (img.src.endsWith('.png')) {
-                          img.src = 'wechat-qr.jpg'; // Try jpg if png fails
-                        } else {
-                          img.src = "https://picsum.photos/seed/qr/200/200?blur=2";
-                        }
+                        (e.target as HTMLImageElement).src = "https://picsum.photos/seed/qr/200/200?blur=2";
                       }}
                     />
                     <div className="text-black text-[10px] font-bold text-center uppercase tracking-tighter whitespace-nowrap">

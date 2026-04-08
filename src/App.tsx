@@ -417,7 +417,7 @@ export default function App() {
               <Badge>Workshop 1</Badge>
               <h3 className="text-2xl font-bold uppercase mb-6 leading-tight">ASR 微调与 <br />前端声学挑战</h3>
               <p className="text-sm font-medium mb-8">聚焦实体硬件在真实环境下的收音降噪、人声分离、VAD。</p>
-              <div className="text-[10px] font-mono uppercase font-bold opacity-60">拟邀：通义语音模型 / 声网工程师</div>
+              <div className="text-[10px] font-mono uppercase font-bold opacity-60">拟邀：语音模型专家 / 声网工程师</div>
             </div>
             <div className="border-t-4 border-black pt-8">
               <Badge>Workshop 2</Badge>

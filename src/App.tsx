@@ -29,6 +29,8 @@ import {
   Check
 } from 'lucide-react';
 
+import wechatQr from './assets/wechat-qr.jpg';
+
 // --- Components ---
 
 const Modal = ({ isOpen, onClose, wechatId }: { isOpen: boolean; onClose: () => void; wechatId: string }) => {
@@ -694,7 +696,7 @@ export default function App() {
                 <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-300 translate-y-2 group-hover:translate-y-0 z-50">
                   <div className="bg-white p-4 shadow-2xl border border-neon-green/20 w-56">
                     <img 
-                      src="/wechat-qr.jpg" 
+                      src={wechatQr} 
                       alt="WeChat QR Code" 
                       className="w-full h-auto object-contain mb-2" 
                       referrerPolicy="no-referrer" 

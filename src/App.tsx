@@ -29,6 +29,8 @@ import {
   Check
 } from 'lucide-react';
 
+import wechatQr from './assets/wechat-qr.jpg';
+
 const FIXED_PARTNERS = [
   { name: "RTE 开发者社区", category: "Organizer" },
   { name: "超音速计划", category: "Organizer" },
@@ -208,7 +210,7 @@ const PartnerModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
 
 // --- Components ---
 
-const Modal = ({ isOpen, onClose, wechatId, qrCodeUrl }: { isOpen: boolean; onClose: () => void; wechatId: string; qrCodeUrl: string }) => {
+const Modal = ({ isOpen, onClose, wechatId }: { isOpen: boolean; onClose: () => void; wechatId: string }) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -269,17 +271,6 @@ const Modal = ({ isOpen, onClose, wechatId, qrCodeUrl }: { isOpen: boolean; onCl
                   <><Copy className="w-4 h-4" /> COPY ID</>
                 )}
               </button>
-            </div>
-
-            <div className="flex justify-center mb-8">
-              <div className="bg-white p-2 border border-neon-green/20">
-                <img 
-                  src={qrCodeUrl} 
-                  alt="WeChat QR Code" 
-                  className="w-48 h-48"
-                  referrerPolicy="no-referrer"
-                />
-              </div>
             </div>
 
             <button 
@@ -352,7 +343,6 @@ export default function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPartnerModalOpen, setIsPartnerModalOpen] = useState(false);
   const WECHAT_ID = 'bob_fu';
-  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=${WECHAT_ID}`;
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -366,7 +356,6 @@ export default function App() {
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)} 
         wechatId={WECHAT_ID} 
-        qrCodeUrl={qrCodeUrl}
       />
       {/* Navigation */}
       <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-brutal-black/90 backdrop-blur-md border-b border-white/10 py-4' : 'py-6'}`}>
@@ -892,10 +881,13 @@ export default function App() {
                 <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-300 translate-y-2 group-hover:translate-y-0 z-50">
                   <div className="bg-white p-4 shadow-2xl border border-neon-green/20 w-56">
                     <img 
-                      src={qrCodeUrl} 
+                      src={wechatQr} 
                       alt="WeChat QR Code" 
                       className="w-full h-auto object-contain mb-2" 
                       referrerPolicy="no-referrer" 
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = "https://picsum.photos/seed/qr/200/200?blur=2";
+                      }}
                     />
                     <div className="text-black text-[10px] font-bold text-center uppercase tracking-tighter whitespace-nowrap">
                       扫码关注 RTE 开发者社区微信公众号

@@ -83,66 +83,121 @@ const LogoWall = ({ onViewAll }: { onViewAll: () => void }) => {
 
   if (shuffledPartners.length === 0) return null;
 
-  // Triple the list and add a "VIEW ALL" card at the end of each set to make it interactive
-  const displayPartners = [...shuffledPartners, ...shuffledPartners, ...shuffledPartners];
+  // Split partners into two rows for mobile/desktop variety
+  const half = Math.ceil(shuffledPartners.length / 2);
+  const row1 = [...shuffledPartners.slice(0, half), ...shuffledPartners.slice(0, half), ...shuffledPartners.slice(0, half)];
+  const row2 = [...shuffledPartners.slice(half), ...shuffledPartners.slice(half), ...shuffledPartners.slice(half)];
+  
   const currentFixed = FIXED_PARTNERS[fixedIndex];
 
   return (
-    <div className="py-12 border-y border-white/5 bg-black/50 overflow-hidden relative group flex items-center">
-      {/* Fixed Section - Cycling through Organizers */}
-      <div className="flex items-center bg-brutal-black/80 backdrop-blur-md z-30 px-8 border-r border-white/10 relative shadow-[20px_0_30px_-10px_rgba(0,0,0,0.5)] min-w-[280px]">
-        <AnimatePresence mode="wait">
-          <motion.div 
-            key={currentFixed.name}
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 10 }}
-            className="flex items-center gap-4 group/fixed cursor-default"
-          >
-            <div className="w-8 h-8 bg-neon-green flex items-center justify-center border border-neon-green shadow-[0_0_10px_rgba(0,255,0,0.3)]">
-              <span className="text-black font-mono text-[10px] font-bold">{currentFixed.name[0]}</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-neon-green font-bold tracking-tighter uppercase text-sm">
-                {currentFixed.name}
-              </span>
-              <span className="text-[8px] font-mono text-gray-400 uppercase tracking-widest">
-                {currentFixed.category}
-              </span>
-            </div>
-          </motion.div>
-        </AnimatePresence>
-      </div>
-
-      {/* Marquee Section */}
-      <div className="flex-1 overflow-hidden relative">
-        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-brutal-black to-transparent z-10"></div>
-        
-        <div className="flex animate-marquee hover:[animation-play-state:paused] whitespace-nowrap">
-          {displayPartners.map((partner, idx) => (
-            <div 
-              key={idx} 
-              className="flex items-center gap-4 mx-12 group/item cursor-pointer"
-              onClick={onViewAll}
+    <div className="py-8 md:py-12 border-y border-white/5 bg-black/50 overflow-hidden relative group">
+      <div className="max-w-7xl mx-auto px-4 mb-6 md:hidden">
+        <div className="flex items-center gap-4 bg-brutal-black/40 p-4 border border-white/5">
+          <AnimatePresence mode="wait">
+            <motion.div 
+              key={currentFixed.name}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="flex items-center gap-3"
             >
-              <div className="w-8 h-8 bg-white/5 border border-white/10 flex items-center justify-center group-hover/item:border-neon-green/50 transition-colors">
-                <span className="text-neon-green font-mono text-[10px] font-bold">{partner.name[0]}</span>
+              <div className="w-6 h-6 bg-neon-green flex items-center justify-center">
+                <span className="text-black font-mono text-[8px] font-bold">{currentFixed.name[0]}</span>
               </div>
               <div className="flex flex-col">
-                <span className="text-white font-bold tracking-tighter uppercase text-sm group-hover/item:text-neon-green transition-colors">
-                  {partner.name}
+                <span className="text-neon-green font-bold uppercase text-xs">
+                  {currentFixed.name}
                 </span>
-                <span className="text-[8px] font-mono text-gray-500 uppercase tracking-widest">
-                  {partner.category}
+                <span className="text-[7px] font-mono text-gray-500 uppercase tracking-widest">
+                  {currentFixed.category}
                 </span>
               </div>
-            </div>
-          ))}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
+
+      <div className="flex flex-col md:flex-row items-stretch">
+        {/* Fixed Section - Desktop */}
+        <div className="hidden md:flex items-center bg-brutal-black/80 backdrop-blur-md z-30 px-8 border-r border-white/10 relative shadow-[20px_0_30px_-10px_rgba(0,0,0,0.5)] min-w-[280px]">
+          <AnimatePresence mode="wait">
+            <motion.div 
+              key={currentFixed.name}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 10 }}
+              className="flex items-center gap-4 group/fixed cursor-default"
+            >
+              <div className="w-8 h-8 bg-neon-green flex items-center justify-center border border-neon-green shadow-[0_0_10px_rgba(0,255,0,0.3)]">
+                <span className="text-black font-mono text-[10px] font-bold">{currentFixed.name[0]}</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-neon-green font-bold tracking-tighter uppercase text-sm">
+                  {currentFixed.name}
+                </span>
+                <span className="text-[8px] font-mono text-gray-400 uppercase tracking-widest">
+                  {currentFixed.category}
+                </span>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Marquee Section */}
+        <div className="flex-1 flex flex-col gap-4 md:gap-6 overflow-hidden relative py-2">
+          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-brutal-black to-transparent z-10"></div>
+          
+          {/* Row 1 */}
+          <div className="flex animate-marquee hover:[animation-play-state:paused] whitespace-nowrap">
+            {row1.map((partner, idx) => (
+              <div 
+                key={`row1-${idx}`} 
+                className="flex items-center gap-3 md:gap-4 mx-6 md:mx-12 group/item cursor-pointer"
+                onClick={onViewAll}
+              >
+                <div className="w-6 h-6 md:w-8 md:h-8 bg-white/5 border border-white/10 flex items-center justify-center group-hover/item:border-neon-green/50 transition-colors">
+                  <span className="text-neon-green font-mono text-[8px] md:text-[10px] font-bold">{partner.name[0]}</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-white font-bold tracking-tighter uppercase text-xs md:text-sm group-hover/item:text-neon-green transition-colors">
+                    {partner.name}
+                  </span>
+                  <span className="text-[7px] md:text-[8px] font-mono text-gray-500 uppercase tracking-widest">
+                    {partner.category}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Row 2 */}
+          <div className="flex animate-marquee-reverse hover:[animation-play-state:paused] whitespace-nowrap">
+            {row2.map((partner, idx) => (
+              <div 
+                key={`row2-${idx}`} 
+                className="flex items-center gap-3 md:gap-4 mx-6 md:mx-12 group/item cursor-pointer"
+                onClick={onViewAll}
+              >
+                <div className="w-6 h-6 md:w-8 md:h-8 bg-white/5 border border-white/10 flex items-center justify-center group-hover/item:border-neon-green/50 transition-colors">
+                  <span className="text-neon-green font-mono text-[8px] md:text-[10px] font-bold">{partner.name[0]}</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-white font-bold tracking-tighter uppercase text-xs md:text-sm group-hover/item:text-neon-green transition-colors">
+                    {partner.name}
+                  </span>
+                  <span className="text-[7px] md:text-[8px] font-mono text-gray-500 uppercase tracking-widest">
+                    {partner.category}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       
       {/* Floating Hint */}
-      <div className="absolute bottom-2 right-12 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
+      <div className="hidden md:block absolute bottom-2 right-12 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
         <span className="text-[8px] font-mono text-neon-green uppercase tracking-[0.3em] animate-pulse">Click to view all partners</span>
       </div>
     </div>

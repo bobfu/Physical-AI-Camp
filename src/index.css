@@ -12,7 +12,12 @@
     from { transform: translateX(0); }
     to { transform: translateX(-50%); }
   }
+  @keyframes marquee-reverse {
+    from { transform: translateX(-50%); }
+    to { transform: translateX(0); }
+  }
   --animate-marquee: marquee 30s linear infinite;
+  --animate-marquee-reverse: marquee-reverse 35s linear infinite;
 }
 
 @layer base {

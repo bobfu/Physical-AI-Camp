@@ -64,6 +64,8 @@ const PARTNERS_LIST = [
   { name: "Bonjour!", category: "Community" },
   { name: "Research AI+", category: "Community" },
   { name: "小红书科技", category: "Community" },
+  { name: "启师傅客厅", category: "Community" },
+  { name: "分子分母", category: "Community" },
 ];
 
 const LogoWall = ({ onViewAll }: { onViewAll: () => void }) => {
@@ -495,7 +497,7 @@ export default function App() {
                   </div>
                   <div>
                     <div className="text-gray-500 text-[10px] uppercase mb-1">Duration</div>
-                    <div className="text-sm">3 MONTHS</div>
+                    <div className="text-sm">2026.04 - 2026.07</div>
                   </div>
                   <div>
                     <div className="text-gray-500 text-[10px] uppercase mb-1">Fee</div>
@@ -772,7 +774,7 @@ export default function App() {
             {[
               { date: '5月', event: '硅谷 AI 生态考察', desc: '深入全球 AI 创新腹地，捕捉最真实的代际信号。' },
               { date: '5.27-30', event: '澳门 Beyond Expo', desc: '依托 RTE 社区绿色通道，优先申请亚太级科技展会初创展位。' },
-              { date: '7.2-4', event: '日本京都 IVS 创投展', desc: '寻找出海日本市场（陪伴、高龄化、二次元等场景）的优质切入点与本地伙伴。' },
+              { date: '7.1-3', event: '日本京都 IVS 创投展', desc: '寻找出海日本市场（陪伴、高龄化、二次元等场景）的优质切入点与本地伙伴。' },
               { date: '7.3-6', event: '上海 WAIC 世界人工智能大会', desc: 'Physical AI Camp 专属初创展区，集中展示营员阶段性 Demo。' },
             ].map((item, i) => (
               <div key={i} className="flex flex-col md:flex-row md:items-center gap-4 md:gap-12 p-6 border border-white/5 hover:bg-white/5 transition-colors">
@@ -828,7 +830,7 @@ export default function App() {
             </div>
             <div className="p-8 border border-white/10">
               <h4 className="font-bold uppercase mb-4 text-neon-green">Presence is Key</h4>
-              <p className="text-gray-400 text-sm">4.8 深圳开营仪式，以及 6 月底的结营 Demo Day，创始人必须线下本人出席。</p>
+              <p className="text-gray-400 text-sm">4.8 深圳开营仪式，以及 7 月初的结营 Demo Day，创始人必须线下本人出席。</p>
             </div>
             <div className="p-8 border border-white/10">
               <h4 className="font-bold uppercase mb-4 text-neon-green">结营目标</h4>

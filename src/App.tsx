@@ -31,46 +31,20 @@ import {
 
 import wechatQr from './assets/wechat-qr.jpg';
 
-const FIXED_PARTNERS = [
-  { name: "RTE 开发者社区", category: "Organizer" },
-  { name: "超音速计划", category: "Organizer" },
-  { name: "声网", category: "Organizer" },
-];
+import { 
+  FIXED_PARTNERS, 
+  PARTNERS_LIST, 
+  Partner, 
+  PartnerCategory 
+} from './constants/partners';
+import { TRANSLATIONS } from './locales/i18n';
 
-const PARTNERS_LIST = [
-  // Real-Time AI Devkit
-  { name: "声网对话式 AI", category: "Real-Time AI Devkit" },
-  { name: "商汤", category: "Real-Time AI Devkit" },
-  { name: "SpatialWalk", category: "Real-Time AI Devkit" },
-  { name: "小宿科技", category: "Real-Time AI Devkit" },
-  { name: "小樱桃科技", category: "Real-Time AI Devkit" },
-  { name: "MiniMax", category: "Real-Time AI Devkit" },
-  { name: "Z.AI Startup Program", category: "Real-Time AI Devkit" },
-  { name: "阶跃星辰", category: "Real-Time AI Devkit" },
-  { name: "月之暗面", category: "Real-Time AI Devkit" },
-  { name: "Seeed", category: "Real-Time AI Devkit" },
-  // VC
-  { name: "五源资本", category: "VC" },
-  { name: "高瓴资本", category: "VC" },
-  { name: "嘉程资本", category: "VC" },
-  { name: "真格基金", category: "VC" },
-  // 社区伙伴
-  { name: "S 创", category: "Community" },
-  { name: "柴火创客空间", category: "Community" },
-  { name: "INNO100", category: "Community" },
-  { name: "机智流", category: "Community" },
-  { name: "脑放电波", category: "Community" },
-  { name: "WAIC UP!", category: "Community" },
-  { name: "Bonjour!", category: "Community" },
-  { name: "Research AI+", category: "Community" },
-  { name: "小红书科技", category: "Community" },
-  { name: "启师傅客厅", category: "Community" },
-  { name: "分子分母", category: "Community" },
-];
+type Language = 'zh' | 'en';
 
-const LogoWall = ({ onViewAll }: { onViewAll: () => void }) => {
-  const [shuffledPartners, setShuffledPartners] = useState<typeof PARTNERS_LIST>([]);
+const LogoWall = ({ onViewAll, lang }: { onViewAll: () => void; lang: Language }) => {
+  const [shuffledPartners, setShuffledPartners] = useState<Partner[]>([]);
   const [fixedIndex, setFixedIndex] = useState(0);
+  const t = TRANSLATIONS[lang];
 
   useEffect(() => {
     // Randomize the list on load to be fair to all partners
@@ -91,6 +65,7 @@ const LogoWall = ({ onViewAll }: { onViewAll: () => void }) => {
   const row2 = [...shuffledPartners.slice(half), ...shuffledPartners.slice(half), ...shuffledPartners.slice(half)];
   
   const currentFixed = FIXED_PARTNERS[fixedIndex];
+  const getPartnerName = (p: Partner) => (lang === 'en' && p.name_en) ? p.name_en : p.name_zh;
 
   return (
     <div className="py-8 md:py-12 border-y border-white/5 bg-black/50 overflow-hidden relative group">
@@ -98,21 +73,21 @@ const LogoWall = ({ onViewAll }: { onViewAll: () => void }) => {
         <div className="flex items-center gap-4 bg-brutal-black/40 p-4 border border-white/5">
           <AnimatePresence mode="wait">
             <motion.div 
-              key={currentFixed.name}
+              key={currentFixed.id}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               className="flex items-center gap-3"
             >
               <div className="w-6 h-6 bg-neon-green flex items-center justify-center">
-                <span className="text-black font-mono text-[8px] font-bold">{currentFixed.name[0]}</span>
+                <span className="text-black font-mono text-[8px] font-bold">{getPartnerName(currentFixed)[0]}</span>
               </div>
               <div className="flex flex-col">
                 <span className="text-neon-green font-bold uppercase text-xs">
-                  {currentFixed.name}
+                  {getPartnerName(currentFixed)}
                 </span>
                 <span className="text-[7px] font-mono text-gray-500 uppercase tracking-widest">
-                  {currentFixed.category}
+                  {t.categories[currentFixed.category]}
                 </span>
               </div>
             </motion.div>
@@ -125,21 +100,21 @@ const LogoWall = ({ onViewAll }: { onViewAll: () => void }) => {
         <div className="hidden md:flex items-center bg-brutal-black/80 backdrop-blur-md z-30 px-8 border-r border-white/10 relative shadow-[20px_0_30px_-10px_rgba(0,0,0,0.5)] min-w-[280px]">
           <AnimatePresence mode="wait">
             <motion.div 
-              key={currentFixed.name}
+              key={currentFixed.id}
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 10 }}
               className="flex items-center gap-4 group/fixed cursor-default"
             >
               <div className="w-8 h-8 bg-neon-green flex items-center justify-center border border-neon-green shadow-[0_0_10px_rgba(0,255,0,0.3)]">
-                <span className="text-black font-mono text-[10px] font-bold">{currentFixed.name[0]}</span>
+                <span className="text-black font-mono text-[10px] font-bold">{getPartnerName(currentFixed)[0]}</span>
               </div>
               <div className="flex flex-col">
                 <span className="text-neon-green font-bold tracking-tighter uppercase text-sm">
-                  {currentFixed.name}
+                  {getPartnerName(currentFixed)}
                 </span>
                 <span className="text-[8px] font-mono text-gray-400 uppercase tracking-widest">
-                  {currentFixed.category}
+                  {t.categories[currentFixed.category]}
                 </span>
               </div>
             </motion.div>
@@ -159,14 +134,14 @@ const LogoWall = ({ onViewAll }: { onViewAll: () => void }) => {
                 onClick={onViewAll}
               >
                 <div className="w-6 h-6 md:w-8 md:h-8 bg-white/5 border border-white/10 flex items-center justify-center group-hover/item:border-neon-green/50 transition-colors">
-                  <span className="text-neon-green font-mono text-[8px] md:text-[10px] font-bold">{partner.name[0]}</span>
+                  <span className="text-neon-green font-mono text-[8px] md:text-[10px] font-bold">{getPartnerName(partner)[0]}</span>
                 </div>
                 <div className="flex flex-col">
                   <span className="text-white font-bold tracking-tighter uppercase text-xs md:text-sm group-hover/item:text-neon-green transition-colors">
-                    {partner.name}
+                    {getPartnerName(partner)}
                   </span>
                   <span className="text-[7px] md:text-[8px] font-mono text-gray-500 uppercase tracking-widest">
-                    {partner.category}
+                    {t.categories[partner.category]}
                   </span>
                 </div>
               </div>
@@ -182,14 +157,14 @@ const LogoWall = ({ onViewAll }: { onViewAll: () => void }) => {
                 onClick={onViewAll}
               >
                 <div className="w-6 h-6 md:w-8 md:h-8 bg-white/5 border border-white/10 flex items-center justify-center group-hover/item:border-neon-green/50 transition-colors">
-                  <span className="text-neon-green font-mono text-[8px] md:text-[10px] font-bold">{partner.name[0]}</span>
+                  <span className="text-neon-green font-mono text-[8px] md:text-[10px] font-bold">{getPartnerName(partner)[0]}</span>
                 </div>
                 <div className="flex flex-col">
                   <span className="text-white font-bold tracking-tighter uppercase text-xs md:text-sm group-hover/item:text-neon-green transition-colors">
-                    {partner.name}
+                    {getPartnerName(partner)}
                   </span>
                   <span className="text-[7px] md:text-[8px] font-mono text-gray-500 uppercase tracking-widest">
-                    {partner.category}
+                    {t.categories[partner.category]}
                   </span>
                 </div>
               </div>
@@ -200,15 +175,17 @@ const LogoWall = ({ onViewAll }: { onViewAll: () => void }) => {
       
       {/* Floating Hint */}
       <div className="hidden md:block absolute bottom-2 right-12 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20">
-        <span className="text-[8px] font-mono text-neon-green uppercase tracking-[0.3em] animate-pulse">Click to view all partners</span>
+        <span className="text-[8px] font-mono text-neon-green uppercase tracking-[0.3em] animate-pulse">{t.logoWall.hint}</span>
       </div>
     </div>
   );
 };
 
-const PartnerModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+const PartnerModal = ({ isOpen, onClose, lang }: { isOpen: boolean; onClose: () => void; lang: Language }) => {
   const allPartners = [...FIXED_PARTNERS, ...PARTNERS_LIST];
-  const categories = Array.from(new Set(allPartners.map(p => p.category)));
+  const t = TRANSLATIONS[lang];
+  const categories: PartnerCategory[] = ['Organizer', 'Real-Time AI Devkit', 'VC', 'Community'];
+  const getPartnerName = (p: Partner) => (lang === 'en' && p.name_en) ? p.name_en : p.name_zh;
 
   return (
     <AnimatePresence>
@@ -243,14 +220,14 @@ const PartnerModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
               {categories.map(category => (
                 <div key={category}>
                   <h4 className="text-neon-green font-mono text-[10px] uppercase tracking-[0.2em] mb-6 border-b border-neon-green/20 pb-2">
-                    {category}
+                    {t.categories[category]}
                   </h4>
                   <div className="space-y-3">
                     {allPartners.filter(p => p.category === category).map(partner => (
-                      <div key={partner.name} className="flex items-center gap-3 group">
+                      <div key={partner.id} className="flex items-center gap-3 group">
                         <div className="w-1.5 h-1.5 bg-white/20 group-hover:bg-neon-green transition-colors"></div>
                         <span className="text-white font-medium uppercase text-sm tracking-tight group-hover:text-neon-green transition-colors">
-                          {partner.name}
+                          {getPartnerName(partner)}
                         </span>
                       </div>
                     ))}
@@ -267,8 +244,9 @@ const PartnerModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
 
 // --- Components ---
 
-const Modal = ({ isOpen, onClose, wechatId }: { isOpen: boolean; onClose: () => void; wechatId: string }) => {
+const Modal = ({ isOpen, onClose, wechatId, lang }: { isOpen: boolean; onClose: () => void; wechatId: string; lang: Language }) => {
   const [copied, setCopied] = useState(false);
+  const t = TRANSLATIONS[lang];
 
   const handleCopy = async () => {
     try {
@@ -306,10 +284,10 @@ const Modal = ({ isOpen, onClose, wechatId }: { isOpen: boolean; onClose: () => 
             
             <div className="mb-8">
               <Badge>Application</Badge>
-              <h3 className="text-2xl font-bold uppercase tracking-tighter mb-2">立即加入超音速计划 2026</h3>
-              <p className="text-neon-green font-mono text-[10px] uppercase tracking-widest mb-4">截止报名：2026 年 4 月 20 日 24:00</p>
+              <h3 className="text-2xl font-bold uppercase tracking-tighter mb-2">{t.applyModal.title}</h3>
+              <p className="text-neon-green font-mono text-[10px] uppercase tracking-widest mb-4">{t.applyModal.deadline}</p>
               <p className="text-gray-400 leading-relaxed">
-                请添加负责人微信为好友并备注<span className="text-neon-green">「Physical AI Camp 报名」</span>，我们将尽快与你联系。
+                {t.applyModal.desc}
               </p>
             </div>
 
@@ -323,9 +301,9 @@ const Modal = ({ isOpen, onClose, wechatId }: { isOpen: boolean; onClose: () => 
                 className="flex items-center gap-2 bg-neon-green/10 hover:bg-neon-green/20 text-neon-green px-4 py-2 font-mono text-xs transition-colors"
               >
                 {copied ? (
-                  <><Check className="w-4 h-4" /> COPIED</>
+                  <><Check className="w-4 h-4" /> {t.applyModal.copySuccess}</>
                 ) : (
-                  <><Copy className="w-4 h-4" /> COPY ID</>
+                  <><Copy className="w-4 h-4" /> {t.applyModal.copyLabel}</>
                 )}
               </button>
             </div>
@@ -334,7 +312,7 @@ const Modal = ({ isOpen, onClose, wechatId }: { isOpen: boolean; onClose: () => 
               onClick={onClose}
               className="w-full bg-neon-green text-black py-4 font-bold uppercase hover:bg-white transition-colors"
             >
-              GOT IT
+              {t.applyModal.gotIt}
             </button>
           </motion.div>
         </div>
@@ -363,7 +341,7 @@ const Badge = ({ children }: { children: React.ReactNode }) => (
   </span>
 );
 
-const FAQItem = ({ question, answer }: { question: string; answer: string }) => {
+const FAQItem = ({ question, answer }: { question: string; answer: string; key?: any }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="border-b border-white/10">
@@ -396,10 +374,14 @@ const FAQItem = ({ question, answer }: { question: string; answer: string }) => 
 // --- Main App ---
 
 export default function App() {
+  const [lang, setLang] = useState<Language>('zh');
   const [scrolled, setScrolled] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPartnerModalOpen, setIsPartnerModalOpen] = useState(false);
+  const [isJourneyExpanded, setIsJourneyExpanded] = useState(false);
   const WECHAT_ID = 'bob_fu';
+
+  const t = TRANSLATIONS[lang];
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -407,12 +389,15 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const toggleLang = () => setLang(prev => prev === 'zh' ? 'en' : 'zh');
+
   return (
     <div className="min-h-screen grid-pattern">
       <Modal 
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)} 
         wechatId={WECHAT_ID} 
+        lang={lang}
       />
       {/* Navigation */}
       <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-brutal-black/90 backdrop-blur-md border-b border-white/10 py-4' : 'py-6'}`}>
@@ -424,20 +409,28 @@ export default function App() {
             <div className="w-8 h-8 bg-neon-green flex items-center justify-center group-hover:bg-white transition-colors">
               <Zap className="w-5 h-5 text-black" />
             </div>
-            <span className="font-mono font-bold tracking-tighter text-xl group-hover:text-neon-green transition-colors">PHYSICAL AI CAMP 2026</span>
+            <span className="font-mono font-bold tracking-tighter text-base md:text-xl group-hover:text-neon-green transition-colors">PHYSICAL AI CAMP 2026</span>
           </div>
-          <div className="hidden md:flex gap-8 font-mono text-xs uppercase tracking-widest">
-            <a href="#community" className="hover:text-neon-green transition-colors">Community</a>
-            <a href="#workshop" className="hover:text-neon-green transition-colors">Workshop</a>
-            <a href="#resources" className="hover:text-neon-green transition-colors">Resources</a>
-            <a href="#market" className="hover:text-neon-green transition-colors">Global</a>
+          <div className="hidden lg:flex gap-8 font-mono text-[10px] md:text-xs uppercase tracking-widest shrink-0">
+            <a href="#community" className="hover:text-neon-green transition-colors">{t.nav.community}</a>
+            <a href="#journey" className="hover:text-neon-green transition-colors">{t.nav.journey}</a>
+            <a href="#resources" className="hover:text-neon-green transition-colors">{t.nav.resources}</a>
+            <a href="#market" className="hover:text-neon-green transition-colors">{t.nav.global}</a>
           </div>
-          <button 
-            onClick={() => setIsModalOpen(true)}
-            className="bg-neon-green text-black px-4 py-2 font-mono text-xs font-bold hover:bg-white transition-colors"
-          >
-            APPLY NOW
-          </button>
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={toggleLang}
+              className="font-mono text-[10px] md:text-xs text-gray-400 hover:text-neon-green transition-colors uppercase border border-white/10 px-2 py-1"
+            >
+              {lang === 'zh' ? 'EN' : '中'}
+            </button>
+            <button 
+              onClick={() => setIsModalOpen(true)}
+              className="bg-neon-green text-black px-3 py-1 md:px-4 md:py-2 font-mono text-[10px] md:text-xs font-bold hover:bg-white transition-colors whitespace-nowrap"
+            >
+              {t.nav.apply}
+            </button>
+          </div>
         </div>
       </nav>
 
@@ -454,7 +447,7 @@ export default function App() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-neon-green opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-neon-green"></span>
               </span>
-              <span className="text-neon-green font-mono text-[10px] uppercase tracking-widest">2026 Supersonic Program</span>
+              <span className="text-neon-green font-mono text-[10px] uppercase tracking-widest">{t.hero.badge}</span>
             </div>
             
             <h1 className="text-6xl md:text-9xl font-bold tracking-tighter leading-[0.9] mb-8 uppercase">
@@ -465,22 +458,26 @@ export default function App() {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
               <div className="max-w-xl">
                 <p className="text-xl md:text-2xl text-gray-300 font-light leading-relaxed mb-8">
-                  寻找下一代「软硬结合」的 AI 创新者。打破屏幕边界，让 AI 触及物理世界。
+                  {t.hero.subtitle}
                 </p>
                 <div className="flex flex-wrap gap-4 items-center">
                   <button 
                     onClick={() => setIsModalOpen(true)}
                     className="bg-neon-green text-black px-8 py-4 font-bold uppercase flex items-center gap-2 hover:bg-white transition-colors group"
                   >
-                    立即加入超音速计划 2026 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    {t.hero.applyBtn} <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </button>
                   <div className="flex flex-col">
-                    <span className="text-neon-green font-mono text-[10px] uppercase tracking-widest">截止报名</span>
+                    <span className="text-neon-green font-mono text-[10px] uppercase tracking-widest">
+                      {t.hero.deadlineLabel}
+                    </span>
                     <span className="text-white font-mono text-xs">2026.04.20 24:00</span>
                   </div>
                   <div className="flex flex-col justify-center border-l border-white/10 pl-4">
-                    <span className="text-gray-500 font-mono text-[10px] uppercase">Organizer</span>
-                    <span className="font-bold">RTE 开发者社区</span>
+                    <span className="text-gray-500 font-mono text-[10px] uppercase">
+                      {t.hero.organizerLabel}
+                    </span>
+                    <span className="font-bold">{t.hero.organizer}</span>
                   </div>
                 </div>
               </div>
@@ -488,20 +485,20 @@ export default function App() {
               <div className="hidden lg:block border border-white/10 p-6 bg-brutal-gray/50 backdrop-blur-sm">
                 <div className="grid grid-cols-2 gap-8 font-mono">
                   <div>
-                    <div className="text-gray-500 text-[10px] uppercase mb-1">Location</div>
-                    <div className="text-sm">SHENZHEN / GLOBAL</div>
+                    <div className="text-gray-500 text-[10px] uppercase mb-1">{t.hero.locationLabel}</div>
+                    <div className="text-sm">{t.hero.location}</div>
                   </div>
                   <div>
-                    <div className="text-gray-500 text-[10px] uppercase mb-1">Capacity</div>
-                    <div className="text-sm">15-20 TEAMS</div>
+                    <div className="text-gray-500 text-[10px] uppercase mb-1">{t.hero.capacityLabel}</div>
+                    <div className="text-sm">{t.hero.capacity}</div>
                   </div>
                   <div>
-                    <div className="text-gray-500 text-[10px] uppercase mb-1">Duration</div>
-                    <div className="text-sm">2026.04 - 2026.07</div>
+                    <div className="text-gray-500 text-[10px] uppercase mb-1">{t.hero.durationLabel}</div>
+                    <div className="text-sm">{t.hero.duration}</div>
                   </div>
                   <div>
-                    <div className="text-gray-500 text-[10px] uppercase mb-1">Fee</div>
-                    <div className="text-sm">0 COST / 0 EQUITY</div>
+                    <div className="text-gray-500 text-[10px] uppercase mb-1">{t.hero.feeLabel}</div>
+                    <div className="text-sm">{t.hero.fee}</div>
                   </div>
                 </div>
               </div>
@@ -516,9 +513,9 @@ export default function App() {
         </div>
       </header>
 
-      <LogoWall onViewAll={() => setIsPartnerModalOpen(true)} />
+      <LogoWall onViewAll={() => setIsPartnerModalOpen(true)} lang={lang} />
 
-      <PartnerModal isOpen={isPartnerModalOpen} onClose={() => setIsPartnerModalOpen(false)} />
+      <PartnerModal isOpen={isPartnerModalOpen} onClose={() => setIsPartnerModalOpen(false)} lang={lang} />
 
       {/* Slide 2: Insight */}
       <section id="insight" className="py-24 bg-white text-black">
@@ -527,33 +524,33 @@ export default function App() {
             <div>
               <div className="font-mono text-neon-green font-bold mb-4">01 / INSIGHT</div>
               <h2 className="text-4xl md:text-6xl font-bold tracking-tighter uppercase mb-8 leading-tight">
-                Why <br />Physical AI?
+                {t.insight.title}
               </h2>
               <p className="text-xl font-medium mb-12 border-l-4 border-black pl-6">
-                打破屏幕边界，让 AI 触及物理世界
+                {t.insight.subtitle}
               </p>
             </div>
             <div className="space-y-12">
               <div>
                 <h3 className="text-lg font-bold uppercase mb-4 flex items-center gap-2">
-                  <Zap className="w-5 h-5 text-neon-green" /> 技术拐点
+                  <Zap className="w-5 h-5 text-neon-green" /> {t.insight.items[0].title}
                 </h3>
                 <p className="text-gray-600 leading-relaxed">
-                  随着 Realtime API 和视觉/语音基础模型的成熟，AI 正在脱离纯粹的软件形态。我们正处于从「屏幕交互」走向「具身智能与物理交互」的转折点。
+                  {t.insight.items[0].desc}
                 </p>
               </div>
               <div>
                 <h3 className="text-lg font-bold uppercase mb-4 flex items-center gap-2">
-                  <Globe className="w-5 h-5 text-neon-green" /> 出海与代际差
+                  <Globe className="w-5 h-5 text-neon-green" /> {t.insight.items[1].title}
                 </h3>
                 <p className="text-gray-600 leading-relaxed">
-                  将硅谷最前沿的 AI 算法浪潮，与国内无可替代的硬件供应链优势结合。利用这种「代际差」，通过「硬件触点 + Agent 订阅」模式，是我们这代 Maker 出海的最佳切入点。
+                  {t.insight.items[1].desc}
                 </p>
               </div>
               <div className="bg-black text-white p-8">
-                <h3 className="text-lg font-bold uppercase mb-4 text-neon-green">营地聚焦</h3>
+                <h3 className="text-lg font-bold uppercase mb-4 text-neon-green">{t.insight.items[2].title}</h3>
                 <p className="text-gray-400">
-                  拒绝空谈概念。我们将目光死死盯住：小型化、可穿戴、桌面级的实时多模态交互硬件，以及它们在全球市场的真实落地场景。
+                  {t.insight.items[2].desc}
                 </p>
               </div>
             </div>
@@ -566,194 +563,173 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-6">
           <SectionHeader 
             number="02 / COMMUNITY" 
-            title="同行者画像" 
-            subtitle="寻找 15-20 家探索软硬边界的同路人" 
+            title={t.communitySection.title} 
+            subtitle={t.communitySection.subtitle} 
           />
           
           <div className="grid md:grid-cols-3 gap-6 mb-20">
             <Card>
               <Users className="w-10 h-10 text-neon-green mb-6" />
-              <h3 className="text-xl font-bold mb-4 uppercase">社区原生</h3>
+              <h3 className="text-xl font-bold mb-4 uppercase">{t.communitySection.cards[0].title}</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
-                认同开源与 Maker 精神，比起闭门造车，更相信社区共建的力量。
+                {t.communitySection.cards[0].desc}
               </p>
             </Card>
             <Card>
               <Code className="w-10 h-10 text-neon-green mb-6" />
-              <h3 className="text-xl font-bold mb-4 uppercase">Build in Community</h3>
+              <h3 className="text-xl font-bold mb-4 uppercase">{t.communitySection.cards[1].title}</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
-                乐于分享自己在创业途中的思考和踩过的坑，共享教训共同进步。
+                {t.communitySection.cards[1].desc}
               </p>
             </Card>
             <Card>
               <Layers className="w-10 h-10 text-neon-green mb-6" />
-              <h3 className="text-xl font-bold mb-4 uppercase">跨界探索者</h3>
+              <h3 className="text-xl font-bold mb-4 uppercase">{t.communitySection.cards[2].title}</h3>
               <p className="text-gray-400 text-sm leading-relaxed">
-                试图用软件逻辑重做硬件的 AI 开发者，或积极拥抱大模型原生交互的硬件初创。
+                {t.communitySection.cards[2].desc}
               </p>
             </Card>
           </div>
 
           <div className="bg-neon-green text-black p-12 md:flex items-center gap-16">
             <div className="md:w-1/3 mb-8 md:mb-0">
-              <h3 className="text-3xl font-bold uppercase leading-none mb-4">参与式共学</h3>
-              <p className="font-mono text-xs uppercase font-bold opacity-70">Participatory Learning</p>
+              <h3 className="text-3xl font-bold uppercase leading-none mb-4">{t.communitySection.learning.title}</h3>
+              <p className="font-mono text-xs uppercase font-bold opacity-70">{t.communitySection.learning.label}</p>
             </div>
             <div className="md:w-2/3">
               <p className="text-lg font-medium mb-6">
-                这里没有高高在上的导师，只有互为镜像的同路人。我们强调 Maker 之间高密度的灵感碰撞与经验开源。
+                {t.communitySection.learning.desc}
               </p>
               <div className="flex flex-wrap gap-4 text-xs font-bold uppercase">
-                <span className="border border-black px-3 py-1">会议记录硬件 HiDock 创始人</span>
-                <span className="border border-black px-3 py-1">桌面陪伴机器人 Co-founder</span>
-                <span className="border border-black px-3 py-1">ClawStage 桌面硬件创始人</span>
+                {t.communitySection.learning.tags.map((tag, idx) => (
+                  <span key={idx} className="border border-black px-3 py-1">{tag}</span>
+                ))}
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Slide 4: Events */}
-      <section id="events" className="py-24">
+      {/* Slide 4: Journey */}
+      <section id="journey" className="py-24">
         <div className="max-w-7xl mx-auto px-6">
           <SectionHeader 
-            number="03 / KICKOFF" 
-            title="开营仪式与破冰" 
-            subtitle="2026年 4月8日 - 4月9日 | 地点：深圳南山" 
+            number="03 / JOURNEY" 
+            title={t.journey.title} 
+            subtitle={t.journey.subtitle} 
           />
 
-          <div className="grid md:grid-cols-2 gap-px bg-white/10 border border-white/10">
-            <div className="bg-brutal-black p-10">
-              <div className="flex items-center gap-4 mb-8">
-                <div className="text-5xl font-bold text-neon-green">08</div>
-                <div>
-                  <div className="font-mono text-xs uppercase text-gray-500">April / Day 1</div>
-                  <div className="font-bold uppercase">柴火创客空间</div>
-                </div>
-              </div>
-              <ul className="space-y-6">
-                <li className="flex gap-4">
-                  <div className="w-1 h-1 bg-neon-green mt-2 shrink-0"></div>
-                  <div>
-                    <h4 className="font-bold uppercase mb-1">闭门探讨</h4>
-                    <p className="text-gray-400 text-sm">一线出海实战血泪史与硬件创业周期复盘。</p>
+          <div className="relative">
+            <div className={`grid md:grid-cols-2 gap-px bg-white/10 border border-white/10 transition-all duration-700 ${!isJourneyExpanded ? 'max-h-[800px] overflow-hidden' : 'max-h-[4000px]'}`}>
+              {t.journey.items
+                .filter((item: any) => {
+                  if (isJourneyExpanded) return true;
+                  // Experiment: Filter to current month (APR for April 2026 context)
+                  const currentMonthShort = new Date().toLocaleString('en-US', { month: 'short' }).toUpperCase();
+                  // Normalize data (some are JUNE/JULY, some are APR/MAY)
+                  const itemMonthShort = item.month.slice(0, 3).toUpperCase();
+                  return itemMonthShort === currentMonthShort;
+                })
+                .map((day: any, i: number, filtered: any[]) => (
+                  <div key={i} className="bg-brutal-black p-10 flex flex-col h-full">
+                    <div className="flex items-center gap-6 mb-8">
+                      <div className="font-bold text-neon-green text-4xl md:text-5xl shrink-0 font-mono tracking-tighter">
+                        {day.date || day.month}
+                      </div>
+                      <div className="border-l border-white/10 pl-6">
+                        <div className="font-mono text-[10px] uppercase text-gray-500 mb-1 tracking-widest">
+                          {day.date ? '2026' : ''} {day.label}
+                        </div>
+                        <div className="font-bold uppercase tracking-tight text-sm md:text-base">{day.location}</div>
+                      </div>
+                    </div>
+                    <ul className="space-y-6 flex-grow">
+                      {day.events.map((event: any, idx: number) => (
+                        <li key={idx} className="flex gap-4">
+                          <div className="w-1.5 h-1.5 bg-neon-green mt-2 shrink-0"></div>
+                          <div>
+                            <h4 className="font-bold uppercase mb-1 tracking-tight leading-snug text-sm md:text-base">{event.title}</h4>
+                            {event.desc && <p className="text-gray-400 text-xs md:text-sm leading-relaxed">{event.desc}</p>}
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                </li>
-                <li className="flex gap-4">
-                  <div className="w-1 h-1 bg-neon-green mt-2 shrink-0"></div>
-                  <div>
-                    <h4 className="font-bold uppercase mb-1">Lego Serious Play 工作坊</h4>
-                    <p className="text-gray-400 text-sm">全员去标签化沟通。抛开 Title，通过动手搭建乐高梳理底层逻辑。</p>
-                  </div>
-                </li>
-              </ul>
+                ))}
+              {/* Maintain grid visual balance */}
+              {!isJourneyExpanded && (t.journey.items.filter((item: any) => item.month.slice(0, 3).toUpperCase() === new Date().toLocaleString('en-US', { month: 'short' }).toUpperCase()).length % 2 !== 0) && (
+                <div className="bg-brutal-black p-10 hidden md:block"></div>
+              )}
+              {isJourneyExpanded && t.journey.items.length % 2 !== 0 && (
+                <div className="bg-brutal-black p-10 hidden md:block"></div>
+              )}
             </div>
-            <div className="bg-brutal-black p-10">
-              <div className="flex items-center gap-4 mb-8">
-                <div className="text-5xl font-bold text-neon-green">09</div>
-                <div>
-                  <div className="font-mono text-xs uppercase text-gray-500">April / Day 2</div>
-                  <div className="font-bold uppercase">Inno100 创新空间</div>
-                </div>
+
+            {!isJourneyExpanded && (
+              <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-black to-transparent flex items-end justify-center pb-8 z-10">
+                <button 
+                  onClick={() => setIsJourneyExpanded(true)}
+                  className="bg-neon-green text-black px-8 py-4 font-mono font-bold tracking-widest hover:bg-white transition-all transform hover:-translate-y-1 shadow-[0_10px_20px_-5px_rgba(57,255,20,0.3)] flex items-center gap-2"
+                >
+                  <Calendar className="w-5 h-5" />
+                  {lang === 'zh' ? '开启完整营地旅程' : 'EXPLORE FULL JOURNEY'}
+                </button>
               </div>
-              <ul className="space-y-6">
-                <li className="flex gap-4">
-                  <div className="w-1 h-1 bg-neon-green mt-2 shrink-0"></div>
-                  <div>
-                    <h4 className="font-bold uppercase mb-1">上午 | 闭门出海早自习</h4>
-                    <p className="text-gray-400 text-sm">联合资深硬件众筹和出海专家，拆解硬件出海第一步、众筹避坑指南。</p>
-                  </div>
-                </li>
-                <li className="flex gap-4">
-                  <div className="w-1 h-1 bg-neon-green mt-2 shrink-0"></div>
-                  <div>
-                    <h4 className="font-bold uppercase mb-1">下午 | RTE Meetup 开放日</h4>
-                    <p className="text-gray-400 text-sm">聚焦 Physical AI 的线下沙龙。与潜在早期用户、生态伙伴面对面碰撞。</p>
-                  </div>
-                </li>
-              </ul>
-            </div>
+            )}
           </div>
+
+          {isJourneyExpanded && (
+            <div className="mt-12 flex justify-center">
+              <button 
+                onClick={() => setIsJourneyExpanded(false)}
+                className="font-mono text-xs text-gray-500 hover:text-white transition-colors flex items-center gap-2 border border-white/10 px-6 py-2"
+              >
+                <X className="w-4 h-4" />
+                {lang === 'zh' ? '收起日程' : 'COLLAPSE SCHEDULE'}
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
-      {/* Slide 5: Workshop */}
-      <section id="workshop" className="py-24 bg-neon-green text-black">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="mb-16">
-            <div className="font-mono font-bold text-xs uppercase tracking-widest mb-4">04 / WORKSHOP</div>
-            <h2 className="text-5xl md:text-7xl font-bold tracking-tighter uppercase leading-none">
-              双周深度 <br />Workshop
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="border-t-4 border-black pt-8">
-              <Badge>Workshop 1</Badge>
-              <h3 className="text-2xl font-bold uppercase mb-6 leading-tight">ASR 微调与 <br />前端声学挑战</h3>
-              <p className="text-sm font-medium mb-8">聚焦实体硬件在真实环境下的收音降噪、人声分离、VAD。</p>
-              <div className="text-[10px] font-mono uppercase font-bold opacity-60">拟邀：语音模型专家 / 声网工程师</div>
-            </div>
-            <div className="border-t-4 border-black pt-8">
-              <Badge>Workshop 2</Badge>
-              <h3 className="text-2xl font-bold uppercase mb-6 leading-tight">产品与供应链的 <br />真实契合度</h3>
-              <p className="text-sm font-medium mb-8">硬件创新如何管理用户的预期？早期产品定义如何与供应链能力精准匹配？</p>
-              <div className="text-[10px] font-mono uppercase font-bold opacity-60">主讲：Sean (HiDock 创始人)</div>
-            </div>
-            <div className="border-t-4 border-black pt-8">
-              <Badge>Workshop 3</Badge>
-              <h3 className="text-2xl font-bold uppercase mb-6 leading-tight">硬件团队的 <br />软件设计必修课</h3>
-              <p className="text-sm font-medium mb-8">探讨硬件限制下的软件架构选型、端云协同策略，做到体验闭环。</p>
-              <div className="text-[10px] font-mono uppercase font-bold opacity-60">聚焦：软硬一体体验闭环</div>
-            </div>
-            <div className="border-t-4 border-black pt-8">
-              <Badge>Workshop 4</Badge>
-              <h3 className="text-2xl font-bold uppercase mb-6 leading-tight">AI 硬件+IP</h3>
-              <p className="text-sm font-medium mb-8">对接 IP 资源方和硬件创业者，共同探讨 IP 与硬件共生之道。</p>
-              <div className="text-[10px] font-mono uppercase font-bold opacity-60">聚焦：IP 资源对接</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Slide 6: Resources */}
+      {/* Slide 5: Resources */}
       <section id="resources" className="py-24">
         <div className="max-w-7xl mx-auto px-6">
           <SectionHeader 
-            number="05 / RESOURCES" 
-            title="实战弹药库：Real-Time AI Devkit" 
-            subtitle="为你准备好支撑起步 3-6 个月的专属技术包" 
+            number="04 / RESOURCES" 
+            title={t.resources.title} 
+            subtitle={t.resources.subtitle} 
           />
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10 border border-white/10">
             <div className="bg-brutal-black p-8">
               <Mic className="w-8 h-8 text-neon-green mb-6" />
-              <h4 className="font-bold uppercase mb-4">对话式 AI 引擎</h4>
-              <p className="text-gray-400 text-sm">声网对话式 AI 引擎 30 万分钟免费额度</p>
+              <h4 className="font-bold uppercase mb-4 tracking-tight">{t.resources.items[0].title}</h4>
+              <p className="text-gray-400 text-sm leading-relaxed">{t.resources.items[0].desc}</p>
             </div>
             <div className="bg-brutal-black p-8">
               <Monitor className="w-8 h-8 text-neon-green mb-6" />
-              <h4 className="font-bold uppercase mb-4">实时交互免费资源包</h4>
-              <p className="text-gray-400 text-sm">商汤数字人、SpatialWalk 实时交互数字人、小宿科技搜索 API、小樱桃科技 SIP</p>
+              <h4 className="font-bold uppercase mb-4 tracking-tight">{t.resources.items[1].title}</h4>
+              <p className="text-gray-400 text-sm leading-relaxed">{t.resources.items[1].desc}</p>
             </div>
             <div className="bg-brutal-black p-8">
               <Cpu className="w-8 h-8 text-neon-green mb-6" />
-              <h4 className="font-bold uppercase mb-4">多模态大模型</h4>
-              <p className="text-gray-400 text-sm">由 MiniMax、Z.AI Startup Program、阶跃星辰、月之暗面提供的语音模型（TTS、ASR 等）和 LLM Token 额度支持。</p>
+              <h4 className="font-bold uppercase mb-4 tracking-tight">{t.resources.items[2].title}</h4>
+              <p className="text-gray-400 text-sm leading-relaxed">{t.resources.items[2].desc}</p>
             </div>
             <div className="bg-brutal-black p-8">
               <Box className="w-8 h-8 text-neon-green mb-6" />
-              <h4 className="font-bold uppercase mb-4">硬件试用</h4>
-              <p className="text-gray-400 text-sm">声网 R1/R2 开发板试用、Seeed SenseCAP Watcher 开发板试用</p>
+              <h4 className="font-bold uppercase mb-4 tracking-tight">{t.resources.items[3].title}</h4>
+              <p className="text-gray-400 text-sm leading-relaxed">{t.resources.items[3].desc}</p>
             </div>
             <div className="bg-brutal-black p-8">
               <Zap className="w-8 h-8 text-neon-green mb-6" />
-              <h4 className="font-bold uppercase mb-4">Build in Public 流量扶持</h4>
-              <p className="text-gray-400 text-sm">小红书科技流量支持</p>
+              <h4 className="font-bold uppercase mb-4 tracking-tight">{t.resources.items[4].title}</h4>
+              <p className="text-gray-400 text-sm leading-relaxed">{t.resources.items[4].desc}</p>
             </div>
             <div className="bg-brutal-black p-8 flex items-center justify-center">
               <div className="text-center">
-                <div className="text-neon-green font-mono text-xs mb-2">MORE COMING SOON</div>
+                <div className="text-neon-green font-mono text-xs mb-2 tracking-[0.2em]">MORE COMING SOON</div>
                 <div className="w-12 h-1 bg-neon-green/20 mx-auto"></div>
               </div>
             </div>
@@ -761,26 +737,26 @@ export default function App() {
         </div>
       </section>
 
-      {/* Slide 7: Market */}
+      {/* Slide 6: Market */}
       <section id="market" className="py-24 border-t border-white/10">
         <div className="max-w-7xl mx-auto px-6">
           <SectionHeader 
-            number="06 / GLOBAL" 
-            title="走向市场" 
-            subtitle="通过 RTE 社区连接世界，让产品经受真实市场的检验" 
+            number="05 / GLOBAL" 
+            title={t.market.title} 
+            subtitle={t.market.subtitle} 
           />
 
           <div className="space-y-4">
-            {[
-              { date: '5月', event: '硅谷 AI 生态考察', desc: '深入全球 AI 创新腹地，捕捉最真实的代际信号。' },
-              { date: '5.27-30', event: '澳门 Beyond Expo', desc: '依托 RTE 社区绿色通道，优先申请亚太级科技展会初创展位。' },
-              { date: '7.1-3', event: '日本京都 IVS 创投展', desc: '寻找出海日本市场（陪伴、高龄化、二次元等场景）的优质切入点与本地伙伴。' },
-              { date: '7.3-6', event: '上海 WAIC 世界人工智能大会', desc: 'Physical AI Camp 专属初创展区，集中展示营员阶段性 Demo。' },
-            ].map((item, i) => (
+            {t.market.events.map((item: any, i: number) => (
               <div key={i} className="flex flex-col md:flex-row md:items-center gap-4 md:gap-12 p-6 border border-white/5 hover:bg-white/5 transition-colors">
                 <div className="font-mono text-neon-green font-bold text-xl w-24 shrink-0">{item.date}</div>
-                <div className="font-bold uppercase text-lg w-64 shrink-0">{item.event}</div>
-                <div className="text-gray-400 text-sm">{item.desc}</div>
+                <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 w-full md:w-[40%] shrink-0">
+                  <span className="bg-white/10 text-white px-2 py-0.5 rounded font-mono text-[10px] uppercase tracking-wider h-fit w-fit">
+                    {item.city}
+                  </span>
+                  <span className="font-bold uppercase text-lg tracking-tight">{item.event}</span>
+                </div>
+                <div className="text-gray-400 text-sm leading-relaxed">{item.desc}</div>
               </div>
             ))}
           </div>
@@ -794,21 +770,21 @@ export default function App() {
             <div className="order-2 md:order-1">
               <div className="space-y-8">
                 <div className="p-8 border-2 border-black">
-                  <h3 className="font-bold uppercase mb-4">我们的理念</h3>
-                  <p className="text-gray-600">拒绝单向的「审问式」尽调。我们看重的是能提供真正 Insight、愿意亲自上手把玩硬件 Demo 的早期 VC。</p>
+                  <h3 className="font-bold uppercase mb-4 tracking-tight">{t.investment.vision.title}</h3>
+                  <p className="text-gray-600 leading-relaxed">{t.investment.vision.desc}</p>
                 </div>
                 <div className="p-8 bg-black text-white">
-                  <h3 className="font-bold uppercase mb-4 text-neon-green">行动路径</h3>
-                  <p className="text-gray-400">为营员定向链接专注 AI 硬件赛道的优质投资人。先交朋友，在平等的 Maker 交流中自然建立信任。</p>
+                  <h3 className="font-bold uppercase mb-4 text-neon-green tracking-tight">{t.investment.path.title}</h3>
+                  <p className="text-gray-400 leading-relaxed">{t.investment.path.desc}</p>
                 </div>
               </div>
             </div>
             <div className="order-1 md:order-2">
               <div className="font-mono text-neon-green font-bold mb-4">07 / INVESTMENT</div>
-              <h2 className="text-4xl md:text-6xl font-bold tracking-tighter uppercase mb-8">
-                懂行的 <br />早期投资圈
+              <h2 className="text-4xl md:text-6xl font-bold tracking-tighter uppercase mb-8 leading-tight">
+                {t.investment.title}
               </h2>
-              <p className="text-xl font-medium">让资本对接回归业务探讨本身</p>
+              <p className="text-xl font-medium tracking-tight">{t.investment.subtitle}</p>
             </div>
           </div>
         </div>
@@ -819,23 +795,17 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-6">
           <SectionHeader 
             number="08 / PRINCIPLES" 
-            title="参与原则与约定" 
-            subtitle="Show, Don't Tell." 
+            title={t.principles.title} 
+            subtitle={t.principles.subtitle} 
           />
 
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="p-8 border border-white/10">
-              <h4 className="font-bold uppercase mb-4 text-neon-green">关于费用</h4>
-              <p className="text-gray-400 text-sm">纯粹的社区项目，0 费用，0 股权换取。（机酒差旅自理）</p>
-            </div>
-            <div className="p-8 border border-white/10">
-              <h4 className="font-bold uppercase mb-4 text-neon-green">Presence is Key</h4>
-              <p className="text-gray-400 text-sm">4.8 深圳开营仪式，以及 7 月初的结营 Demo Day，创始人必须线下本人出席。</p>
-            </div>
-            <div className="p-8 border border-white/10">
-              <h4 className="font-bold uppercase mb-4 text-neon-green">结营目标</h4>
-              <p className="text-gray-400 text-sm">请带着你跑通软硬联调的实机 Demo 登台。拒绝纯 PPT 宣讲，用真实产品说话。</p>
-            </div>
+            {t.principles.items.map((item, idx) => (
+              <div key={idx} className="p-8 border border-white/10 group hover:border-neon-green/30 transition-colors">
+                <h4 className="font-bold uppercase mb-4 text-neon-green tracking-tight">{item.title}</h4>
+                <p className="text-gray-400 text-sm leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -845,26 +815,17 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-6">
           <SectionHeader 
             number="09 / FAQ" 
-            title="常见问题" 
-            subtitle="解答关于申请、选拔及营地生活的疑问" 
+            title={t.faq.title} 
+            subtitle={t.faq.subtitle} 
           />
           <div className="max-w-3xl">
-            <FAQItem 
-              question="1. 申请和入选会产生任何费用吗？" 
-              answer="申请和入选不需要缴纳任何费用，入选团队如不在线下活动所在城市，需自行承担差旅费用，我们将提供活动日午餐及零食水果等。"
-            />
-            <FAQItem 
-              question="2. 完成报名表后接下来是什么？" 
-              answer="报名完成后，「超音速计划」将与您联系（请一定确保联系方式填写正确）。筛选滚动进行，建议有意向者尽快报名。选拔分为线上筛选和评委打分两部分，初筛后可能我们会与您进行时长约为 30-60 分钟的视频沟通， 来更好地了解您的产品与所需支持。"
-            />
-            <FAQItem 
-              question="3. 报名需要提供什么信息？需要准备 BP 吗？" 
-              answer="填写报名表即可报名， 但后续需要 BP。线上视频面试时申请者需要分享 BP 并做不超过十五分钟的公司介绍和产品展示，同时需要在面试前后提供 BP 文档，以便进行后续交叉评估。建议在申请时就有成型的 BP。"
-            />
-            <FAQItem 
-              question="4. 入选后需要投入多少时间与精力？可以线上参加吗？" 
-              answer="超音速创业伙伴营时间跨度约为三个月， 以线上线下相结合的方式进行。最初的开营和最后的结营的两个核心模块需要你在线下参与， 在上海（或北京） 线下进行，核心模块互动性强，无法线上参与， 主要时间节点为隔周的周末；另根据项目具体需求，会在工作日设置与行业专家或投资人的一对一沟通探讨环节。"
-            />
+            {t.faq.items.map((item: any, idx: number) => (
+              <FAQItem 
+                key={idx}
+                question={item.q} 
+                answer={item.a} 
+              />
+            ))}
           </div>
         </div>
       </section>
@@ -874,15 +835,15 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16">
             <div>
-              <h3 className="text-2xl font-bold uppercase mb-6 border-l-4 border-black pl-4">关于超音速计划</h3>
+              <h3 className="text-2xl font-bold uppercase mb-6 border-l-4 border-black pl-4 tracking-tight">{t.about.supersonic.title}</h3>
               <p className="text-gray-600 leading-relaxed">
-                「超音速计划」是面向实时互动（RTE，Real-Time Engagement）创业者发起的创业加速计划。重点关注实时互动领域新场景、新技术，旨在加速实时互动领域的创业企业价值成长，共同定义和扩大实时互动赛道，赋能开发者更低成本、更高效的实现创新创业。
+                {t.about.supersonic.desc}
               </p>
             </div>
             <div>
-              <h3 className="text-2xl font-bold uppercase mb-6 border-l-4 border-black pl-4">关于 RTE 开发者社区</h3>
+              <h3 className="text-2xl font-bold uppercase mb-6 border-l-4 border-black pl-4 tracking-tight">{t.about.rte.title}</h3>
               <p className="text-gray-600 leading-relaxed">
-                RTE 是一个聚焦实时互动（Real-Time Engagement）领域的开发者社区。我们致力于连接行业内的开发者与生态伙伴，激发新技术、新场景的火花，共同探索实时互动的无限可能。在这里，你将遇见一群志同道合的技术探索者，一同改变人与人、人与世界、人与 AI、AI 与 AI 的连接方式。
+                {t.about.rte.desc}
               </p>
             </div>
           </div>
@@ -897,11 +858,18 @@ export default function App() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-5xl md:text-8xl font-bold tracking-tighter uppercase mb-12">
-              加入 <br /><span className="text-neon-green">超音速计划 2026</span>
+            <h2 className="text-5xl md:text-8xl font-bold tracking-tighter uppercase mb-12 leading-[0.9]">
+              {lang === 'zh' ? (
+                <>
+                  加入<br />
+                  <span className="text-neon-green">超音速计划 2026</span>
+                </>
+              ) : (
+                t.footer.ctaTitle
+              )}
             </h2>
-            <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
-              寻找同频的 Maker，一起 Hack 物理世界。
+            <p className="text-xl text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed">
+              {lang === 'zh' ? '寻找同频的 Maker，一起 Hack 物理世界。' : 'Find like-minded Makers and hack the physical world together.'}
             </p>
             
             <div className="flex flex-col items-center gap-6 mb-20">
@@ -909,10 +877,10 @@ export default function App() {
                 onClick={() => setIsModalOpen(true)}
                 className="bg-neon-green text-black px-12 py-6 text-xl font-bold uppercase hover:bg-white transition-colors"
               >
-                立即投递申请
+                {t.footer.ctaBtn}
               </button>
               <div className="text-neon-green font-mono text-sm uppercase tracking-[0.2em] border-y border-neon-green/20 py-2">
-                截止报名：2026 年 4 月 20 日 24:00
+                {t.applyModal.deadline}
               </div>
             </div>
 
@@ -933,7 +901,7 @@ export default function App() {
                 <div className="w-12 h-12 border border-white/10 flex items-center justify-center group-hover:border-neon-green group-hover:bg-neon-green/10 transition-all">
                   <MessageSquare className="w-5 h-5 text-gray-400 group-hover:text-neon-green" />
                 </div>
-                <span className="font-mono text-[10px] text-gray-500 uppercase tracking-widest">WeChat</span>
+                <span className="font-mono text-[10px] text-gray-500 uppercase tracking-widest">{lang === 'zh' ? '微信' : 'WeChat'}</span>
                 {/* QR Code Tooltip */}
                 <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-all duration-300 translate-y-2 group-hover:translate-y-0 z-50">
                   <div className="bg-white p-4 shadow-2xl border border-neon-green/20 w-56">
@@ -946,8 +914,8 @@ export default function App() {
                         (e.target as HTMLImageElement).src = "https://picsum.photos/seed/qr/200/200?blur=2";
                       }}
                     />
-                    <div className="text-black text-[10px] font-bold text-center uppercase tracking-tighter whitespace-nowrap">
-                      扫码关注 RTE 开发者社区微信公众号
+                    <div className="text-black text-[10px] font-bold text-center uppercase tracking-tighter whitespace-nowrap leading-tight">
+                      {lang === 'zh' ? '扫码关注 RTE 开发者社区微信公众号' : 'Scan to follow RTE Community WeChat'}
                     </div>
                   </div>
                   <div className="w-3 h-3 bg-white rotate-45 absolute -bottom-1.5 left-1/2 -translate-x-1/2 border-r border-b border-neon-green/10"></div>
@@ -956,7 +924,7 @@ export default function App() {
             </div>
 
             <div className="pt-20 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 text-gray-500 font-mono text-[10px] uppercase tracking-widest">
-              <div>© 2026 RTE DEVELOPER COMMUNITY</div>
+              <div>{t.footer.copyright}</div>
               <div className="flex gap-8">
                 <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
                 <a href="#" className="hover:text-white transition-colors">Terms of Service</a>

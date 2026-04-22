@@ -382,20 +382,24 @@ export default function App() {
   const WECHAT_ID = 'bob_fu';
 
   useEffect(() => {
-    // Check path for language
-    const path = window.location.pathname;
-    if (path === '/en') {
-      setLang('en');
-    } else if (path === '/zh') {
-      setLang('zh');
-    } else {
-      // Check URL parameters for language as fallback
-      const params = new URLSearchParams(window.location.search);
-      const langParam = params.get('lang');
-      if (langParam === 'en' || langParam === 'zh') {
-        setLang(langParam as Language);
+    const handleUrlChange = () => {
+      const path = window.location.pathname;
+      if (path === '/en') {
+        setLang('en');
+      } else if (path === '/zh') {
+        setLang('zh');
+      } else {
+        const params = new URLSearchParams(window.location.search);
+        const langParam = params.get('lang');
+        if (langParam === 'en' || langParam === 'zh') {
+          setLang(langParam as Language);
+        }
       }
-    }
+    };
+
+    handleUrlChange();
+    window.addEventListener('popstate', handleUrlChange);
+    return () => window.removeEventListener('popstate', handleUrlChange);
   }, []);
 
   const t = TRANSLATIONS[lang];

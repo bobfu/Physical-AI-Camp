@@ -381,6 +381,23 @@ export default function App() {
   const [isJourneyExpanded, setIsJourneyExpanded] = useState(false);
   const WECHAT_ID = 'bob_fu';
 
+  useEffect(() => {
+    // Check path for language
+    const path = window.location.pathname;
+    if (path === '/en') {
+      setLang('en');
+    } else if (path === '/zh') {
+      setLang('zh');
+    } else {
+      // Check URL parameters for language as fallback
+      const params = new URLSearchParams(window.location.search);
+      const langParam = params.get('lang');
+      if (langParam === 'en' || langParam === 'zh') {
+        setLang(langParam as Language);
+      }
+    }
+  }, []);
+
   const t = TRANSLATIONS[lang];
 
   useEffect(() => {
@@ -389,7 +406,12 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleLang = () => setLang(prev => prev === 'zh' ? 'en' : 'zh');
+  const toggleLang = () => {
+    const newLang = lang === 'zh' ? 'en' : 'zh';
+    setLang(newLang);
+    // Update path without reloading
+    window.history.pushState({}, '', `/${newLang}`);
+  };
 
   return (
     <div className="min-h-screen grid-pattern">

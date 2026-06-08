@@ -40,7 +40,7 @@ export const TRANSLATIONS = {
         { date: '5月', city: '硅谷', event: 'AI 生态考察', desc: '深入全球 AI 创新腹地，捕捉最真实的代际信号。' },
         { date: '5.27-30', city: '澳门', event: 'Beyond Expo', desc: '依托 RTE 社区绿色通道，优先申请亚太级科技展会初创展位。' },
         { date: '7.1-3', city: '京都', event: 'IVS2026', desc: '寻找出海日本市场（陪伴、高龄化、二次元等场景）的优质切入点与本地伙伴。' },
-        { date: '7.3-6', city: '上海', event: 'WAIC 2026', desc: 'Physical AI Camp 专属初创展区，集中展示营员阶段性 Demo。' },
+        { date: '7.17-20', city: '上海', event: 'WAIC 2026', desc: 'Physical AI Camp 专属初创展区，集中展示营员阶段性 Demo。' },
       ]
     },
     principles: {
@@ -288,7 +288,7 @@ export const TRANSLATIONS = {
         { date: 'MAY', city: 'SILICON VALLEY', event: 'AI Expedition', desc: 'Dive into the heart of global AI innovation and capture real generational signals.' },
         { date: 'MAY 27-30', city: 'MACAU', event: 'Beyond Expo', desc: 'Leverage the RTE community green channel to prioritize applications for startup booths at Asia-Pacific tech exhibitions.' },
         { date: 'JULY 1-3', city: 'KYOTO', event: 'IVS2026', desc: 'Find high-quality entry points and local partners for the Japanese market (companionship, aging society, ACG, etc.).' },
-        { date: 'JULY 3-6', city: 'SHANGHAI', event: 'WAIC 2026', desc: 'Exclusive startup area for Physical AI Camp to showcase Demo results.' },
+        { date: 'JULY 17-20', city: 'SHANGHAI', event: 'WAIC 2026', desc: 'Exclusive startup area for Physical AI Camp to showcase Demo results.' },
       ]
     },
     principles: {

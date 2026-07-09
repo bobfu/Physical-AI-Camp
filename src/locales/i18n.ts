@@ -1,6 +1,7 @@
 export const TRANSLATIONS = {
   zh: {
     nav: {
+      projects: 'PROJECTS',
       community: 'COMMUNITY',
       journey: 'JOURNEY',
       resources: 'RESOURCES',
@@ -249,6 +250,7 @@ export const TRANSLATIONS = {
   },
   en: {
     nav: {
+      projects: 'PROJECTS',
       community: 'COMMUNITY',
       journey: 'JOURNEY',
       resources: 'RESOURCES',

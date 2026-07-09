@@ -438,6 +438,7 @@ export default function App() {
             <span className="font-mono font-bold tracking-tighter text-base md:text-xl group-hover:text-neon-green transition-colors">PHYSICAL AI CAMP 2026</span>
           </div>
           <div className="hidden lg:flex gap-8 font-mono text-[10px] md:text-xs uppercase tracking-widest shrink-0">
+            <a href="/projects/index.html" className="hover:text-neon-green transition-colors">{t.nav.projects}</a>
             <a href="#community" className="hover:text-neon-green transition-colors">{t.nav.community}</a>
             <a href="#journey" className="hover:text-neon-green transition-colors">{t.nav.journey}</a>
             <a href="#resources" className="hover:text-neon-green transition-colors">{t.nav.resources}</a>

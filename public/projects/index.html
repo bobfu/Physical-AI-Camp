@@ -1,0 +1,2284 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Physical AI Camp Projects</title>
+  <link rel="icon" href="data:,">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --neon-green: #00FF00;
+      --brutal-black: #0a0a0a;
+      --brutal-gray: #1a1a1a;
+      --panel: #101010;
+      --line: rgba(255, 255, 255, 0.12);
+      --line-hot: rgba(0, 255, 0, 0.74);
+      --muted: rgba(255, 255, 255, 0.62);
+      --text: #f4f4f4;
+      --font-mono: "JetBrains Mono", monospace;
+      --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: var(--font-sans);
+      background-color: var(--brutal-black);
+      background-image:
+        radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.05) 1px, transparent 0),
+        linear-gradient(180deg, rgba(0, 255, 0, 0.035), transparent 320px);
+      background-size: 40px 40px, auto;
+      letter-spacing: 0;
+    }
+
+    button,
+    a {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .app {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 112px 0 56px;
+    }
+
+    .topbar {
+      position: fixed;
+      top: 0;
+      z-index: 50;
+      left: 0;
+      width: 100%;
+      padding: 24px 0;
+      transition: padding 240ms ease, background 240ms ease, border-color 240ms ease, backdrop-filter 240ms ease;
+    }
+
+    .topbar.is-scrolled {
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(10, 10, 10, 0.9);
+      backdrop-filter: blur(12px);
+    }
+
+    .topbar-inner {
+      max-width: 80rem;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      display: grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      color: #001900;
+      background: var(--neon-green);
+      transition: background 180ms ease, color 180ms ease;
+    }
+
+    .brand:hover .brand-icon,
+    .brand:focus-visible .brand-icon {
+      color: #000;
+      background: #fff;
+    }
+
+    .brand-title {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: clamp(16px, 1.6vw, 20px);
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 1.4;
+      letter-spacing: -0.05em;
+      transition: color 180ms ease;
+    }
+
+    .brand:hover .brand-title,
+    .brand:focus-visible .brand-title {
+      color: var(--neon-green);
+    }
+
+    .site-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    .site-nav a {
+      color: #fff;
+      text-decoration: none;
+      transition: color 180ms ease;
+      white-space: nowrap;
+    }
+
+    .site-nav a:hover,
+    .site-nav a:focus-visible {
+      color: var(--neon-green);
+      outline: none;
+    }
+
+    .lang-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: auto;
+      padding: 4px 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: rgba(156, 163, 175, 1);
+      transition: color 180ms ease, border-color 180ms ease;
+      background: transparent;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .lang-toggle:hover,
+    .lang-toggle:focus-visible {
+      outline: none;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .mono {
+      font-family: var(--font-mono);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      background: rgba(26, 26, 26, 0.82);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 16px;
+      border: 1px solid var(--neon-green);
+      color: #000;
+      background: var(--neon-green);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      text-decoration: none;
+      box-shadow: 0 0 24px rgba(0, 255, 0, 0.2);
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+    }
+
+    .button:hover,
+    .button:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: 0 0 36px rgba(0, 255, 0, 0.44);
+      outline: none;
+    }
+
+    .button.ghost {
+      color: var(--neon-green);
+      background: rgba(0, 255, 0, 0.04);
+    }
+
+    .nav-apply {
+      min-height: auto;
+      padding: 8px 16px;
+      border: 0;
+      font-size: 10px;
+      box-shadow: none;
+    }
+
+    .nav-apply:hover,
+    .nav-apply:focus-visible {
+      color: #000;
+      background: #fff;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .apply-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .apply-modal.is-open {
+      display: flex;
+    }
+
+    .apply-backdrop {
+      position: absolute;
+      inset: 0;
+      border: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(4px);
+    }
+
+    .apply-dialog {
+      position: relative;
+      width: min(448px, 100%);
+      padding: 32px;
+      border: 1px solid rgba(0, 255, 0, 0.5);
+      background: var(--brutal-gray);
+      box-shadow: 0 0 50px rgba(0, 255, 0, 0.1);
+    }
+
+    .apply-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      border: 0;
+      color: rgba(255, 255, 255, 0.42);
+      background: transparent;
+      font-size: 28px;
+      line-height: 1;
+      transition: color 180ms ease;
+    }
+
+    .apply-close:hover,
+    .apply-close:focus-visible {
+      color: #fff;
+      outline: none;
+    }
+
+    .apply-badge {
+      display: inline-block;
+      margin-bottom: 16px;
+      padding: 4px 8px;
+      color: #000;
+      background: var(--neon-green);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .apply-dialog h2 {
+      margin: 0 0 8px;
+      font-size: 24px;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .apply-deadline {
+      margin: 0 0 16px;
+      color: var(--neon-green);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .apply-desc {
+      margin: 0 0 24px;
+      color: rgba(255, 255, 255, 0.62);
+      line-height: 1.75;
+    }
+
+    .wechat-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+      padding: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: #000;
+    }
+
+    .wechat-box small {
+      display: block;
+      margin-bottom: 4px;
+      color: rgba(255, 255, 255, 0.42);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+    }
+
+    .wechat-id {
+      color: var(--neon-green);
+      font-family: var(--font-mono);
+      font-weight: 800;
+    }
+
+    .copy-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 0;
+      padding: 8px 14px;
+      color: var(--neon-green);
+      background: rgba(0, 255, 0, 0.1);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      transition: background 180ms ease;
+      white-space: nowrap;
+    }
+
+    .copy-button:hover,
+    .copy-button:focus-visible {
+      background: rgba(0, 255, 0, 0.2);
+      outline: none;
+    }
+
+    .apply-ok {
+      width: 100%;
+      min-height: 52px;
+      border: 0;
+      color: #000;
+      background: var(--neon-green);
+      font-weight: 800;
+      text-transform: uppercase;
+      transition: background 180ms ease;
+    }
+
+    .apply-ok:hover,
+    .apply-ok:focus-visible {
+      background: #fff;
+      outline: none;
+    }
+
+    @media (min-width: 768px) {
+      .site-nav,
+      .lang-toggle,
+      .nav-apply {
+        font-size: 12px;
+      }
+    }
+
+    .hero {
+      display: block;
+      margin-bottom: 18px;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      background: rgba(16, 16, 16, 0.9);
+    }
+
+    .intro {
+      position: relative;
+      overflow: hidden;
+      min-height: 0;
+      padding: 26px;
+    }
+
+    .intro:before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(0, 255, 0, 0.12) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(0, 255, 0, 0.08) 1px, transparent 1px);
+      background-size: 52px 52px;
+      mask-image: radial-gradient(circle at 20% 15%, black 0, transparent 58%);
+    }
+
+    .status-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .intro h1 {
+      position: relative;
+      max-width: 1040px;
+      font-size: clamp(42px, 6.4vw, 88px);
+      line-height: 0.9;
+      font-weight: 900;
+    }
+
+    .text-glow {
+      color: var(--neon-green);
+      text-shadow: 0 0 10px rgba(0, 255, 0, 0.5), 0 0 34px rgba(0, 255, 0, 0.24);
+    }
+
+    .intro-copy {
+      position: relative;
+      max-width: 760px;
+      margin: 22px 0 0;
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .metric-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(86px, 1fr));
+      gap: 8px;
+      width: min(860px, 100%);
+      margin-top: 24px;
+    }
+
+    .metric {
+      padding: 14px;
+      border: 1px solid var(--line);
+      background: rgba(10, 10, 10, 0.74);
+    }
+
+    .metric b {
+      display: block;
+      color: var(--neon-green);
+      font-family: var(--font-mono);
+      font-size: clamp(18px, 2.4vw, 28px);
+      line-height: 1;
+      text-shadow: 0 0 18px rgba(0, 255, 0, 0.4);
+      overflow-wrap: anywhere;
+    }
+
+    .metric span {
+      display: block;
+      margin-top: 10px;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      line-height: 1.5;
+      text-transform: uppercase;
+    }
+
+    .terminal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+
+    .marquee {
+      overflow: hidden;
+      margin-bottom: 18px;
+      border-block: 1px solid var(--line);
+      background: rgba(26, 26, 26, 0.65);
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marquee 28s linear infinite;
+    }
+
+    .marquee span {
+      display: inline-flex;
+      align-items: center;
+      height: 48px;
+      padding: 0 26px;
+      color: var(--neon-green);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      text-shadow: 0 0 10px rgba(0, 255, 0, 0.45);
+      white-space: nowrap;
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin: 34px 0 14px;
+    }
+
+    .section-head h2 {
+      font-size: clamp(26px, 4vw, 44px);
+      font-weight: 900;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .section-head p {
+      max-width: 420px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+      text-align: right;
+    }
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .project-card {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 150px;
+      gap: 20px;
+      min-height: 176px;
+      padding: 22px;
+      overflow: hidden;
+      color: var(--text);
+      text-decoration: none;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(135deg, rgba(0, 255, 0, 0.05), rgba(255, 255, 255, 0.02) 42%, rgba(0, 255, 0, 0.01)),
+        var(--brutal-gray);
+      transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+    }
+
+    .project-card:hover,
+    .project-card:focus-visible {
+      border-color: var(--neon-green);
+      transform: translateY(-3px);
+      box-shadow: 0 0 32px rgba(0, 255, 0, 0.22);
+      outline: none;
+    }
+
+    .project-card:after {
+      content: "";
+      position: absolute;
+      right: -64px;
+      bottom: -64px;
+      width: 148px;
+      height: 148px;
+      border: 1px solid rgba(0, 255, 0, 0.3);
+      background: rgba(0, 255, 0, 0.035);
+      transform: rotate(45deg);
+    }
+
+    .project-info {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      min-height: 100%;
+    }
+
+    .project-title {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .project-brandline {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      min-width: 0;
+    }
+
+    .project-logo {
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      width: 46px;
+      height: 46px;
+      border: 1px solid var(--line);
+      background: #050505;
+      overflow: hidden;
+    }
+
+    .project-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 6px;
+    }
+
+    .project-logo.logo-wide {
+      width: 112px;
+      background: #050505;
+    }
+
+    .project-logo.logo-wide img {
+      padding: 5px 8px;
+    }
+
+    .project-logo span {
+      color: var(--neon-green);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .project-company {
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      line-height: 1.5;
+      text-transform: uppercase;
+      overflow-wrap: anywhere;
+    }
+
+    .project-title h3 {
+      font-size: clamp(25px, 3.6vw, 42px);
+      font-weight: 900;
+      line-height: 1;
+      overflow-wrap: anywhere;
+    }
+
+    .arrow {
+      color: var(--neon-green);
+      font-family: var(--font-mono);
+      font-size: 28px;
+      text-shadow: 0 0 12px rgba(0, 255, 0, 0.5);
+    }
+
+    .project-card p {
+      max-width: 560px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.74);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .project-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .meta-like-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: auto;
+      padding-top: 26px;
+    }
+
+    .project-thumb {
+      position: relative;
+      z-index: 1;
+      min-height: 132px;
+      border: 1px solid var(--line);
+      background: #050505;
+      overflow: hidden;
+    }
+
+    .project-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: saturate(0.9) contrast(1.05);
+    }
+
+    .project-thumb.placeholder {
+      display: grid;
+      place-items: center;
+      color: var(--neon-green);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .like {
+      align-self: center;
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 92px;
+      min-height: 38px;
+      padding: 0 14px;
+      border: 1px solid var(--neon-green);
+      color: var(--neon-green);
+      background: rgba(0, 255, 0, 0.04);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      transition: background 180ms ease, color 180ms ease, box-shadow 180ms ease;
+    }
+
+    .like:hover,
+    .like.is-liked {
+      color: #001900;
+      background: var(--neon-green);
+      box-shadow: 0 0 22px rgba(0, 255, 0, 0.36);
+    }
+
+    .detail-status-row {
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .detail-status-row .project-meta {
+      margin: 0;
+    }
+
+    .detail {
+      display: none;
+    }
+
+    body[data-view="detail"] .list-view {
+      display: none;
+    }
+
+    body[data-view="detail"] .detail {
+      display: block;
+    }
+
+    .detail-hero {
+      display: block;
+    }
+
+    .detail-main {
+      padding: 26px;
+      min-height: 430px;
+    }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 32px;
+      border: 0;
+      color: var(--neon-green);
+      background: transparent;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      text-shadow: 0 0 12px rgba(0, 255, 0, 0.45);
+    }
+
+    .detail-main h1 {
+      max-width: 100%;
+      font-size: clamp(44px, 8vw, 104px);
+      font-weight: 900;
+      line-height: 0.88;
+    }
+
+    .profile-name {
+      display: block;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .detail-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .detail-logo {
+      width: 72px;
+      height: 72px;
+      border: 1px solid var(--line);
+      background: #050505;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+
+    .detail-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 8px;
+    }
+
+    .detail-logo.logo-wide {
+      width: 168px;
+      background: #050505;
+    }
+
+    .detail-logo.logo-wide img {
+      padding: 10px 14px;
+    }
+
+    .detail-logo span {
+      color: var(--neon-green);
+      font-family: var(--font-mono);
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .detail-company {
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.7;
+      text-transform: uppercase;
+      overflow-wrap: anywhere;
+    }
+
+    .product-shot {
+      margin-top: 22px;
+      border: 1px solid var(--line);
+      background: #050505;
+      min-height: 260px;
+      overflow: hidden;
+    }
+
+    .product-shot img {
+      width: 100%;
+      height: 100%;
+      max-height: 420px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .product-gallery {
+      display: grid;
+      grid-template-columns: 1.12fr 0.88fr;
+      gap: 10px;
+      padding: 10px;
+    }
+
+    .product-gallery figure {
+      min-width: 0;
+      margin: 0;
+      border: 1px solid var(--line);
+      background: #020202;
+      overflow: hidden;
+    }
+
+    .product-gallery figure:first-child {
+      grid-row: span 2;
+    }
+
+    .product-gallery.is-collection {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .product-gallery.is-collection figure:first-child {
+      grid-row: auto;
+    }
+
+    .product-gallery img {
+      width: 100%;
+      height: 100%;
+      min-height: 230px;
+      max-height: none;
+      object-fit: cover;
+      display: block;
+    }
+
+    .product-gallery.is-collection img {
+      height: auto;
+      min-height: 0;
+      aspect-ratio: 9 / 16;
+      object-fit: contain;
+    }
+
+    .product-gallery.is-collection figcaption {
+      display: none;
+    }
+
+    .product-gallery figcaption {
+      border-top: 1px solid var(--line);
+      padding: 9px 10px;
+      color: var(--muted);
+      background: rgba(0, 0, 0, 0.9);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .product-shot.placeholder {
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .article {
+      display: grid;
+      gap: 12px;
+    }
+
+    .block {
+      padding: 22px;
+      border: 1px solid var(--line);
+      background: rgba(16, 16, 16, 0.9);
+    }
+
+    .block h2 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .block h2:before {
+      content: "";
+      width: 10px;
+      height: 22px;
+      background: var(--neon-green);
+      box-shadow: 0 0 16px rgba(0, 255, 0, 0.46);
+    }
+
+    .block p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 15px;
+      line-height: 1.9;
+    }
+
+    .block p + p {
+      margin-top: 14px;
+    }
+
+    .aside {
+      display: grid;
+      gap: 12px;
+      align-self: start;
+      position: sticky;
+      top: 98px;
+    }
+
+    .contact-card {
+      padding: 20px;
+      border: 1px solid var(--line);
+      background: rgba(16, 16, 16, 0.94);
+    }
+
+    .qr {
+      display: grid;
+      place-items: center;
+      width: min(360px, 100%);
+      margin: 18px auto;
+      border: 1px solid var(--neon-green);
+      background: #fff;
+      box-shadow: 0 0 30px rgba(0, 255, 0, 0.2);
+      overflow: visible;
+      padding: 0;
+    }
+
+    .qr img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .qr span {
+      padding: 7px 9px;
+      color: #001900;
+      background: var(--neon-green);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .contact-card .button {
+      display: flex;
+      width: min(240px, 100%);
+      margin: 0 auto;
+    }
+
+    .empty {
+      padding: 50px 0;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .app {
+        width: min(100% - 24px, 720px);
+        padding-top: 92px;
+      }
+
+      .topbar {
+        padding: 14px 0;
+      }
+
+      .topbar.is-scrolled {
+        padding: 14px 0;
+      }
+
+      .topbar-inner {
+        padding: 0 12px;
+      }
+
+      .site-nav,
+      .nav-actions {
+        display: none;
+      }
+
+      .brand-icon {
+        width: 32px;
+        height: 32px;
+      }
+
+      .brand-title {
+        font-size: 17px;
+      }
+
+      .apply-dialog {
+        padding: 24px;
+      }
+
+      .wechat-box {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .intro {
+        min-height: auto;
+      }
+
+      .intro {
+        padding: 20px;
+      }
+
+      .metric-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .projects {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head {
+        align-items: start;
+        flex-direction: column;
+      }
+
+      .section-head p {
+        text-align: left;
+      }
+
+      .project-card {
+        min-height: 150px;
+        padding: 18px;
+        grid-template-columns: 1fr 130px;
+      }
+
+      .aside {
+        position: static;
+      }
+    }
+
+    @media (max-width: 560px) {
+      body {
+        background-size: 40px 40px, auto;
+      }
+
+      .app {
+        width: calc(100% - 20px);
+        padding-top: 12px;
+        padding-bottom: 34px;
+      }
+
+      .brand strong {
+        font-size: 15px;
+      }
+
+      .button {
+        min-height: 38px;
+        padding: 0 12px;
+      }
+
+      .intro h1,
+      .detail-main h1 {
+        font-size: 42px;
+      }
+
+      .detail-main h1 {
+        font-size: clamp(34px, 11vw, 42px);
+        line-height: 0.96;
+      }
+
+      .intro-copy {
+        font-size: 14px;
+      }
+
+      .metric-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .marquee span {
+        height: 42px;
+        padding: 0 18px;
+      }
+
+      .project-card {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .project-thumb {
+        min-height: 190px;
+      }
+
+      .product-gallery {
+        grid-template-columns: 1fr;
+      }
+
+      .product-gallery figure:first-child {
+        grid-row: auto;
+      }
+
+      .product-gallery.is-collection {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .meta-like-row,
+      .detail-status-row {
+        align-items: flex-start;
+      }
+
+      .detail-main,
+      .block,
+      .contact-card {
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+<body data-view="list">
+  <div class="app">
+    <header class="topbar" id="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="/" aria-label="返回 Physical AI Camp 首页">
+          <span class="brand-icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M13 2 4 13h7l-1 9 10-13h-7l1-7Z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="brand-title">PHYSICAL AI CAMP 2026</span>
+        </a>
+        <nav class="site-nav" aria-label="主导航">
+          <a href="/projects/index.html">Projects</a>
+          <a href="/#community" data-home-target="#community">Community</a>
+          <a href="/#journey" data-home-target="#journey">Journey</a>
+          <a href="/#resources" data-home-target="#resources">Resources</a>
+          <a href="/#market" data-home-target="#market">Global</a>
+        </nav>
+        <div class="nav-actions">
+          <button class="lang-toggle" type="button" aria-disabled="true" tabindex="-1">EN</button>
+          <button class="button nav-apply" type="button" data-open-apply>APPLY NOW</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="apply-modal" id="applyModal" aria-hidden="true">
+      <button class="apply-backdrop" type="button" data-close-apply aria-label="关闭申请弹窗"></button>
+      <div class="apply-dialog" role="dialog" aria-modal="true" aria-labelledby="applyTitle">
+        <button class="apply-close" type="button" data-close-apply aria-label="关闭">×</button>
+        <div class="apply-badge">Application</div>
+        <h2 id="applyTitle">加入 Physical AI Camp 2026</h2>
+        <p class="apply-deadline">Applications are open</p>
+        <p class="apply-desc">如果你正在打造面向真实世界的 AI 产品、硬件或 Agent 应用，欢迎联系 RTE 开发者社区了解报名与合作方式。</p>
+        <div class="wechat-box">
+          <div>
+            <small>WeChat ID</small>
+            <div class="wechat-id">bob_fu</div>
+          </div>
+          <button class="copy-button" type="button" data-copy-wechat>Copy</button>
+        </div>
+        <button class="apply-ok" type="button" data-close-apply>Got it</button>
+      </div>
+    </div>
+
+    <main class="list-view">
+      <section class="hero">
+        <div class="intro panel">
+          <div class="status-row">
+            <span class="pill">RTE开发者社区</span>
+            <span class="pill">PHYSICAL AI</span>
+            <span class="pill">FOUNDERS</span>
+          </div>
+          <h1><span class="text-glow">Physical</span> AI Camp</h1>
+          <p class="intro-copy">Physical AI Camp 汇集一批正在把 AI 带入真实世界的创业团队：从语音、视觉、记忆与陪伴硬件，到端侧芯片、桌面机器人和 Agent 基础设施。这里展示每个项目的产品形态、团队背景与现场联系方式，方便 Demo Day 观众快速了解、交流与连接。</p>
+          <div class="metric-grid" aria-label="活动数据">
+            <div class="metric"><b>16 个项目</b><span>覆盖 AI Agent、机器人、智能硬件、芯片、语音、多模态、陪伴与基础设施，现场集中展示产品 Demo 与团队能力。</span></div>
+            <div class="metric"><b>投资 × 开发者</b><span>与创始人面对面交流，了解产品、技术路线、商业模式与融资进展，寻找投资、合作与加入机会。</span></div>
+            <div class="metric"><b>现场 Connect</b><span>查看项目介绍、团队背景、产品演示与联系方式，活动现场快速建立连接，持续 Follow Up。</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="marquee" aria-label="横向信息墙">
+        <div class="marquee-track">
+          <span>HiDock</span><span>Diaro</span><span>叽里呱呱 AI 打印桌宠</span><span>梨谱</span><span>Disbrief</span><span>ClawStage</span><span>Hyperspace</span><span>Chance AI</span><span>极眸律动</span><span>festage</span><span>MemoPin</span><span>Memories.ai</span><span>WatcheRobot</span><span>Olares</span><span>Cerul</span><span>PICPAK</span>
+          <span>HiDock</span><span>Diaro</span><span>叽里呱呱 AI 打印桌宠</span><span>梨谱</span><span>Disbrief</span><span>ClawStage</span><span>Hyperspace</span><span>Chance AI</span><span>极眸律动</span><span>festage</span><span>MemoPin</span><span>Memories.ai</span><span>WatcheRobot</span><span>Olares</span><span>Cerul</span><span>PICPAK</span>
+        </div>
+      </section>
+
+      <section id="projects">
+        <div class="section-head">
+          <h2>PROJECT <span class="text-glow">INDEX</span></h2>
+        </div>
+        <div class="projects" id="projectList"></div>
+      </section>
+    </main>
+
+    <main class="detail" id="detailView"></main>
+  </div>
+
+  <script>
+    const projects = [
+      {
+            "id": "hidock",
+            "name": "HiDock",
+            "company": "深圳临境协作科技有限公司",
+            "tagline": "AI Meeting Recorder",
+            "detail": "面向欧美职场人群的AI会议记录工具",
+            "teamBio": "宋少鹏",
+            "funding": "暂无融资需求。",
+            "participant": "宋少鹏",
+            "contactRole": "CEO",
+            "region": "语音硬件",
+            "website": "",
+            "category": "AI 会议记录",
+            "stage": "欧美职场",
+            "logo": "assets/base/hidock-logo.png",
+            "productImage": "assets/base/hidock-product.jpg",
+            "qrImage": "assets/base/hidock-qr.jpg",
+            "likes": 100,
+            "summary": "AI Meeting Recorder",
+            "contact": "HiDock 联系人",
+            "highlights": [
+                  [
+                        "公司名称",
+                        "深圳临境协作科技有限公司"
+                  ],
+                  [
+                        "联系人",
+                        "宋少鹏 / CEO"
+                  ],
+                  [
+                        "项目一句话",
+                        "AI Meeting Recorder"
+                  ]
+            ],
+            "intro": [
+                  "面向欧美职场人群的AI会议记录工具"
+            ]
+      },
+      {
+            "id": "diaro",
+            "name": "Diaro",
+            "company": "深圳戴而录智能科技有限公司",
+            "tagline": "全天候的物理备忘录",
+            "detail": "Diaro 是一枚随身佩戴的个人语音吊坠，帮你在日常生活中自然留下想法、承诺、待办、灵感和重要片段。它不是录音笔，而是一个低打扰、长期陪伴的个人记忆入口：把说出口的内容整理成可回看的时间线、备忘和日程线索，让零散的生活与工作信息沉淀成真正有用的个人记忆系统。",
+            "teamBio": "郑雨洲 - 联创&CEO，韩元波 - 联创&CTO",
+            "funding": "目前天使轮，计划融资 50万–100万美元。",
+            "participant": "bobo",
+            "contactRole": "联创&CTO",
+            "region": "低打扰记录",
+            "website": "",
+            "category": "语音吊坠",
+            "stage": "个人记忆",
+            "logo": "assets/base/diaro-logo.png",
+            "productImage": "assets/base/diaro-product.png",
+            "qrImage": "assets/base/diaro-qr.jpg",
+            "likes": 101,
+            "summary": "全天候的物理备忘录",
+            "contact": "Diaro 联系人",
+            "highlights": [
+                  [
+                        "公司名称",
+                        "深圳戴而录智能科技有限公司"
+                  ],
+                  [
+                        "联系人",
+                        "bobo / 联创&CTO"
+                  ],
+                  [
+                        "项目一句话",
+                        "全天候的物理备忘录"
+                  ]
+            ],
+            "intro": [
+                  "Diaro 是一枚随身佩戴的个人语音吊坠，帮你在日常生活中自然留下想法、承诺、待办、灵感和重要片段。它不是录音笔，而是一个低打扰、长期陪伴的个人记忆入口：把说出口的内容整理成可回看的时间线、备忘和日程线索，让零散的生活与工作信息沉淀成真正有用的个人记忆系统。"
+            ]
+      },
+      {
+            "id": "jiligugu",
+            "name": "叽里呱呱 AI 打印桌宠",
+            "company": "叽里咕咕创意（杭州）科技有限公司",
+            "tagline": "从AI打印硬件切入的桌面生活Agent。",
+            "detail": "叽里呱呱是一款专注于「创意实体化」的AI驱动可打印创作平台。针对当代年轻人「想法多、落地难」以及职场拖延的痛点，我们从桌面打印硬件切入，构建了集内容生成、自动排版与即时打印于一体的完整链路。\n\n用户只需通过语音或文字输入一句话，AI便能精准捕捉意图并自动生成精美的卡片、小票、便签或任务条。无论是作为每日一张的「自动手帐」，还是场景化的互动内容，叽里呱呱都能将数字世界的灵感转化为触手可及的实体反馈。\n\n项目核心功能涵盖网站创意交互、即时生成、以及极具社交属性的「飞鸽传书」等模块。我们致力于打破数字与实体的边界，让记录变得更简单，让创作变得更有趣，通过高频的实体交互，激发用户的创造力并提升生活质感。",
+            "teamBio": "王心怡，00后整合创新设计背景，毕业于北京师范大学未来设计学院艺术与科技方向，是叽里咕咕创意科技、叽里呱呱 AI 硬件及馥诗首饰品牌主理人。",
+            "funding": "目前前种子轮，计划融资。",
+            "participant": "小鹅",
+            "contactRole": "CEO",
+            "region": "任务/便签生成",
+            "website": "",
+            "category": "AI 打印桌宠",
+            "stage": "创意实体化",
+            "logo": "assets/base/jiligugu-logo-white.png",
+            "logoLayout": "wide",
+            "productImage": "assets/base/jiligugu-product.png",
+            "productGalleryLayout": "feature",
+            "productImages": [
+                  {
+                        "src": "assets/base/jiligugu-product.png",
+                        "label": "Print Pet"
+                  },
+                  {
+                        "src": "assets/base/jiligugu-product-2.png",
+                        "label": "Task List"
+                  },
+                  {
+                        "src": "assets/base/jiligugu-product-3.png",
+                        "label": "Daily Card"
+                  }
+            ],
+            "qrImage": "assets/base/jiligugu-qr.png",
+            "likes": 102,
+            "summary": "从AI打印硬件切入的桌面生活Agent。",
+            "contact": "叽里呱呱 AI 打印桌宠 联系人",
+            "highlights": [
+                  [
+                        "公司名称",
+                        "叽里咕咕创意（杭州）科技有限公司"
+                  ],
+                  [
+                        "联系人",
+                        "小鹅 / CEO"
+                  ],
+                  [
+                        "项目一句话",
+                        "从AI打印硬件切入的桌面生活Agent。"
+                  ]
+            ],
+            "intro": [
+                  "叽里呱呱是一款专注于「创意实体化」的AI驱动可打印创作平台。针对当代年轻人「想法多、落地难」以及职场拖延的痛点，我们从桌面打印硬件切入，构建了集内容生成、自动排版与即时打印于一体的完整链路。\n\n用户只需通过语音或文字输入一句话，AI便能精准捕捉意图并自动生成精美的卡片、小票、便签或任务条。无论是作为每日一张的「自动手帐」，还是场景化的互动内容，叽里呱呱都能将数字世界的灵感转化为触手可及的实体反馈。\n\n项目核心功能涵盖网站创意交互、即时生成、以及极具社交属性的「飞鸽传书」等模块。我们致力于打破数字与实体的边界，让记录变得更简单，让创作变得更有趣，通过高频的实体交互，激发用户的创造力并提升生活质感。"
+            ]
+      },
+      {
+            "id": "lipu",
+            "name": "梨谱",
+            "company": "being being",
+            "tagline": "亲子 App + AI 毛绒玩具，共享同一个灵魂与记忆的家庭 AI。",
+            "detail": "Beingbeing 聚焦家庭场景 AI，核心产品梨谱（Starfy）由家长端 App 和孩子端 AI 毛绒玩具组成——两端共享同一个灵魂与记忆，靠 family context 联结：agent 在陪伴孩子的同时，帮家长读懂孩子的情绪、提升亲子互动质量。产品以原创 IP 角色「Starfy」承载情感，AI 玩具是孩子触手可及的实体入口，App 是家长的观察与协作面。我们让 AI 放大亲子之间的爱，而不是替代陪伴。",
+            "teamBio": "Cobe：连续创业者，前字节国际化音乐业务北美负责人\n团队来自字节、苹果、阿里",
+            "funding": "有融资需求。",
+            "participant": "Cobe",
+            "contactRole": "CEO",
+            "region": "Companion Agent",
+            "website": "",
+            "category": "AI 毛绒玩具",
+            "stage": "家庭陪伴",
+            "logo": "assets/base/lipu-logo.png",
+            "productImage": "assets/base/lipu-product.png",
+            "productGalleryLayout": "collection",
+            "productImages": [
+                  {
+                        "src": "assets/base/lipu-app/v3-ios-01.png",
+                        "label": "App Screen 01"
+                  },
+                  {
+                        "src": "assets/base/lipu-app/v3-ios-02.png",
+                        "label": "App Screen 02"
+                  },
+                  {
+                        "src": "assets/base/lipu-app/v3-ios-03.png",
+                        "label": "App Screen 03"
+                  },
+                  {
+                        "src": "assets/base/lipu-app/v3-ios-04.png",
+                        "label": "App Screen 04"
+                  },
+                  {
+                        "src": "assets/base/lipu-app/v3-ios-05.png",
+                        "label": "App Screen 05"
+                  },
+                  {
+                        "src": "assets/base/lipu-app/v3-ios-06.png",
+                        "label": "App Screen 06"
+                  }
+            ],
+            "qrImage": "assets/base/lipu-qr.jpg",
+            "likes": 103,
+            "summary": "亲子 App + AI 毛绒玩具，共享同一个灵魂与记忆的家庭 AI。",
+            "contact": "梨谱 联系人",
+            "highlights": [
+                  [
+                        "公司名称",
+                        "being being"
+                  ],
+                  [
+                        "联系人",
+                        "Cobe / CEO"
+                  ],
+                  [
+                        "项目一句话",
+                        "亲子 App + AI 毛绒玩具，共享同一个灵魂与记忆的家庭 AI。"
+                  ]
+            ],
+            "intro": [
+                  "Beingbeing 聚焦家庭场景 AI，核心产品梨谱（Starfy）由家长端 App 和孩子端 AI 毛绒玩具组成——两端共享同一个灵魂与记忆，靠 family context 联结：agent 在陪伴孩子的同时，帮家长读懂孩子的情绪、提升亲子互动质量。产品以原创 IP 角色「Starfy」承载情感，AI 玩具是孩子触手可及的实体入口，App 是家长的观察与协作面。我们让 AI 放大亲子之间的爱，而不是替代陪伴。"
+            ]
+      },
+      {
+            "id": "disbrief",
+            "name": "Disbrief",
+            "company": "杭州时之轨迹信息技术有限责任公司",
+            "tagline": "随身 AI 语音硬件，用一句话把任务派发给多个 AI Agent 并行执行。",
+            "detail": "Disbrief 是面向 AI 时代的随身语音硬件。区别于传统会议记录设备，它的核心能力是「智能调度」：用户随时通过自然语音下达指令，Disbrief 将任务自动拆解并派发给 Claude Code、Codex 等多个 AI Coding Agent 协同完成，再汇总结果实时反馈。它把开发者的 AI 工作流从电脑前解放出来，让你像指挥一支团队一样指挥一群 AI Agent，随时随地把想法变成真实产出。",
+            "teamBio": "陈瀚翔 Arvin：负责产品、硬件与商业化，前字节跳动 TikTok 数据分析师，多次黑客松获奖。\n\n张雨霏 Affe：负责核心技术与增长，曾任三星、阿里云、腾讯音乐、Splunk 研发，RocketMQ Committer。",
+            "funding": "目前Pre-seed轮，计划融资 100万美元，估值 700万美元；优先美元/日元，其次人民币。",
+            "participant": "Arvin",
+            "contactRole": "联合创始人",
+            "region": "多 Agent 协同",
+            "website": "https://www.disbrief.com/",
+            "category": "随身语音硬件",
+            "stage": "Agent 调度",
+            "logo": "assets/base/disbrief-logo-white.png",
+            "logoLayout": "wide",
+            "productImage": "assets/base/disbrief-product.png",
+            "indexImage": "assets/base/disbrief-index.png",
+            "qrImage": "assets/base/disbrief-qr.jpg",
+            "likes": 104,
+            "summary": "随身 AI 语音硬件，用一句话把任务派发给多个 AI Agent 并行执行。",
+            "contact": "Disbrief 联系人",
+            "highlights": [
+                  [
+                        "公司名称",
+                        "杭州时之轨迹信息技术有限责任公司"
+                  ],
+                  [
+                        "联系人",
+                        "Arvin / 联合创始人"
+                  ],
+                  [
+                        "项目一句话",
+                        "随身 AI 语音硬件，用一句话把任务派发给多个 AI Agent 并行执行。"
+                  ]
+            ],
+            "intro": [
+                  "Disbrief 是面向 AI 时代的随身语音硬件。区别于传统会议记录设备，它的核心能力是「智能调度」：用户随时通过自然语音下达指令，Disbrief 将任务自动拆解并派发给 Claude Code、Codex 等多个 AI Coding Agent 协同完成，再汇总结果实时反馈。它把开发者的 AI 工作流从电脑前解放出来，让你像指挥一支团队一样指挥一群 AI Agent，随时随地把想法变成真实产出。"
+            ]
+      },
+      {
+            "id": "clawstage",
+            "name": "ClawStage",
+            "company": "HooRii Technology(HK) Limited",
+            "tagline": "让 AI 从云端走进现实",
+            "detail": "ClawStage是面向开发者与极客打造的AI物理载体开发套件。基于Raspberry Pi 5，原生支持OpenClaw、Home Assistant、Matter和Thread，融合视觉、语音、物理交互和环境感知能力，让AI从云端走进现实世界。用户可通过自然语言创建专属AI Persona、连接物联网设备与各类外设、为AI赋予丰富的功能，实现「对话即创造」。\n\n我们的愿景是，下一代 AI 产品将不再仅仅是生成答案的工具，而是成为日常生活中的鲜活存在。它们持续感知现实环境，与用户建立长期关系，并在日常交互中与人协同进化。",
+            "teamBio": "Ethan Liu，伦敦国王学院人工智能硕士（荣誉），中国 OpenThread 社区先驱，现任 Thread Group China 主席及 CSA Matter in China 工作组主席。曾获 2025 胡润 U35 及 2024 胡润 U30 中国创业先锋。",
+            "funding": "目前A轮，计划融资 2亿人民币（或等值美元）。",
+            "participant": "Ethan Liu",
+            "contactRole": "CTO&联合创始人",
+            "region": "对话即创造",
+            "website": "http://clawstage.ai",
+            "category": "AI物理载体开发套件",
+            "stage": "物理 Agent",
+            "logo": "assets/base/clawstage-logo.png",
+            "productImage": "assets/base/clawstage-product.png",
+            "qrImage": "assets/base/clawstage-qr.jpg",
+            "likes": 105,
+            "summary": "让 AI 从云端走进现实",
+            "contact": "ClawStage 联系人",
+            "highlights": [
+                  [
+                        "公司名称",
+                        "HooRii Technology(HK) Limited"
+                  ],
+                  [
+                        "联系人",
+                        "Ethan Liu / CTO&联合创始人"
+                  ],
+                  [
+                        "项目一句话",
+                        "让 AI 从云端走进现实"
+                  ]
+            ],
+            "intro": [
+                  "ClawStage是面向开发者与极客打造的AI物理载体开发套件。基于Raspberry Pi 5，原生支持OpenClaw、Home Assistant、Matter和Thread，融合视觉、语音、物理交互和环境感知能力，让AI从云端走进现实世界。用户可通过自然语言创建专属AI Persona、连接物联网设备与各类外设、为AI赋予丰富的功能，实现「对话即创造」。\n\n我们的愿景是，下一代 AI 产品将不再仅仅是生成答案的工具，而是成为日常生活中的鲜活存在。它们持续感知现实环境，与用户建立长期关系，并在日常交互中与人协同进化。"
+            ]
+      },
+      {
+            "id": "hyperspace",
+            "name": "Hyperspace",
+            "company": "Hyperspace AI Ltd",
+            "tagline": "面向人机交互的超低功耗、低延迟边缘 AI 芯片。",
+            "detail": "Hyperspace专注于面向人机交互的超低功耗、低延迟边缘AI芯片研发，核心技术涵盖Transformer流式推理架构、RISC-V指令集加速器及有限状态机语音识别处理系统，旨在以mW级功耗实现始终在线、实时响应的本地智能。\n\n公司已完成KWS音频AI芯片设计、流片及硅片验证，获Efabless Gen-AI芯片设计挑战赛全球冠军，并于2026年入围Silicon Catalyst，获得台积电流片支持。\n\n团队具备芯片、AI算法与软硬件协同优化能力，产品面向可穿戴AI、智能语音硬件及边缘终端，提供高效、安全、可规模化部署的实时人机交互芯片方案。",
+            "teamBio": "温晓宇",
+            "funding": "目前天使轮，计划融资美元。",
+            "participant": "ivy",
+            "contactRole": "CEO助理",
+            "region": "本地语音识别",
+            "website": "http://h-space.io",
+            "category": "边缘 AI 芯片",
+            "stage": "超低功耗",
+            "logo": "assets/base/hyperspace-logo.png",
+            "productImage": null,
+            "qrImage": "assets/base/hyperspace-qr.jpg",
+            "likes": 106,
+            "summary": "面向人机交互的超低功耗、低延迟边缘 AI 芯片。",
+            "contact": "Hyperspace 联系人",
+            "highlights": [
+                  [
+                        "公司名称",
+                        "Hyperspace AI Ltd"
+                  ],
+                  [
+                        "联系人",
+                        "ivy / CEO助理"
+                  ],
+                  [
+                        "项目一句话",
+                        "面向人机交互的超低功耗、低延迟边缘 AI 芯片。"
+                  ]
+            ],
+            "intro": [
+                  "Hyperspace专注于面向人机交互的超低功耗、低延迟边缘AI芯片研发，核心技术涵盖Transformer流式推理架构、RISC-V指令集加速器及有限状态机语音识别处理系统，旨在以mW级功耗实现始终在线、实时响应的本地智能。\n\n公司已完成KWS音频AI芯片设计、流片及硅片验证，获Efabless Gen-AI芯片设计挑战赛全球冠军，并于2026年入围Silicon Catalyst，获得台积电流片支持。\n\n团队具备芯片、AI算法与软硬件协同优化能力，产品面向可穿戴AI、智能语音硬件及边缘终端，提供高效、安全、可规模化部署的实时人机交互芯片方案。"
+            ]
+      },
+      {
+            "id": "chance-ai",
+            "name": "Chance AI",
+            "company": "Chance AI",
+            "tagline": "陪你看世界的 Visual Agent，把眼前生活瞬间变成理解、灵感、判断和行动。",
+            "detail": "我们相信下一代 AI 入口不应该是对话框，而是摄像头。真实生活里，人不是先想好问题再输入，而是在看见一件衣服、一幅画、一张菜单、一个陌生物件或一段城市风景时，产生好奇、感受和判断。Chance AI 正在做一个能陪你看世界的 Visual Agent：用户拍下任何生活中的对象或场景，Chance 不只回答「这是什么」，而是解释它为什么有意思、和你的品味/记忆/当下场景有什么关系，并进一步给出建议或行动。它会随着使用越来越懂你的审美、兴趣和生活方式，成为每个人的视觉记忆、灵感引擎和生活决策伙伴。长期看，Chance 希望成为 AI 硬件时代连接人与真实世界的个人视觉操作系统。",
+            "teamBio": "曾熙 - 创始人 / CEO，曾任 OnePlus、OPPO、ByteDance AI。\n\n吴晓凡 - CTO，拥有 10 年 AI 研发与工程经验。\n\n李姝谚 - User Growth，曾任 TikTok EU&NA Head of Product Operation。\n\n姚寄云 - Product Lead，毕业于 New York University Integrated Design & Media。",
+            "funding": "目前Pre-A轮，计划融资。",
+            "participant": "姚寄云",
+            "contactRole": "Product Lead",
+            "region": "视觉记忆",
+            "website": "https://chance.vision/",
+            "category": "Vision Agent",
+            "stage": "个人视觉操作系统",
+            "logo": "assets/base/chance-logo.png",
+            "productImage": "assets/base/chance-product.png",
+            "qrImage": "assets/base/chance-qr.jpg",
+            "likes": 107,
+            "summary": "陪你看世界的 Visual Agent，把眼前生活瞬间变成理解、灵感、判断和行动。",
+            "contact": "Chance AI 联系人",
+            "highlights": [
+                  [
+                        "公司名称",
+                        "Chance AI"
+                  ],
+                  [
+                        "联系人",
+                        "姚寄云 / Product Lead"
+                  ],
+                  [
+                        "项目一句话",
+                        "陪你看世界的 Visual Agent，把眼前生活瞬间变成理解、灵感、判断和行动。"
+                  ]
+            ],
+            "intro": [
+                  "我们相信下一代 AI 入口不应该是对话框，而是摄像头。真实生活里，人不是先想好问题再输入，而是在看见一件衣服、一幅画、一张菜单、一个陌生物件或一段城市风景时，产生好奇、感受和判断。Chance AI 正在做一个能陪你看世界的 Visual Agent：用户拍下任何生活中的对象或场景，Chance 不只回答「这是什么」，而是解释它为什么有意思、和你的品味/记忆/当下场景有什么关系，并进一步给出建议或行动。它会随着使用越来越懂你的审美、兴趣和生活方式，成为每个人的视觉记忆、灵感引擎和生活决策伙伴。长期看，Chance 希望成为 AI 硬件时代连接人与真实世界的个人视觉操作系统。"
+            ]
+      },
+      {
+            "id": "jimumotion",
+            "name": "极眸律动",
+            "company": "极眸律动",
+            "tagline": "AI 硬件项目",
+            "detail": "极眸律动是一个 AI 硬件项目，由谢青池参与创立。谢青池曾任美团光年之外产品负责人，直接向王慧文汇报；转岗光年之外后，他曾在一年内系统研读 300 多篇 AI 论文。此前，他曾在豆瓣、百度、美团优选就职，并创立过 O2O 和家居公司。\n\n目前团队配置兼具硬件与软件能力：硬件负责人拥有 10 年大疆经验，软件合伙人来自 Meta 和 Apple。",
+            "teamBio": "谢青池，曾任美团光年之外产品负责人，此前曾在豆瓣、百度、美团优选就职，并有 O2O 与家居领域创业经历。团队硬件负责人拥有 10 年大疆经验，软件合伙人来自 Meta 和 Apple。",
+            "funding": "暂无融资需求。",
+            "participant": "谢青池",
+            "contactRole": "",
+            "region": "团队背景强",
+            "website": "",
+            "category": "AI 硬件项目",
+            "stage": "软硬结合",
+            "logo": "",
+            "productImage": null,
+            "qrImage": "",
+            "likes": 115,
+            "summary": "AI 硬件项目",
+            "contact": "极眸律动 联系人",
+            "highlights": [
+                  [
+                        "公司名称",
+                        "极眸律动"
+                  ],
+                  [
+                        "联系人",
+                        "谢青池"
+                  ],
+                  [
+                        "项目一句话",
+                        "AI 硬件项目"
+                  ]
+            ],
+            "intro": [
+                  "极眸律动是一个 AI 硬件项目，由谢青池参与创立。谢青池曾任美团光年之外产品负责人，直接向王慧文汇报；转岗光年之外后，他曾在一年内系统研读 300 多篇 AI 论文。此前，他曾在豆瓣、百度、美团优选就职，并创立过 O2O 和家居公司。\n\n目前团队配置兼具硬件与软件能力：硬件负责人拥有 10 年大疆经验，软件合伙人来自 Meta 和 Apple。"
+            ]
+      },
+      {
+            "id": "festage",
+            "name": "festage",
+            "company": "深圳栖梦科技有限公司",
+            "tagline": "面向全球年轻人的内容型影像硬件",
+            "detail": "一款以视觉和语音交互为核心的内容型智能硬件产品。",
+            "teamBio": "春晖，墨境出品人，连续创业者。",
+            "funding": "目前种子轮，计划融资 200万美元（或等值人民币），资金用于产品量产、AI记忆系统完善及美国市场拓展。",
+            "participant": "春晖",
+            "contactRole": "创始人",
+            "region": "内容型影像硬件",
+            "website": "",
+            "category": "视觉交互",
+            "stage": "语音/体感交互",
+            "logo": "assets/base/festage-logo.webp",
+            "productImage": "assets/base/festage-logo.webp",
+            "qrImage": "assets/base/festage-qr.jpeg",
+            "likes": 108,
+            "summary": "面向全球年轻人的内容型影像硬件",
+            "contact": "festage 联系人",
+            "highlights": [
+                  [
+                        "公司名称",
+                        "深圳栖梦科技有限公司"
+                  ],
+                  [
+                        "联系人",
+                        "春晖 / 创始人"
+                  ],
+                  [
+                        "项目一句话",
+                        "面向全球年轻人的内容型影像硬件"
+                  ]
+            ],
+            "intro": [
+                  "一款以视觉和语音交互为核心的内容型智能硬件产品。"
+            ]
+      },
+      {
+            "id": "memopin",
+            "name": "MemoPin",
+            "company": "MeetSummer Technology Limited（听夏科技）",
+            "tagline": "面向 ADHD 焦虑人群和拖延症人群的 AI 助理。",
+            "detail": "每天我们都会突然冒出新的灵感、任务和承诺，常常是在走路、洗澡、睡觉前，想马上记下来却很痛苦，很多人只能靠给自己发微信。\n\n每天我们经历很多会议和沟通，也用现有 AI 工具记录下来，但过几天几乎不会再回看。\n\nMemoPin 想做的是一个面向这类人群的 AI 助理。用户可以通过 App 和随身硬件，无感记录灵感、任务、会议和日常沟通。MemoPin 会把这些内容按照人、事、时间和场景沉淀为长期记忆，并持续理解用户的目标、关注点和未完成事项。它不只是生成会议纪要，而是从多次记忆中发现反复出现的问题、被遗忘的重要机会、需要跟进的人与项目，并提供个性化洞察、重点提醒和下一步行动建议。",
+            "teamBio": "叶志伟，MemoPin 创始人。原唱吧合伙人、唱吧小巨蛋麦克风创始人，曾从 0 到 1 打造唱吧智能硬件业务，推动小巨蛋麦克风实现累计千万台销量，具备近 20 年消费智能硬件、音频产品、产品定义、供应链和商业化经验。团队成员来自消费电子、AI（字节、商汤）等领域。",
+            "funding": "目前天使+轮，计划融资 1000万人民币。",
+            "participant": "志伟/Milo",
+            "contactRole": "Founder / CEO",
+            "region": "任务推进",
+            "website": "https://www.memopin.ai",
+            "category": "个人 AI 助理",
+            "stage": "长期记忆",
+            "logo": "assets/base/memopin-logo.png",
+            "productImage": "assets/base/memopin-product-new.png",
+            "indexImage": "assets/base/memopin-index.png",
+            "qrImage": "assets/base/memopin-qr.jpg",
+            "likes": 109,
+            "summary": "面向 ADHD 焦虑人群和拖延症人群的 AI 助理。",
+            "contact": "MemoPin 联系人",
+            "highlights": [
+                  [
+                        "公司名称",
+                        "MeetSummer Technology Limited（听夏科技）"
+                  ],
+                  [
+                        "联系人",
+                        "志伟/Milo / Founder / CEO"
+                  ],
+                  [
+                        "项目一句话",
+                        "面向 ADHD 焦虑人群和拖延症人群的 AI 助理。"
+                  ]
+            ],
+            "intro": [
+                  "每天我们都会突然冒出新的灵感、任务和承诺，常常是在走路、洗澡、睡觉前，想马上记下来却很痛苦，很多人只能靠给自己发微信。\n\n每天我们经历很多会议和沟通，也用现有 AI 工具记录下来，但过几天几乎不会再回看。\n\nMemoPin 想做的是一个面向这类人群的 AI 助理。用户可以通过 App 和随身硬件，无感记录灵感、任务、会议和日常沟通。MemoPin 会把这些内容按照人、事、时间和场景沉淀为长期记忆，并持续理解用户的目标、关注点和未完成事项。它不只是生成会议纪要，而是从多次记忆中发现反复出现的问题、被遗忘的重要机会、需要跟进的人与项目，并提供个性化洞察、重点提醒和下一步行动建议。"
+            ]
+      },
+      {
+            "id": "memories-ai",
+            "name": "Memories.ai",
+            "company": "Memories.ai",
+            "tagline": "AI that sees, remembers and acts",
+            "detail": "Memories.ai 是一家 AI 视觉记忆基础设施公司，致力于构建让 AI 具备长期视觉记忆能力的模型与平台。公司提出 Large Visual Memory Model（LVMM，大型视觉记忆模型），解决传统 AI 无法理解和记忆长时间视频内容的问题。\n\nMemories.ai 的 LVMM 是一种面向长视频理解的多模态 AI 模型，通过视觉记忆技术让 AI 不再局限于短上下文理解，而能够处理大规模、连续的视频数据。该技术可应用于智能安防、机器人、可穿戴设备、视频搜索、媒体生产和企业级视频分析等场景，使 AI 能够从海量视频中进行语义搜索、事件识别、人物追踪和内容理解。\n\n官网展示产品能力包括 Video Chat（视频对话）、Clip Search（视频片段搜索）、Video Transcription（视频转录）、AI Hardware 等。",
+            "teamBio": "Memories.ai 成立于 2024 年，总部位于美国旧金山。创始人为 Shawn Shen 与 Ben Zhou，团队背景包括 Meta Platforms AI / Reality Labs 研究经历。",
+            "funding": "Memories.ai 累计融资约 1600万美元（$16M）。",
+            "participant": "Shawn Shen / Ben Zhou",
+            "contactRole": "Founders",
+            "region": "AI 基础设施",
+            "website": "",
+            "category": "视觉记忆模型",
+            "stage": "长视频理解",
+            "logo": "assets/base/memories-logo.png",
+            "logoLayout": "wide",
+            "productImage": "assets/base/memories-product-1.png",
+            "productImages": [
+                  {
+                        "src": "assets/base/memories-product-1.png",
+                        "label": "Enterprise Use Cases"
+                  },
+                  {
+                        "src": "assets/base/memories-product-2.png",
+                        "label": "Sports Video Memory"
+                  },
+                  {
+                        "src": "assets/base/memories-product-3.png",
+                        "label": "Robot Memory"
+                  }
+            ],
+            "qrImage": "",
+            "likes": 114,
+            "summary": "AI that sees, remembers and acts",
+            "contact": "Memories.ai 联系人",
+            "highlights": [
+                  [
+                        "公司名称",
+                        "Memories.ai"
+                  ],
+                  [
+                        "联系人",
+                        "Shawn Shen / Ben Zhou"
+                  ],
+                  [
+                        "项目一句话",
+                        "AI that sees, remembers and acts"
+                  ]
+            ],
+            "intro": [
+                  "Memories.ai 是一家 AI 视觉记忆基础设施公司，致力于构建让 AI 具备长期视觉记忆能力的模型与平台。公司提出 Large Visual Memory Model（LVMM，大型视觉记忆模型），解决传统 AI 无法理解和记忆长时间视频内容的问题。\n\nMemories.ai 的 LVMM 是一种面向长视频理解的多模态 AI 模型，通过视觉记忆技术让 AI 不再局限于短上下文理解，而能够处理大规模、连续的视频数据。该技术可应用于智能安防、机器人、可穿戴设备、视频搜索、媒体生产和企业级视频分析等场景，使 AI 能够从海量视频中进行语义搜索、事件识别、人物追踪和内容理解。"
+            ]
+      },
+      {
+            "id": "watcherobot",
+            "name": "WatcheRobot",
+            "company": "或宇连接（深圳）科技有限责任公司",
+            "tagline": "桌面智能 AI 机器人，也是完全开源的项目。",
+            "detail": "或宇连接（深圳）科技有限责任公司（ORULINK）成立于 2024 年，总部位于深圳，是一家专注于消费级 AI 硬件和桌面 Agent 场景的创业公司。公司聚焦具身智能、开源硬件和 Agent-native 交互方向，目标是打造连接智能体与物理世界的新一代桌面入口。\n\n我们认为，下一代 AI 不会长期停留在屏幕内。随着大模型工具调用、端侧智能、语音交互和开源硬件生态的发展，AI 将逐步从「被动回答」走向「主动在场」，并以更自然的硬件形态进入用户的工作、学习和创作空间。",
+            "teamBio": "邹宇，CEO、创始人：深科创 22 级校友，奇绩 25 级校友，连续创业者，软硬件全栈工程师。\n林维聪，CPO、联合创始人：南方科技大学本硕，具备 AI 算法和机器人动捕相关经验。\n田贵梯，工程负责人、联合创始人：多年软硬件全栈开发经验。\n师启航，CDO、联合创始人：设计学硕士，深科创校友，获得多项设计大奖。",
+            "funding": "暂无融资需求。",
+            "participant": "林维聪",
+            "contactRole": "CMO & CPO",
+            "region": "开源桌面入口",
+            "website": "http://orulink.ai",
+            "category": "桌面 AI 机器人",
+            "stage": "Agent-native",
+            "logo": "assets/base/watcherobot-logo.png",
+            "productImage": "assets/base/watcherobot-product-1.jpg",
+            "indexImage": "assets/base/watcherobot-index.png",
+            "productGalleryLayout": "feature",
+            "productImages": [
+                  {
+                        "src": "assets/base/watcherobot-product-1.jpg",
+                        "label": "Meeting Mode"
+                  },
+                  {
+                        "src": "assets/base/watcherobot-product-2.jpg",
+                        "label": "Coding Scene"
+                  },
+                  {
+                        "src": "assets/base/watcherobot-product-3.png",
+                        "label": "Light Base"
+                  }
+            ],
+            "qrImage": "assets/base/watcherobot-qr.jpg",
+            "likes": 110,
+            "summary": "桌面智能 AI 机器人，也是完全开源的项目。",
+            "contact": "WatcheRobot 联系人",
+            "highlights": [
+                  [
+                        "公司名称",
+                        "或宇连接（深圳）科技有限责任公司"
+                  ],
+                  [
+                        "联系人",
+                        "林维聪 / CMO & CPO"
+                  ],
+                  [
+                        "项目一句话",
+                        "桌面智能 AI 机器人，也是完全开源的项目。"
+                  ]
+            ],
+            "intro": [
+                  "或宇连接（深圳）科技有限责任公司（ORULINK）成立于 2024 年，总部位于深圳，是一家专注于消费级 AI 硬件和桌面 Agent 场景的创业公司。公司聚焦具身智能、开源硬件和 Agent-native 交互方向，目标是打造连接智能体与物理世界的新一代桌面入口。\n\n我们认为，下一代 AI 不会长期停留在屏幕内。随着大模型工具调用、端侧智能、语音交互和开源硬件生态的发展，AI 将逐步从「被动回答」走向「主动在场」，并以更自然的硬件形态进入用户的工作、学习和创作空间。"
+            ]
+      },
+      {
+            "id": "olares",
+            "name": "Olares",
+            "company": "Olares Tech",
+            "tagline": "Open-Source Personal Cloud to Reclaim Your Data",
+            "detail": "Olares is a global leading company specializing in privacy-first, open-source personal AI cloud. By fusing enterprise-grade security with flagship-level performance, Olares empowers individuals and teams to own their data and run powerful AI locally without cloud lock-in or subscriptions. Its flagship product, Olares One, is a high-performance on-device AI workstation, featuring one-click app deployment through Olares Market, iOS-style sandboxing, and a fully auditable open-source OS.",
+            "teamBio": "Peng Peng，CTO，Heads technology and engineering since 2022, and founder of the company.\n\nHongfei Tian，HEAD OF BD，Drives partnerships and BD strategy.",
+            "funding": "计划新一轮融资，资金用于产品研发、Agent生态接入及团队扩张，具体金额可一对一沟通。",
+            "participant": "Miley",
+            "contactRole": "DevRel Director",
+            "region": "开源 OS",
+            "website": "https://www.olares.com/",
+            "category": "个人 AI 云",
+            "stage": "本地数据主权",
+            "logo": "assets/base/olares-logo.jpg",
+            "productImage": "assets/base/olares-product.png",
+            "qrImage": "assets/base/olares-qr.jpg",
+            "likes": 111,
+            "summary": "Open-Source Personal Cloud to Reclaim Your Data",
+            "contact": "Olares 联系人",
+            "highlights": [
+                  [
+                        "公司名称",
+                        "Olares Tech"
+                  ],
+                  [
+                        "联系人",
+                        "Miley / DevRel Director"
+                  ],
+                  [
+                        "项目一句话",
+                        "Open-Source Personal Cloud to Reclaim Your Data"
+                  ]
+            ],
+            "intro": [
+                  "Olares is a global leading company specializing in privacy-first, open-source personal AI cloud. By fusing enterprise-grade security with flagship-level performance, Olares empowers individuals and teams to own their data and run powerful AI locally without cloud lock-in or subscriptions. Its flagship product, Olares One, is a high-performance on-device AI workstation, featuring one-click app deployment through Olares Market, iOS-style sandboxing, and a fully auditable open-source OS."
+            ]
+      },
+      {
+            "id": "cerul",
+            "name": "Cerul",
+            "company": "Dubrio LLC",
+            "tagline": "让视频有出处",
+            "detail": "人类越来越多的知识沉淀在视频、播客、访谈里，但视频至今几乎无法被检索和引用——想找一句话，只能拖着进度条大海捞针。Cerul 做的是一件事：让视频有出处。输入一句话或一个主题，精确定位到「是谁、在第几分几秒说的」，带时间码出处，一键跳转。\n\n这一个底层能力，同时长出两个入口：对人，是一款本地优先、数据不出本机的桌面 App；对 AI Agent，是一套 API。Claude Code、Codex 等工具接入后，就能像引用文档一样引用视频，每个回答都自动带上时间码来源。",
+            "teamBio": "Cerul 创始人崔家熙，在北大期间的学术方向是多模态、视频，Google Scholar 有 4k 引用。22 年参与过早期视频 AI 公司，具备 AI 产品设计、模型训练、工程研发与商业化探索经验。",
+            "funding": "目前Pre-A轮，计划融资。",
+            "participant": "Panda",
+            "contactRole": "Founder",
+            "region": "Agent API",
+            "website": "https://cerul.ai",
+            "category": "视频语义检索",
+            "stage": "时间码证据",
+            "logo": "assets/base/cerul-logo.png",
+            "productImage": "assets/base/cerul-product-1.png",
+            "productImages": [
+                  {
+                        "src": "assets/base/cerul-product-1.png",
+                        "label": "API Playground"
+                  },
+                  {
+                        "src": "assets/base/cerul-product-2.png",
+                        "label": "Video Library"
+                  }
+            ],
+            "qrImage": "assets/base/cerul-qr.jpg",
+            "likes": 112,
+            "summary": "让视频有出处",
+            "contact": "Cerul 联系人",
+            "highlights": [
+                  [
+                        "公司名称",
+                        "Dubrio LLC"
+                  ],
+                  [
+                        "联系人",
+                        "Panda / Founder"
+                  ],
+                  [
+                        "项目一句话",
+                        "让视频有出处"
+                  ]
+            ],
+            "intro": [
+                  "人类越来越多的知识沉淀在视频、播客、访谈里，但视频至今几乎无法被检索和引用——想找一句话，只能拖着进度条大海捞针。Cerul 做的是一件事：让视频有出处。输入一句话或一个主题，精确定位到「是谁、在第几分几秒说的」，带时间码出处，一键跳转。\n\n这一个底层能力，同时长出两个入口：对人，是一款本地优先、数据不出本机的桌面 App；对 AI Agent，是一套 API。Claude Code、Codex 等工具接入后，就能像引用文档一样引用视频，每个回答都自动带上时间码来源。"
+            ]
+      },
+      {
+            "id": "autoheart",
+            "name": "PICPAK",
+            "company": "自动心",
+            "tagline": "自动心聚焦个人、家庭影像的展示和再消费，挖掘相册的价值。",
+            "detail": "AutoHeart 致力于重新定义影像在生活中的价值。今天，人们拥有前所未有的拍摄能力，却也让大量照片和视频停留在设备与云端之中，被储存，却未被真正体验。\n\n我们认为，影像不应只是被保存的数据，而应成为可以被重新感受、重新进入生活、重新连接情感的内容载体。\n\n因此，AutoHeart 专注于打造面向未来的影像产品，让数字影像走出屏幕，进入真实空间，从「被存放的内容」转变为「被持续感知的存在」。",
+            "teamBio": "游威：创始人、CEO。可触未来前联创，跨学科背景（中科大自动化 + 中国美院工业设计），对硬件产品有深刻理解和体感。\n王月悦：设计总监。中央美术学院未来媒介专业硕士，DoodoHouse 家居品牌创始人。",
+            "funding": "暂无融资需求。",
+            "participant": "游威",
+            "contactRole": "CEO",
+            "region": "家庭记忆",
+            "website": "http://www.picpak.tech",
+            "category": "迷你相册",
+            "stage": "影像再体验",
+            "logo": "assets/base/autoheart-logo.png",
+            "productImage": "assets/base/autoheart-product.png",
+            "qrImage": "assets/base/autoheart-qr.jpg",
+            "likes": 113,
+            "summary": "自动心聚焦个人、家庭影像的展示和再消费，挖掘相册的价值。",
+            "contact": "PICPAK 联系人",
+            "highlights": [
+                  [
+                        "公司名称",
+                        "自动心"
+                  ],
+                  [
+                        "联系人",
+                        "游威 / CEO"
+                  ],
+                  [
+                        "项目一句话",
+                        "自动心聚焦个人、家庭影像的展示和再消费，挖掘相册的价值。"
+                  ]
+            ],
+            "intro": [
+                  "AutoHeart 致力于重新定义影像在生活中的价值。今天，人们拥有前所未有的拍摄能力，却也让大量照片和视频停留在设备与云端之中，被储存，却未被真正体验。\n\n我们认为，影像不应只是被保存的数据，而应成为可以被重新感受、重新进入生活、重新连接情感的内容载体。\n\n因此，AutoHeart 专注于打造面向未来的影像产品，让数字影像走出屏幕，进入真实空间，从「被存放的内容」转变为「被持续感知的存在」。"
+            ]
+      }
+];
+
+    const projectList = document.querySelector("#projectList");
+    const detailView = document.querySelector("#detailView");
+
+    function assetImg(src, alt) {
+      return src ? `<img src="${src}" alt="${alt}">` : "";
+    }
+
+    function initials(name) {
+      return (name || "AI").trim().slice(0, 2).toUpperCase();
+    }
+
+    function paragraphs(text) {
+      return String(text || "").split(/\n+/).filter(Boolean).map((item) => `<p>${item}</p>`).join("");
+    }
+
+    const LIKE_STORAGE_KEY = "physical-ai-camp-likes-v2";
+    let likeState = loadLikeState();
+
+    function loadLikeState() {
+      try {
+        return JSON.parse(localStorage.getItem(LIKE_STORAGE_KEY)) || { counts: {}, liked: {} };
+      } catch {
+        return { counts: {}, liked: {} };
+      }
+    }
+
+    function saveLikeState() {
+      try {
+        localStorage.setItem(LIKE_STORAGE_KEY, JSON.stringify(likeState));
+      } catch {
+        // Keep the UI responsive even if browser storage is unavailable.
+      }
+    }
+
+    function likeCount(project) {
+      return Number.isFinite(likeState.counts?.[project.id]) ? likeState.counts[project.id] : 0;
+    }
+
+    function isLiked(project) {
+      return Boolean(likeState.liked?.[project.id]);
+    }
+
+    function likeLabel(project) {
+      return `${isLiked(project) ? "LIKED" : "LIKE"} ${likeCount(project)}`;
+    }
+
+    function renderLikeButton(project, extraClass = "") {
+      return `<button class="like${isLiked(project) ? " is-liked" : ""}${extraClass}" type="button" data-like="${project.id}" aria-pressed="${isLiked(project)}">${likeLabel(project)}</button>`;
+    }
+
+    function syncLikeButtons(project) {
+      document.querySelectorAll(`[data-like="${project.id}"]`).forEach((button) => {
+        button.classList.toggle("is-liked", isLiked(project));
+        button.setAttribute("aria-pressed", String(isLiked(project)));
+        button.textContent = likeLabel(project);
+      });
+    }
+
+    function toggleLike(project) {
+      likeState.counts ||= {};
+      likeState.liked ||= {};
+      const nextLiked = !isLiked(project);
+      likeState.liked[project.id] = nextLiked;
+      likeState.counts[project.id] = Math.max(0, likeCount(project) + (nextLiked ? 1 : -1));
+      saveLikeState();
+      syncLikeButtons(project);
+    }
+
+    function primaryProductImage(project) {
+      return project.productImage || project.productImages?.[0]?.src || null;
+    }
+
+    function projectIndexImage(project) {
+      return project.indexImage || primaryProductImage(project);
+    }
+
+    function logoClass(project) {
+      return project.logoLayout === "wide" ? " logo-wide" : "";
+    }
+
+    function renderProductMedia(project) {
+      const gallery = Array.isArray(project.productImages) ? project.productImages.filter((item) => item?.src) : [];
+
+      if (gallery.length > 1) {
+        return `
+          <div class="product-shot">
+            <div class="product-gallery ${project.productGalleryLayout === "collection" ? "is-collection" : ""}">
+              ${gallery.map((item, index) => `
+                <figure>
+                  ${assetImg(item.src, `${project.name} 产品图 ${index + 1}`)}
+                  <figcaption>${item.label || `Product View ${index + 1}`}</figcaption>
+                </figure>
+              `).join("")}
+            </div>
+          </div>
+        `;
+      }
+
+      const image = primaryProductImage(project);
+      return `<div class="product-shot ${image ? "" : "placeholder"}">${image ? assetImg(image, `${project.name} 产品图片`) : "PRODUCT IMAGE COMING SOON"}</div>`;
+    }
+
+    function renderList() {
+      projectList.innerHTML = projects.map((project) => `
+        <a class="project-card" href="#/project/${project.id}" aria-label="查看 ${project.name} 项目详情">
+          <div class="project-info">
+            <div class="project-brandline">
+              <div class="project-logo${logoClass(project)}">${project.logo ? assetImg(project.logo, `${project.name} logo`) : `<span>${initials(project.name)}</span>`}</div>
+              <div class="project-company">${project.company || "Physical AI Camp"}</div>
+            </div>
+            <div class="project-title">
+              <h3>${project.name}</h3>
+              <span class="arrow">></span>
+            </div>
+            <p>${project.tagline}</p>
+            <div class="meta-like-row">
+              <div class="project-meta">
+                <span class="pill">${project.category}</span>
+                <span class="pill">${project.stage}</span>
+                <span class="pill">${project.region}</span>
+              </div>
+              ${renderLikeButton(project)}
+            </div>
+          </div>
+          <div class="project-thumb ${projectIndexImage(project) ? "" : "placeholder"}">${projectIndexImage(project) ? assetImg(projectIndexImage(project), `${project.name} 产品图`) : "PRODUCT IMAGE<br>COMING SOON"}</div>
+        </a>
+      `).join("");
+    }
+
+    function renderDetail(project) {
+      detailView.innerHTML = `
+        <section class="detail-hero">
+          <div class="detail-main panel">
+            <button class="back" type="button" data-back><span><</span> Back to index</button>
+            <div class="detail-brand">
+              <div class="detail-logo${logoClass(project)}">${project.logo ? assetImg(project.logo, `${project.name} logo`) : `<span>${initials(project.name)}</span>`}</div>
+              <div class="detail-company">${project.company || "Physical AI Camp"}<br>${project.website || ""}</div>
+            </div>
+            <div class="status-row detail-status-row">
+              <div class="project-meta">
+                <span class="pill">${project.category}</span>
+                <span class="pill">${project.stage}</span>
+                <span class="pill">${project.region}</span>
+              </div>
+              ${renderLikeButton(project)}
+            </div>
+            <h1><span class="profile-name">${project.name}</span></h1>
+            ${renderProductMedia(project)}
+          </div>
+        </section>
+
+        <section class="content-grid">
+          <article class="article">
+            <div class="block">
+              <h2>项目介绍</h2>
+              ${paragraphs(project.detail)}
+            </div>
+            <div class="block">
+              <h2>详细介绍 / 团队背景</h2>
+              <p>${project.teamBio}</p>
+            </div>
+            <div class="block">
+              <h2>融资需求</h2>
+              ${paragraphs(project.funding || "暂无融资需求。")}
+            </div>
+          </article>
+
+          <aside class="aside">
+            <div class="contact-card">
+              <div class="terminal-header">
+                <span>Contact</span>
+                <span class="text-glow">Open</span>
+              </div>
+              <div class="qr">${project.qrImage ? assetImg(project.qrImage, `${project.name} 联系人二维码`) : `<span>${project.contact}</span>`}</div>
+              <button class="button" type="button">联系我们</button>
+            </div>
+          </aside>
+        </section>
+      `;
+    }
+
+    const topbar = document.querySelector("#topbar");
+    const applyModal = document.querySelector("#applyModal");
+    const copyWechat = document.querySelector("[data-copy-wechat]");
+
+    function homeUrl(hash = "") {
+      if (location.protocol === "file:") {
+        return `../index.html${hash}`;
+      }
+      return `/${hash}`;
+    }
+
+    function updateTopbar() {
+      topbar.classList.toggle("is-scrolled", window.scrollY > 20);
+    }
+
+    function openApplyModal() {
+      applyModal.classList.add("is-open");
+      applyModal.setAttribute("aria-hidden", "false");
+    }
+
+    function closeApplyModal() {
+      applyModal.classList.remove("is-open");
+      applyModal.setAttribute("aria-hidden", "true");
+    }
+
+    async function copyWechatId() {
+      try {
+        await navigator.clipboard.writeText("bob_fu");
+        copyWechat.textContent = "Copied";
+        setTimeout(() => {
+          copyWechat.textContent = "Copy";
+        }, 1600);
+      } catch {
+        copyWechat.textContent = "bob_fu";
+      }
+    }
+
+    function route() {
+      const match = location.hash.match(/^#\/project\/(.+)$/);
+      if (!match) {
+        document.body.dataset.view = "list";
+        document.title = "Physical AI Camp Projects";
+        return;
+      }
+      const project = projects.find((item) => item.id === match[1]);
+      if (!project) {
+        detailView.innerHTML = '<div class="empty panel">PROJECT SIGNAL NOT FOUND</div>';
+        document.body.dataset.view = "detail";
+        return;
+      }
+      renderDetail(project);
+      document.body.dataset.view = "detail";
+      document.title = `${project.name} | Physical AI Camp`;
+      window.scrollTo(0, 0);
+    }
+
+    document.addEventListener("click", (event) => {
+      const homeTarget = event.target.closest("[data-home-target]");
+      if (homeTarget) {
+        event.preventDefault();
+        window.location.href = homeUrl(homeTarget.dataset.homeTarget || "");
+        return;
+      }
+
+      if (event.target.closest("[data-open-apply]")) {
+        event.preventDefault();
+        openApplyModal();
+        return;
+      }
+
+      if (event.target.closest("[data-close-apply]")) {
+        event.preventDefault();
+        closeApplyModal();
+        return;
+      }
+
+      if (event.target.closest("[data-copy-wechat]")) {
+        event.preventDefault();
+        copyWechatId();
+        return;
+      }
+
+      const like = event.target.closest("[data-like]");
+      if (like) {
+        event.preventDefault();
+        event.stopPropagation();
+        const project = projects.find((item) => item.id === like.dataset.like);
+        if (project) toggleLike(project);
+      }
+
+      if (event.target.closest("[data-back]")) {
+        location.hash = "#/";
+      }
+    });
+
+    renderList();
+    route();
+    updateTopbar();
+    window.addEventListener("scroll", updateTopbar, { passive: true });
+    window.addEventListener("hashchange", route);
+  </script>
+</body>
+</html>

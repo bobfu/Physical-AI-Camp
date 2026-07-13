@@ -1024,6 +1024,10 @@
       margin-top: 18px;
     }
 
+    .content-grid.no-contact {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
     .article {
       display: grid;
       gap: 12px;
@@ -1799,6 +1803,7 @@
             "logo": "",
             "productImage": null,
             "qrImage": "",
+            "hideContact": true,
             "likes": 115,
             "summary": "AI 硬件项目",
             "contact": "极眸律动 联系人",
@@ -2295,7 +2300,7 @@
           </div>
         </section>
 
-        <section class="content-grid">
+        <section class="content-grid${project.hideContact ? " no-contact" : ""}">
           <article class="article">
             <div class="block">
               <h2>项目介绍</h2>
@@ -2313,16 +2318,18 @@
             ` : ""}
           </article>
 
-          <aside class="aside">
-            <div class="contact-card">
-              <div class="terminal-header">
-                <span>Contact</span>
-                <span class="text-glow">Open</span>
+          ${project.hideContact ? "" : `
+            <aside class="aside">
+              <div class="contact-card">
+                <div class="terminal-header">
+                  <span>Contact</span>
+                  <span class="text-glow">Open</span>
+                </div>
+                <div class="qr">${project.qrImage ? assetImg(project.qrImage, `${project.name} 联系人二维码`) : `<span>${project.contact}</span>`}</div>
+                <button class="button" type="button">联系我们</button>
               </div>
-              <div class="qr">${project.qrImage ? assetImg(project.qrImage, `${project.name} 联系人二维码`) : `<span>${project.contact}</span>`}</div>
-              <button class="button" type="button">联系我们</button>
-            </div>
-          </aside>
+            </aside>
+          `}
         </section>
       `;
     }

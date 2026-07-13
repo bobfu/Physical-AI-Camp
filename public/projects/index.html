@@ -933,6 +933,18 @@
       overflow-wrap: anywhere;
     }
 
+    .detail-company a {
+      color: var(--neon-green);
+      text-decoration: none;
+      transition: color 180ms ease;
+    }
+
+    .detail-company a:hover,
+    .detail-company a:focus-visible {
+      color: #fff;
+      outline: none;
+    }
+
     .product-shot {
       margin-top: 22px;
       border: 1px solid var(--line);
@@ -1448,7 +1460,7 @@
             "participant": "宋少鹏",
             "contactRole": "CEO",
             "region": "语音硬件",
-            "website": "",
+            "website": "https://hidock.com",
             "category": "AI 会议记录",
             "stage": "欧美职场",
             "logo": "assets/base/hidock-logo.png",
@@ -2146,6 +2158,10 @@
       return (name || "AI").trim().slice(0, 2).toUpperCase();
     }
 
+    function websiteLabel(url) {
+      return String(url || "").replace(/^https?:\/\//, "").replace(/\/$/, "");
+    }
+
     function paragraphs(text) {
       return String(text || "").split(/\n+/).filter(Boolean).map((item) => `<p>${item}</p>`).join("");
     }
@@ -2282,7 +2298,10 @@
             <button class="back" type="button" data-back><span><</span> Back to index</button>
             <div class="detail-brand">
               <div class="detail-logo${logoClass(project)}">${project.logo ? assetImg(project.logo, `${project.name} logo`) : `<span>${initials(project.name)}</span>`}</div>
-              <div class="detail-company">${project.company || "Physical AI Camp"}<br>${project.website || ""}</div>
+              <div class="detail-company">
+                ${project.company || "Physical AI Camp"}
+                ${project.website ? `<br><a href="${project.website}" target="_blank" rel="noreferrer">${websiteLabel(project.website)}</a>` : ""}
+              </div>
             </div>
             <div class="status-row detail-status-row">
               <div class="project-meta">

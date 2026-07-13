@@ -2112,6 +2112,11 @@
       return String(text || "").split(/\n+/).filter(Boolean).map((item) => `<p>${item}</p>`).join("");
     }
 
+    function hasFundingNeed(funding) {
+      const value = String(funding || "").trim();
+      return Boolean(value) && !/^(暂无|无|目前无|暂时无|暂不考虑)(融资需求|融资计划)[。.]*$/.test(value);
+    }
+
     const LIKE_STORAGE_KEY = "physical-ai-camp-likes-v2";
     let likeState = loadLikeState();
 
@@ -2258,10 +2263,12 @@
               <h2>团队背景</h2>
               <p>${project.teamBio}</p>
             </div>
-            <div class="block">
-              <h2>融资需求</h2>
-              ${paragraphs(project.funding || "暂无融资需求。")}
-            </div>
+            ${hasFundingNeed(project.funding) ? `
+              <div class="block">
+                <h2>融资需求</h2>
+                ${paragraphs(project.funding)}
+              </div>
+            ` : ""}
           </article>
 
           <aside class="aside">

@@ -24,6 +24,7 @@ import {
   ExternalLink,
   MessageSquare,
   MapPin,
+  Menu,
   X,
   Copy,
   Check
@@ -379,6 +380,7 @@ export default function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPartnerModalOpen, setIsPartnerModalOpen] = useState(false);
   const [isJourneyExpanded, setIsJourneyExpanded] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const WECHAT_ID = 'bob_fu';
 
   useEffect(() => {
@@ -410,6 +412,21 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) setIsMobileMenuOpen(false);
+    };
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsMobileMenuOpen(false);
+    };
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
   const toggleLang = () => {
     const newLang = lang === 'zh' ? 'en' : 'zh';
     setLang(newLang);
@@ -427,7 +444,7 @@ export default function App() {
       />
       {/* Navigation */}
       <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-brutal-black/90 backdrop-blur-md border-b border-white/10 py-4' : 'py-6'}`}>
-        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center relative">
           <div 
             className="flex items-center gap-2 cursor-pointer group"
             onClick={() => window.location.href = '/'}
@@ -435,7 +452,7 @@ export default function App() {
             <div className="w-8 h-8 bg-neon-green flex items-center justify-center group-hover:bg-white transition-colors">
               <Zap className="w-5 h-5 text-black" />
             </div>
-            <span className="font-mono font-bold tracking-tighter text-base md:text-xl group-hover:text-neon-green transition-colors">PHYSICAL AI CAMP 2026</span>
+            <span className="font-mono font-bold tracking-tighter text-sm sm:text-base md:text-xl group-hover:text-neon-green transition-colors">PHYSICAL AI CAMP 2026</span>
           </div>
           <div className="hidden lg:flex gap-8 font-mono text-[10px] md:text-xs uppercase tracking-widest shrink-0">
             <a href="/projects/index.html" className="hover:text-neon-green transition-colors">{t.nav.projects}</a>
@@ -444,7 +461,7 @@ export default function App() {
             <a href="#resources" className="hover:text-neon-green transition-colors">{t.nav.resources}</a>
             <a href="#market" className="hover:text-neon-green transition-colors">{t.nav.global}</a>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             <button 
               onClick={toggleLang}
               className="font-mono text-[10px] md:text-xs text-gray-400 hover:text-neon-green transition-colors uppercase border border-white/10 px-2 py-1"
@@ -453,11 +470,51 @@ export default function App() {
             </button>
             <button 
               onClick={() => setIsModalOpen(true)}
-              className="bg-neon-green text-black px-3 py-1 md:px-4 md:py-2 font-mono text-[10px] md:text-xs font-bold hover:bg-white transition-colors whitespace-nowrap"
+              className="hidden sm:block bg-neon-green text-black px-3 py-1 md:px-4 md:py-2 font-mono text-[10px] md:text-xs font-bold hover:bg-white transition-colors whitespace-nowrap"
             >
               {t.nav.apply}
             </button>
+            <button
+              type="button"
+              onClick={() => setIsMobileMenuOpen((isOpen) => !isOpen)}
+              className="lg:hidden w-9 h-9 border border-white/15 inline-flex items-center justify-center hover:border-neon-green hover:text-neon-green transition-colors"
+              aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-navigation"
+            >
+              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
           </div>
+          <AnimatePresence>
+            {isMobileMenuOpen && (
+              <motion.div
+                id="mobile-navigation"
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.18 }}
+                className="lg:hidden absolute top-[calc(100%+1rem)] left-4 right-4 sm:left-6 sm:right-6 border border-white/15 bg-brutal-black/95 backdrop-blur-md p-4 shadow-2xl"
+              >
+                <div className="flex flex-col font-mono text-xs uppercase tracking-widest">
+                  <a href="/projects/index.html" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-3 border-b border-white/10 hover:text-neon-green">{t.nav.projects}</a>
+                  <a href="#community" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-3 border-b border-white/10 hover:text-neon-green">{t.nav.community}</a>
+                  <a href="#journey" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-3 border-b border-white/10 hover:text-neon-green">{t.nav.journey}</a>
+                  <a href="#resources" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-3 border-b border-white/10 hover:text-neon-green">{t.nav.resources}</a>
+                  <a href="#market" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-3 hover:text-neon-green">{t.nav.global}</a>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      setIsModalOpen(true);
+                    }}
+                    className="sm:hidden mt-4 bg-neon-green text-black px-4 py-3 font-bold hover:bg-white transition-colors"
+                  >
+                    {t.nav.apply}
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </nav>
 

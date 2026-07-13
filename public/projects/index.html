@@ -179,6 +179,43 @@
       gap: 16px;
     }
 
+    .mobile-menu-toggle {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      padding: 0;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #fff;
+      background: rgba(10, 10, 10, 0.72);
+      cursor: pointer;
+      transition: color 180ms ease, border-color 180ms ease;
+    }
+
+    .mobile-menu-toggle:hover,
+    .mobile-menu-toggle:focus-visible {
+      color: var(--neon-green);
+      border-color: var(--neon-green);
+      outline: none;
+    }
+
+    .mobile-menu-toggle .menu-close {
+      display: none;
+    }
+
+    .mobile-menu-toggle[aria-expanded="true"] .menu-open {
+      display: none;
+    }
+
+    .mobile-menu-toggle[aria-expanded="true"] .menu-close {
+      display: block;
+    }
+
+    .mobile-nav {
+      display: none;
+    }
+
     .mono {
       font-family: var(--font-mono);
     }
@@ -1083,6 +1120,52 @@
         display: none;
       }
 
+      .mobile-menu-toggle {
+        display: inline-flex;
+      }
+
+      .mobile-nav.is-open {
+        position: absolute;
+        top: 100%;
+        left: 12px;
+        right: 12px;
+        display: flex;
+        flex-direction: column;
+        padding: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        background: rgba(10, 10, 10, 0.96);
+        backdrop-filter: blur(12px);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+      }
+
+      .mobile-nav a,
+      .mobile-nav button {
+        min-height: 44px;
+      }
+
+      .mobile-nav a {
+        display: flex;
+        align-items: center;
+        padding: 0 12px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        color: #fff;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+
+      .mobile-nav a:hover,
+      .mobile-nav a:focus-visible {
+        color: var(--neon-green);
+        outline: none;
+      }
+
+      .mobile-nav .nav-apply {
+        margin-top: 12px;
+      }
+
       .brand-icon {
         width: 32px;
         height: 32px;
@@ -1231,7 +1314,7 @@
           <span class="brand-title">PHYSICAL AI CAMP 2026</span>
         </a>
         <nav class="site-nav" aria-label="主导航">
-          <a href="/projects/index.html">Projects</a>
+          <a href="/projects/index.html">Cohort</a>
           <a href="/#community" data-home-target="#community">Community</a>
           <a href="/#journey" data-home-target="#journey">Journey</a>
           <a href="/#resources" data-home-target="#resources">Resources</a>
@@ -1241,7 +1324,23 @@
           <button class="lang-toggle" type="button" aria-disabled="true" tabindex="-1">EN</button>
           <button class="button nav-apply" type="button" data-open-apply>APPLY NOW</button>
         </div>
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" type="button" aria-label="打开导航菜单" aria-expanded="false" aria-controls="mobileNav">
+          <svg class="menu-open" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <svg class="menu-close" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
       </div>
+      <nav class="mobile-nav" id="mobileNav" aria-label="移动端主导航">
+        <a href="/projects/index.html">Cohort</a>
+        <a href="/#community" data-home-target="#community">Community</a>
+        <a href="/#journey" data-home-target="#journey">Journey</a>
+        <a href="/#resources" data-home-target="#resources">Resources</a>
+        <a href="/#market" data-home-target="#market">Global</a>
+        <button class="button nav-apply" type="button" data-open-apply>APPLY NOW</button>
+      </nav>
     </header>
 
     <div class="apply-modal" id="applyModal" aria-hidden="true">
@@ -2182,6 +2281,20 @@
     const topbar = document.querySelector("#topbar");
     const applyModal = document.querySelector("#applyModal");
     const copyWechat = document.querySelector("[data-copy-wechat]");
+    const mobileMenuToggle = document.querySelector("#mobileMenuToggle");
+    const mobileNav = document.querySelector("#mobileNav");
+
+    function closeMobileMenu() {
+      mobileNav.classList.remove("is-open");
+      mobileMenuToggle.setAttribute("aria-expanded", "false");
+      mobileMenuToggle.setAttribute("aria-label", "打开导航菜单");
+    }
+
+    function toggleMobileMenu() {
+      const isOpen = mobileNav.classList.toggle("is-open");
+      mobileMenuToggle.setAttribute("aria-expanded", String(isOpen));
+      mobileMenuToggle.setAttribute("aria-label", isOpen ? "关闭导航菜单" : "打开导航菜单");
+    }
 
     function homeUrl(hash = "") {
       if (location.protocol === "file:") {
@@ -2236,15 +2349,23 @@
     }
 
     document.addEventListener("click", (event) => {
+      if (event.target.closest("#mobileMenuToggle")) {
+        event.preventDefault();
+        toggleMobileMenu();
+        return;
+      }
+
       const homeTarget = event.target.closest("[data-home-target]");
       if (homeTarget) {
         event.preventDefault();
+        closeMobileMenu();
         window.location.href = homeUrl(homeTarget.dataset.homeTarget || "");
         return;
       }
 
       if (event.target.closest("[data-open-apply]")) {
         event.preventDefault();
+        closeMobileMenu();
         openApplyModal();
         return;
       }
@@ -2279,6 +2400,12 @@
     updateTopbar();
     window.addEventListener("scroll", updateTopbar, { passive: true });
     window.addEventListener("hashchange", route);
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 900) closeMobileMenu();
+    });
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeMobileMenu();
+    });
   </script>
 </body>
 </html>

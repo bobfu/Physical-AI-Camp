@@ -2134,7 +2134,7 @@
     const detailView = document.querySelector("#detailView");
 
     function assetImg(src, alt) {
-      return src ? `<img src="${src}" alt="${alt}">` : "";
+      return src ? `<img src="${src}" alt="${alt}" loading="lazy" decoding="async">` : "";
     }
 
     function initials(name) {
@@ -2207,8 +2207,14 @@
       return project.productImage || project.productImages?.[0]?.src || null;
     }
 
+    function optimizedAsset(src, variant) {
+      if (!src) return null;
+      const filename = src.split("/").pop().replace(/\.[^.]+$/, ".webp");
+      return `assets/optimized/${variant}/${filename}`;
+    }
+
     function projectIndexImage(project) {
-      return project.indexImage || primaryProductImage(project);
+      return optimizedAsset(project.indexImage || primaryProductImage(project), "index");
     }
 
     function logoClass(project) {
@@ -2224,7 +2230,7 @@
             <div class="product-gallery ${project.productGalleryLayout === "collection" ? "is-collection" : ""}">
               ${gallery.map((item, index) => `
                 <figure>
-                  ${assetImg(item.src, `${project.name} 产品图 ${index + 1}`)}
+                  ${assetImg(optimizedAsset(item.src, "detail"), `${project.name} 产品图 ${index + 1}`)}
                   <figcaption>${item.label || `Product View ${index + 1}`}</figcaption>
                 </figure>
               `).join("")}
@@ -2233,7 +2239,7 @@
         `;
       }
 
-      const image = primaryProductImage(project);
+      const image = optimizedAsset(primaryProductImage(project), "detail");
       return `<div class="product-shot ${image ? "" : "placeholder"}">${image ? assetImg(image, `${project.name} 产品图片`) : "PRODUCT IMAGE COMING SOON"}</div>`;
     }
 

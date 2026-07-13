@@ -917,6 +917,13 @@
       padding: 10px 14px;
     }
 
+    .project-logo.logo-light,
+    .project-logo.logo-wide.logo-light,
+    .detail-logo.logo-light,
+    .detail-logo.logo-wide.logo-light {
+      background: #fff;
+    }
+
     .detail-logo span {
       color: var(--neon-green);
       font-family: var(--font-mono);
@@ -1982,6 +1989,7 @@
             "category": "桌面 AI 机器人",
             "stage": "Agent-native",
             "logo": "assets/base/watcherobot-logo.png",
+            "logoTheme": "light",
             "productImage": "assets/base/watcherobot-product-1.jpg",
             "indexImage": "assets/base/watcherobot-index.png",
             "productGalleryLayout": "feature",
@@ -2239,7 +2247,10 @@
     }
 
     function logoClass(project) {
-      return project.logoLayout === "wide" ? " logo-wide" : "";
+      const classes = [];
+      if (project.logoLayout === "wide") classes.push("logo-wide");
+      if (project.logoTheme === "light") classes.push("logo-light");
+      return classes.length ? ` ${classes.join(" ")}` : "";
     }
 
     function renderProductMedia(project) {

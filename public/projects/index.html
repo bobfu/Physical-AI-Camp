@@ -708,21 +708,23 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 38px;
-      height: 38px;
-      padding: 0;
-      border: 0;
-      color: rgba(255, 255, 255, 0.52);
-      background: transparent;
+      min-width: 76px;
+      height: 36px;
+      padding: 0 12px;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      color: rgba(255, 255, 255, 0.68);
+      background: rgba(255, 255, 255, 0.015);
       font-family: var(--font-mono);
-      font-size: 22px;
+      font-size: 12px;
+      font-weight: 700;
       line-height: 1;
-      transition: color 180ms ease, text-shadow 180ms ease, transform 180ms ease;
+      transition: border-color 180ms ease, background 180ms ease, color 180ms ease, box-shadow 180ms ease;
     }
 
     .like:hover {
       color: var(--neon-green);
-      transform: scale(1.08);
+      border-color: var(--neon-green);
+      background: rgba(0, 255, 0, 0.06);
     }
 
     .like:focus-visible {
@@ -732,7 +734,9 @@
 
     .like.is-liked {
       color: var(--neon-green);
-      text-shadow: 0 0 14px rgba(0, 255, 0, 0.62);
+      border-color: var(--neon-green);
+      background: rgba(0, 255, 0, 0.08);
+      box-shadow: 0 0 14px rgba(0, 255, 0, 0.18);
     }
 
     .detail-status-row {
@@ -2106,8 +2110,8 @@
       return Boolean(likeState.liked?.[project.id]);
     }
 
-    function favoriteIcon(project) {
-      return isLiked(project) ? "★" : "☆";
+    function favoriteButtonText(project) {
+      return isLiked(project) ? "已收藏" : "收藏";
     }
 
     function favoriteLabel(project) {
@@ -2116,7 +2120,7 @@
 
     function renderLikeButton(project, extraClass = "") {
       const label = favoriteLabel(project);
-      return `<button class="like${isLiked(project) ? " is-liked" : ""}${extraClass}" type="button" data-like="${project.id}" aria-pressed="${isLiked(project)}" aria-label="${label}" title="${label}"><span aria-hidden="true">${favoriteIcon(project)}</span></button>`;
+      return `<button class="like${isLiked(project) ? " is-liked" : ""}${extraClass}" type="button" data-like="${project.id}" aria-pressed="${isLiked(project)}" aria-label="${label}" title="${label}">${favoriteButtonText(project)}</button>`;
     }
 
     function syncLikeButtons(project) {
@@ -2126,7 +2130,7 @@
         button.setAttribute("aria-pressed", String(isLiked(project)));
         button.setAttribute("aria-label", label);
         button.setAttribute("title", label);
-        button.querySelector("span").textContent = favoriteIcon(project);
+        button.textContent = favoriteButtonText(project);
       });
     }
 

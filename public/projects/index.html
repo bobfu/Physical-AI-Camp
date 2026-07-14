@@ -435,33 +435,9 @@
       }
     }
 
-    .hero {
-      display: block;
-      margin-bottom: 18px;
-    }
-
     .panel {
       border: 1px solid var(--line);
       background: rgba(16, 16, 16, 0.9);
-    }
-
-    .intro {
-      position: relative;
-      overflow: hidden;
-      min-height: 0;
-      padding: 26px;
-    }
-
-    .intro:before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background:
-        linear-gradient(90deg, rgba(0, 255, 0, 0.12) 1px, transparent 1px),
-        linear-gradient(180deg, rgba(0, 255, 0, 0.08) 1px, transparent 1px);
-      background-size: 52px 52px;
-      mask-image: radial-gradient(circle at 20% 15%, black 0, transparent 58%);
     }
 
     .status-row {
@@ -479,61 +455,9 @@
       text-transform: uppercase;
     }
 
-    .intro h1 {
-      position: relative;
-      max-width: 1040px;
-      font-size: clamp(42px, 6.4vw, 88px);
-      line-height: 0.9;
-      font-weight: 900;
-    }
-
     .text-glow {
       color: var(--neon-green);
       text-shadow: 0 0 10px rgba(0, 255, 0, 0.5), 0 0 34px rgba(0, 255, 0, 0.24);
-    }
-
-    .intro-copy {
-      position: relative;
-      max-width: 760px;
-      margin: 22px 0 0;
-      color: rgba(255, 255, 255, 0.75);
-      font-size: 16px;
-      line-height: 1.8;
-    }
-
-    .metric-grid {
-      position: relative;
-      display: grid;
-      grid-template-columns: repeat(3, minmax(86px, 1fr));
-      gap: 8px;
-      width: min(860px, 100%);
-      margin-top: 24px;
-    }
-
-    .metric {
-      padding: 14px;
-      border: 1px solid var(--line);
-      background: rgba(10, 10, 10, 0.74);
-    }
-
-    .metric b {
-      display: block;
-      color: var(--neon-green);
-      font-family: var(--font-mono);
-      font-size: clamp(18px, 2.4vw, 28px);
-      line-height: 1;
-      text-shadow: 0 0 18px rgba(0, 255, 0, 0.4);
-      overflow-wrap: anywhere;
-    }
-
-    .metric span {
-      display: block;
-      margin-top: 10px;
-      color: var(--muted);
-      font-family: var(--font-mono);
-      font-size: 10px;
-      line-height: 1.5;
-      text-transform: uppercase;
     }
 
     .terminal-header {
@@ -1235,18 +1159,6 @@
         grid-template-columns: 1fr;
       }
 
-      .intro {
-        min-height: auto;
-      }
-
-      .intro {
-        padding: 20px;
-      }
-
-      .metric-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
       .projects {
         grid-template-columns: 1fr;
       }
@@ -1291,7 +1203,6 @@
         padding: 0 12px;
       }
 
-      .intro h1,
       .detail-main h1 {
         font-size: 42px;
       }
@@ -1311,14 +1222,6 @@
         flex-basis: auto;
         margin: 0;
         font-size: 16px;
-      }
-
-      .intro-copy {
-        font-size: 14px;
-      }
-
-      .metric-grid {
-        grid-template-columns: 1fr;
       }
 
       .marquee span {
@@ -1422,30 +1325,13 @@
     </div>
 
     <main class="list-view">
-      <section class="hero">
-        <div class="intro panel">
-          <div class="status-row">
-            <span class="pill">RTE开发者社区</span>
-            <span class="pill">PHYSICAL AI</span>
-            <span class="pill">FOUNDERS</span>
-          </div>
-          <h1><span class="text-glow">Physical</span> AI Camp</h1>
-          <p class="intro-copy">Physical AI Camp 汇集一批正在把 AI 带入真实世界的创业团队：从语音、视觉、记忆与陪伴硬件，到端侧芯片、桌面机器人和 Agent 基础设施。这里展示每个项目的产品形态、团队背景与现场联系方式，方便 Demo Day 观众快速了解、交流与连接。</p>
-          <div class="metric-grid" aria-label="活动数据">
-            <div class="metric"><b>16 个项目</b><span>覆盖 AI Agent、机器人、智能硬件、芯片、语音、多模态、陪伴与基础设施，现场集中展示产品 Demo 与团队能力。</span></div>
-            <div class="metric"><b>投资 × 开发者</b><span>与创始人面对面交流，了解产品、技术路线、商业模式与融资进展，寻找投资、合作与加入机会。</span></div>
-            <div class="metric"><b>现场 Connect</b><span>查看项目介绍、团队背景、产品演示与联系方式，活动现场快速建立连接，持续 Follow Up。</span></div>
-          </div>
-        </div>
-      </section>
-
       <section class="marquee" aria-label="横向信息墙">
         <div class="marquee-track" id="marqueeTrack"></div>
       </section>
 
       <section id="projects">
         <div class="section-head">
-          <h2>PROJECT <span class="text-glow">INDEX</span></h2>
+          <h2>COHORT <span class="text-glow">TEAMS</span></h2>
         </div>
         <div class="projects" id="projectList"></div>
       </section>
@@ -2326,7 +2212,7 @@
       detailView.innerHTML = `
         <section class="detail-hero">
           <div class="detail-main panel">
-            <button class="back" type="button" data-back><span><</span> Back to index</button>
+            <button class="back" type="button" data-back><span><</span> Back to cohort</button>
             <div class="detail-brand">
               <div class="detail-logo${logoClass(project)}">${project.logo ? assetImg(project.logo, `${project.name} logo`) : `<span>${initials(project.name)}</span>`}</div>
               <div class="detail-company">

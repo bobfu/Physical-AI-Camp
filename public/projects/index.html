@@ -1437,10 +1437,7 @@
       </section>
 
       <section class="marquee" aria-label="横向信息墙">
-        <div class="marquee-track">
-          <span>HiDock</span><span>Diaro</span><span>叽里呱呱 AI 打印桌宠</span><span>梨谱</span><span>Disbrief</span><span>ClawStage</span><span>Hyperspace</span><span>Chance AI</span><span>极眸律动</span><span>festage</span><span>MemoPin</span><span>Memories.ai</span><span>WatcheRobot</span><span>Olares</span><span>Cerul</span><span>PICPAK</span>
-          <span>HiDock</span><span>Diaro</span><span>叽里呱呱 AI 打印桌宠</span><span>梨谱</span><span>Disbrief</span><span>ClawStage</span><span>Hyperspace</span><span>Chance AI</span><span>极眸律动</span><span>festage</span><span>MemoPin</span><span>Memories.ai</span><span>WatcheRobot</span><span>Olares</span><span>Cerul</span><span>PICPAK</span>
-        </div>
+        <div class="marquee-track" id="marqueeTrack"></div>
       </section>
 
       <section id="projects">
@@ -2157,6 +2154,21 @@
 
     const projectList = document.querySelector("#projectList");
     const detailView = document.querySelector("#detailView");
+    const marqueeTrack = document.querySelector("#marqueeTrack");
+
+    const PROJECT_SORT_NAMES = {
+      jiligugu: "Jiligugu",
+      jimumotion: "Jimumotion",
+      lipu: "Lipu"
+    };
+
+    function projectSortName(project) {
+      return PROJECT_SORT_NAMES[project.id] || project.name;
+    }
+
+    function sortedProjects() {
+      return [...projects].sort((a, b) => projectSortName(a).localeCompare(projectSortName(b), "en", { sensitivity: "base" }));
+    }
 
     function assetImg(src, alt) {
       return src ? `<img src="${src}" alt="${alt}" loading="lazy" decoding="async">` : "";
@@ -2276,7 +2288,7 @@
     }
 
     function renderList() {
-      projectList.innerHTML = projects.map((project) => `
+      projectList.innerHTML = sortedProjects().map((project) => `
         <a class="project-card" href="#/project/${project.id}" aria-label="查看 ${project.name} 项目详情">
           <div class="project-info">
             <div class="project-brandline">
@@ -2300,6 +2312,11 @@
           <div class="project-thumb ${projectIndexImage(project) ? "" : "placeholder"}">${projectIndexImage(project) ? assetImg(projectIndexImage(project), `${project.name} 产品图`) : "PRODUCT IMAGE<br>COMING SOON"}</div>
         </a>
       `).join("");
+    }
+
+    function renderMarquee() {
+      const names = sortedProjects().map((project) => project.name);
+      marqueeTrack.innerHTML = [...names, ...names].map((name) => `<span>${name}</span>`).join("");
     }
 
     function renderDetail(project) {
@@ -2482,6 +2499,7 @@
     });
 
     renderList();
+    renderMarquee();
     route();
     updateTopbar();
     window.addEventListener("scroll", updateTopbar, { passive: true });

@@ -863,6 +863,14 @@
       background: #fff;
     }
 
+    .project-logo.logo-dark,
+    .project-logo.logo-wide.logo-dark,
+    .detail-logo.logo-dark,
+    .detail-logo.logo-wide.logo-dark {
+      border-color: rgba(173, 216, 242, 0.42);
+      background: #12304a;
+    }
+
     .detail-logo span {
       color: var(--neon-green);
       font-family: var(--font-mono);
@@ -1609,6 +1617,7 @@
             "stage": "Agent 调度",
             "logo": "assets/base/disbrief-logo-white.png",
             "logoLayout": "wide",
+            "logoTheme": "dark",
             "productImage": "assets/base/disbrief-product.png",
             "indexImage": "assets/base/disbrief-index.png",
             "qrImage": "assets/base/disbrief-qr.jpg",
@@ -1724,6 +1733,7 @@
             "category": "Vision Agent",
             "stage": "个人视觉操作系统",
             "logo": "assets/base/chance-logo.png",
+            "logoTheme": "light",
             "productImage": "assets/base/chance-product.png",
             "qrImage": "assets/base/chance-qr.jpg",
             "likes": 107,
@@ -1800,7 +1810,6 @@
             "website": "",
             "category": "视觉交互",
             "stage": "语音/体感交互",
-            "productImage": "assets/base/festage-logo.webp",
             "qrImage": "assets/base/festage-qr.jpeg",
             "likes": 108,
             "summary": "面向全球年轻人的内容型影像硬件",
@@ -2207,6 +2216,7 @@
       const classes = [];
       if (project.logoLayout === "wide") classes.push("logo-wide");
       if (project.logoTheme === "light") classes.push("logo-light");
+      if (project.logoTheme === "dark") classes.push("logo-dark");
       return classes.length ? ` ${classes.join(" ")}` : "";
     }
 

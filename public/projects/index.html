@@ -677,7 +677,7 @@
       width: 46px;
       height: 46px;
       border: 1px solid var(--line);
-      background: #050505;
+      background: transparent;
       overflow: hidden;
     }
 
@@ -690,7 +690,7 @@
 
     .project-logo.logo-wide {
       width: 112px;
-      background: #050505;
+      background: transparent;
     }
 
     .project-logo.logo-wide img {
@@ -856,6 +856,27 @@
       line-height: 0.88;
     }
 
+    .detail-title-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      gap: 14px 28px;
+    }
+
+    .detail-title-row h1 {
+      flex: 0 1 auto;
+      min-width: 0;
+    }
+
+    .detail-tagline {
+      flex: 1 1 260px;
+      max-width: 520px;
+      margin: 0 0 6px;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: clamp(16px, 2vw, 22px);
+      line-height: 1.45;
+    }
+
     .profile-name {
       display: block;
       white-space: normal;
@@ -896,6 +917,13 @@
       padding: 10px 14px;
     }
 
+    .project-logo.logo-light,
+    .project-logo.logo-wide.logo-light,
+    .detail-logo.logo-light,
+    .detail-logo.logo-wide.logo-light {
+      background: #fff;
+    }
+
     .detail-logo span {
       color: var(--neon-green);
       font-family: var(--font-mono);
@@ -910,6 +938,18 @@
       line-height: 1.7;
       text-transform: uppercase;
       overflow-wrap: anywhere;
+    }
+
+    .detail-company a {
+      color: var(--neon-green);
+      text-decoration: none;
+      transition: color 180ms ease;
+    }
+
+    .detail-company a:hover,
+    .detail-company a:focus-visible {
+      color: #fff;
+      outline: none;
     }
 
     .product-shot {
@@ -1001,6 +1041,10 @@
       grid-template-columns: minmax(0, 1fr) 340px;
       gap: 18px;
       margin-top: 18px;
+    }
+
+    .content-grid.no-contact {
+      grid-template-columns: minmax(0, 1fr);
     }
 
     .article {
@@ -1254,6 +1298,18 @@
         line-height: 0.96;
       }
 
+      .detail-title-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .detail-tagline {
+        flex-basis: auto;
+        margin: 0;
+        font-size: 16px;
+      }
+
       .intro-copy {
         font-size: 14px;
       }
@@ -1406,12 +1462,12 @@
             "company": "深圳临境协作科技有限公司",
             "tagline": "AI Meeting Recorder",
             "detail": "面向欧美职场人群的AI会议记录工具",
-            "teamBio": "宋少鹏",
+            "teamBio": "创始人：宋少鹏",
             "funding": "暂无融资需求。",
             "participant": "宋少鹏",
             "contactRole": "CEO",
             "region": "语音硬件",
-            "website": "",
+            "website": "https://hidock.com",
             "category": "AI 会议记录",
             "stage": "欧美职场",
             "logo": "assets/base/hidock-logo.png",
@@ -1754,8 +1810,8 @@
             "name": "极眸律动",
             "company": "极眸律动",
             "tagline": "AI 硬件项目",
-            "detail": "极眸律动是一个 AI 硬件项目，由谢青池参与创立。谢青池曾任美团光年之外产品负责人，直接向王慧文汇报；转岗光年之外后，他曾在一年内系统研读 300 多篇 AI 论文。此前，他曾在豆瓣、百度、美团优选就职，并创立过 O2O 和家居公司。\n\n目前团队配置兼具硬件与软件能力：硬件负责人拥有 10 年大疆经验，软件合伙人来自 Meta 和 Apple。",
-            "teamBio": "谢青池，曾任美团光年之外产品负责人，此前曾在豆瓣、百度、美团优选就职，并有 O2O 与家居领域创业经历。团队硬件负责人拥有 10 年大疆经验，软件合伙人来自 Meta 和 Apple。",
+            "detail": "极眸律动是一家专注于 AI 与运动健康方向的初创公司，核心团队来自光年之外、大疆、Meta，正在探索新一代 AI 硬件产品。",
+            "teamBio": "谢青池，极眸律动创始人，连续创业者，前光年之外产品负责人。",
             "funding": "暂无融资需求。",
             "participant": "谢青池",
             "contactRole": "",
@@ -1766,6 +1822,7 @@
             "logo": "",
             "productImage": null,
             "qrImage": "",
+            "hideContact": true,
             "likes": 115,
             "summary": "AI 硬件项目",
             "contact": "极眸律动 联系人",
@@ -1784,7 +1841,7 @@
                   ]
             ],
             "intro": [
-                  "极眸律动是一个 AI 硬件项目，由谢青池参与创立。谢青池曾任美团光年之外产品负责人，直接向王慧文汇报；转岗光年之外后，他曾在一年内系统研读 300 多篇 AI 论文。此前，他曾在豆瓣、百度、美团优选就职，并创立过 O2O 和家居公司。\n\n目前团队配置兼具硬件与软件能力：硬件负责人拥有 10 年大疆经验，软件合伙人来自 Meta 和 Apple。"
+                  "极眸律动是一家专注于 AI 与运动健康方向的初创公司，核心团队来自光年之外、大疆、Meta，正在探索新一代 AI 硬件产品。"
             ]
       },
       {
@@ -1932,6 +1989,7 @@
             "category": "桌面 AI 机器人",
             "stage": "Agent-native",
             "logo": "assets/base/watcherobot-logo.png",
+            "logoTheme": "light",
             "productImage": "assets/base/watcherobot-product-1.jpg",
             "indexImage": "assets/base/watcherobot-index.png",
             "productGalleryLayout": "feature",
@@ -2101,15 +2159,24 @@
     const detailView = document.querySelector("#detailView");
 
     function assetImg(src, alt) {
-      return src ? `<img src="${src}" alt="${alt}">` : "";
+      return src ? `<img src="${src}" alt="${alt}" loading="lazy" decoding="async">` : "";
     }
 
     function initials(name) {
       return (name || "AI").trim().slice(0, 2).toUpperCase();
     }
 
+    function websiteLabel(url) {
+      return String(url || "").replace(/^https?:\/\//, "").replace(/\/$/, "");
+    }
+
     function paragraphs(text) {
       return String(text || "").split(/\n+/).filter(Boolean).map((item) => `<p>${item}</p>`).join("");
+    }
+
+    function hasFundingNeed(funding) {
+      const value = String(funding || "").trim();
+      return Boolean(value) && !/^(暂无|无|目前无|暂时无|暂不考虑)(融资需求|融资计划)[。.]*$/.test(value);
     }
 
     const LIKE_STORAGE_KEY = "physical-ai-camp-likes-v2";
@@ -2169,12 +2236,21 @@
       return project.productImage || project.productImages?.[0]?.src || null;
     }
 
+    function optimizedAsset(src, variant) {
+      if (!src) return null;
+      const filename = src.split("/").pop().replace(/\.[^.]+$/, ".webp");
+      return `assets/optimized/${variant}/${filename}`;
+    }
+
     function projectIndexImage(project) {
-      return project.indexImage || primaryProductImage(project);
+      return optimizedAsset(project.indexImage || primaryProductImage(project), "index");
     }
 
     function logoClass(project) {
-      return project.logoLayout === "wide" ? " logo-wide" : "";
+      const classes = [];
+      if (project.logoLayout === "wide") classes.push("logo-wide");
+      if (project.logoTheme === "light") classes.push("logo-light");
+      return classes.length ? ` ${classes.join(" ")}` : "";
     }
 
     function renderProductMedia(project) {
@@ -2186,7 +2262,7 @@
             <div class="product-gallery ${project.productGalleryLayout === "collection" ? "is-collection" : ""}">
               ${gallery.map((item, index) => `
                 <figure>
-                  ${assetImg(item.src, `${project.name} 产品图 ${index + 1}`)}
+                  ${assetImg(optimizedAsset(item.src, "detail"), `${project.name} 产品图 ${index + 1}`)}
                   <figcaption>${item.label || `Product View ${index + 1}`}</figcaption>
                 </figure>
               `).join("")}
@@ -2195,7 +2271,7 @@
         `;
       }
 
-      const image = primaryProductImage(project);
+      const image = optimizedAsset(primaryProductImage(project), "detail");
       return `<div class="product-shot ${image ? "" : "placeholder"}">${image ? assetImg(image, `${project.name} 产品图片`) : "PRODUCT IMAGE COMING SOON"}</div>`;
     }
 
@@ -2233,7 +2309,10 @@
             <button class="back" type="button" data-back><span><</span> Back to index</button>
             <div class="detail-brand">
               <div class="detail-logo${logoClass(project)}">${project.logo ? assetImg(project.logo, `${project.name} logo`) : `<span>${initials(project.name)}</span>`}</div>
-              <div class="detail-company">${project.company || "Physical AI Camp"}<br>${project.website || ""}</div>
+              <div class="detail-company">
+                ${project.company || "Physical AI Camp"}
+                ${project.website ? `<br><a href="${project.website}" target="_blank" rel="noreferrer">${websiteLabel(project.website)}</a>` : ""}
+              </div>
             </div>
             <div class="status-row detail-status-row">
               <div class="project-meta">
@@ -2243,37 +2322,44 @@
               </div>
               ${renderLikeButton(project)}
             </div>
-            <h1><span class="profile-name">${project.name}</span></h1>
+            <div class="detail-title-row">
+              <h1><span class="profile-name">${project.name}</span></h1>
+              ${project.tagline ? `<p class="detail-tagline">${project.tagline}</p>` : ""}
+            </div>
             ${renderProductMedia(project)}
           </div>
         </section>
 
-        <section class="content-grid">
+        <section class="content-grid${project.hideContact ? " no-contact" : ""}">
           <article class="article">
             <div class="block">
               <h2>项目介绍</h2>
               ${paragraphs(project.detail)}
             </div>
             <div class="block">
-              <h2>详细介绍 / 团队背景</h2>
+              <h2>团队背景</h2>
               <p>${project.teamBio}</p>
             </div>
-            <div class="block">
-              <h2>融资需求</h2>
-              ${paragraphs(project.funding || "暂无融资需求。")}
-            </div>
+            ${hasFundingNeed(project.funding) ? `
+              <div class="block">
+                <h2>融资需求</h2>
+                ${paragraphs(project.funding)}
+              </div>
+            ` : ""}
           </article>
 
-          <aside class="aside">
-            <div class="contact-card">
-              <div class="terminal-header">
-                <span>Contact</span>
-                <span class="text-glow">Open</span>
+          ${project.hideContact ? "" : `
+            <aside class="aside">
+              <div class="contact-card">
+                <div class="terminal-header">
+                  <span>Contact</span>
+                  <span class="text-glow">Open</span>
+                </div>
+                <div class="qr">${project.qrImage ? assetImg(project.qrImage, `${project.name} 联系人二维码`) : `<span>${project.contact}</span>`}</div>
+                <button class="button" type="button">联系我们</button>
               </div>
-              <div class="qr">${project.qrImage ? assetImg(project.qrImage, `${project.name} 联系人二维码`) : `<span>${project.contact}</span>`}</div>
-              <button class="button" type="button">联系我们</button>
-            </div>
-          </aside>
+            </aside>
+          `}
         </section>
       `;
     }

@@ -784,23 +784,26 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 92px;
-      min-height: 38px;
-      padding: 0 14px;
+      width: 44px;
+      height: 44px;
+      padding: 0;
       border: 1px solid var(--neon-green);
       color: var(--neon-green);
       background: rgba(0, 255, 0, 0.04);
       font-family: var(--font-mono);
-      font-size: 12px;
-      font-weight: 800;
-      text-transform: uppercase;
+      font-size: 28px;
+      line-height: 1;
       transition: background 180ms ease, color 180ms ease, box-shadow 180ms ease;
     }
 
-    .like:hover,
+    .like:hover {
+      background: rgba(0, 255, 0, 0.12);
+      box-shadow: 0 0 18px rgba(0, 255, 0, 0.24);
+    }
+
     .like.is-liked {
-      color: #001900;
-      background: var(--neon-green);
+      color: var(--neon-green);
+      background: rgba(0, 255, 0, 0.16);
       box-shadow: 0 0 22px rgba(0, 255, 0, 0.36);
     }
 
@@ -2210,36 +2213,37 @@
       }
     }
 
-    function likeCount(project) {
-      return Number.isFinite(likeState.counts?.[project.id]) ? likeState.counts[project.id] : 0;
-    }
-
     function isLiked(project) {
       return Boolean(likeState.liked?.[project.id]);
     }
 
-    function likeLabel(project) {
-      return `${isLiked(project) ? "LIKED" : "LIKE"} ${likeCount(project)}`;
+    function favoriteIcon(project) {
+      return isLiked(project) ? "♥" : "♡";
+    }
+
+    function favoriteLabel(project) {
+      return isLiked(project) ? "取消本地收藏" : "添加到本地收藏";
     }
 
     function renderLikeButton(project, extraClass = "") {
-      return `<button class="like${isLiked(project) ? " is-liked" : ""}${extraClass}" type="button" data-like="${project.id}" aria-pressed="${isLiked(project)}">${likeLabel(project)}</button>`;
+      const label = favoriteLabel(project);
+      return `<button class="like${isLiked(project) ? " is-liked" : ""}${extraClass}" type="button" data-like="${project.id}" aria-pressed="${isLiked(project)}" aria-label="${label}" title="${label}"><span aria-hidden="true">${favoriteIcon(project)}</span></button>`;
     }
 
     function syncLikeButtons(project) {
       document.querySelectorAll(`[data-like="${project.id}"]`).forEach((button) => {
+        const label = favoriteLabel(project);
         button.classList.toggle("is-liked", isLiked(project));
         button.setAttribute("aria-pressed", String(isLiked(project)));
-        button.textContent = likeLabel(project);
+        button.setAttribute("aria-label", label);
+        button.setAttribute("title", label);
+        button.querySelector("span").textContent = favoriteIcon(project);
       });
     }
 
     function toggleLike(project) {
-      likeState.counts ||= {};
       likeState.liked ||= {};
-      const nextLiked = !isLiked(project);
-      likeState.liked[project.id] = nextLiked;
-      likeState.counts[project.id] = Math.max(0, likeCount(project) + (nextLiked ? 1 : -1));
+      likeState.liked[project.id] = !isLiked(project);
       saveLikeState();
       syncLikeButtons(project);
     }

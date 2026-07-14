@@ -863,6 +863,14 @@
       background: #fff;
     }
 
+    .project-logo.logo-dark,
+    .project-logo.logo-wide.logo-dark,
+    .detail-logo.logo-dark,
+    .detail-logo.logo-wide.logo-dark {
+      border-color: rgba(173, 216, 242, 0.42);
+      background: #12304a;
+    }
+
     .detail-logo span {
       color: var(--neon-green);
       font-family: var(--font-mono);
@@ -1609,6 +1617,7 @@
             "stage": "Agent 调度",
             "logo": "assets/base/disbrief-logo-white.png",
             "logoLayout": "wide",
+            "logoTheme": "dark",
             "productImage": "assets/base/disbrief-product.png",
             "indexImage": "assets/base/disbrief-index.png",
             "qrImage": "assets/base/disbrief-qr.jpg",
@@ -2208,6 +2217,7 @@
       const classes = [];
       if (project.logoLayout === "wide") classes.push("logo-wide");
       if (project.logoTheme === "light") classes.push("logo-light");
+      if (project.logoTheme === "dark") classes.push("logo-dark");
       return classes.length ? ` ${classes.join(" ")}` : "";
     }
 

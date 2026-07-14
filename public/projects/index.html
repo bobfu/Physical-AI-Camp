@@ -711,24 +711,28 @@
       width: 38px;
       height: 38px;
       padding: 0;
-      border: 1px solid var(--neon-green);
-      color: var(--neon-green);
-      background: rgba(0, 255, 0, 0.04);
+      border: 0;
+      color: rgba(255, 255, 255, 0.52);
+      background: transparent;
       font-family: var(--font-mono);
       font-size: 22px;
       line-height: 1;
-      transition: background 180ms ease, color 180ms ease, box-shadow 180ms ease;
+      transition: color 180ms ease, text-shadow 180ms ease, transform 180ms ease;
     }
 
     .like:hover {
-      background: rgba(0, 255, 0, 0.12);
-      box-shadow: 0 0 18px rgba(0, 255, 0, 0.24);
+      color: var(--neon-green);
+      transform: scale(1.08);
+    }
+
+    .like:focus-visible {
+      outline: 1px solid var(--neon-green);
+      outline-offset: 2px;
     }
 
     .like.is-liked {
       color: var(--neon-green);
-      background: rgba(0, 255, 0, 0.16);
-      box-shadow: 0 0 22px rgba(0, 255, 0, 0.36);
+      text-shadow: 0 0 14px rgba(0, 255, 0, 0.62);
     }
 
     .detail-status-row {

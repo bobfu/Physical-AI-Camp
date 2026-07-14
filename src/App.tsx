@@ -545,12 +545,12 @@ export default function App() {
                   {t.hero.subtitle}
                 </p>
                 <div className="flex flex-wrap gap-4 items-center">
-                  <button 
-                    onClick={() => setIsModalOpen(true)}
+                  <a
+                    href="/projects/index.html"
                     className="bg-neon-green text-black px-8 py-4 font-bold uppercase flex items-center gap-2 hover:bg-white transition-colors group"
                   >
                     {t.hero.applyBtn} <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </button>
+                  </a>
                   <div className="flex flex-col">
                     <span className="text-neon-green font-mono text-[10px] uppercase tracking-widest">
                       {t.hero.deadlineLabel}
@@ -957,12 +957,12 @@ export default function App() {
             </p>
             
             <div className="flex flex-col items-center gap-6 mb-20">
-              <button 
-                onClick={() => setIsModalOpen(true)}
+              <a
+                href="/projects/index.html"
                 className="bg-neon-green text-black px-12 py-6 text-xl font-bold uppercase hover:bg-white transition-colors"
               >
                 {t.footer.ctaBtn}
-              </button>
+              </a>
               <div className="text-neon-green font-mono text-sm uppercase tracking-[0.2em] border-y border-neon-green/20 py-2">
                 {t.applyModal.deadline}
               </div>

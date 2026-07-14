@@ -435,33 +435,9 @@
       }
     }
 
-    .hero {
-      display: block;
-      margin-bottom: 18px;
-    }
-
     .panel {
       border: 1px solid var(--line);
       background: rgba(16, 16, 16, 0.9);
-    }
-
-    .intro {
-      position: relative;
-      overflow: hidden;
-      min-height: 0;
-      padding: 26px;
-    }
-
-    .intro:before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background:
-        linear-gradient(90deg, rgba(0, 255, 0, 0.12) 1px, transparent 1px),
-        linear-gradient(180deg, rgba(0, 255, 0, 0.08) 1px, transparent 1px);
-      background-size: 52px 52px;
-      mask-image: radial-gradient(circle at 20% 15%, black 0, transparent 58%);
     }
 
     .status-row {
@@ -479,61 +455,9 @@
       text-transform: uppercase;
     }
 
-    .intro h1 {
-      position: relative;
-      max-width: 1040px;
-      font-size: clamp(42px, 6.4vw, 88px);
-      line-height: 0.9;
-      font-weight: 900;
-    }
-
     .text-glow {
       color: var(--neon-green);
       text-shadow: 0 0 10px rgba(0, 255, 0, 0.5), 0 0 34px rgba(0, 255, 0, 0.24);
-    }
-
-    .intro-copy {
-      position: relative;
-      max-width: 760px;
-      margin: 22px 0 0;
-      color: rgba(255, 255, 255, 0.75);
-      font-size: 16px;
-      line-height: 1.8;
-    }
-
-    .metric-grid {
-      position: relative;
-      display: grid;
-      grid-template-columns: repeat(3, minmax(86px, 1fr));
-      gap: 8px;
-      width: min(860px, 100%);
-      margin-top: 24px;
-    }
-
-    .metric {
-      padding: 14px;
-      border: 1px solid var(--line);
-      background: rgba(10, 10, 10, 0.74);
-    }
-
-    .metric b {
-      display: block;
-      color: var(--neon-green);
-      font-family: var(--font-mono);
-      font-size: clamp(18px, 2.4vw, 28px);
-      line-height: 1;
-      text-shadow: 0 0 18px rgba(0, 255, 0, 0.4);
-      overflow-wrap: anywhere;
-    }
-
-    .metric span {
-      display: block;
-      margin-top: 10px;
-      color: var(--muted);
-      font-family: var(--font-mono);
-      font-size: 10px;
-      line-height: 1.5;
-      text-transform: uppercase;
     }
 
     .terminal-header {
@@ -784,23 +708,26 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 92px;
-      min-height: 38px;
-      padding: 0 14px;
+      width: 44px;
+      height: 44px;
+      padding: 0;
       border: 1px solid var(--neon-green);
       color: var(--neon-green);
       background: rgba(0, 255, 0, 0.04);
       font-family: var(--font-mono);
-      font-size: 12px;
-      font-weight: 800;
-      text-transform: uppercase;
+      font-size: 28px;
+      line-height: 1;
       transition: background 180ms ease, color 180ms ease, box-shadow 180ms ease;
     }
 
-    .like:hover,
+    .like:hover {
+      background: rgba(0, 255, 0, 0.12);
+      box-shadow: 0 0 18px rgba(0, 255, 0, 0.24);
+    }
+
     .like.is-liked {
-      color: #001900;
-      background: var(--neon-green);
+      color: var(--neon-green);
+      background: rgba(0, 255, 0, 0.16);
       box-shadow: 0 0 22px rgba(0, 255, 0, 0.36);
     }
 
@@ -1232,18 +1159,6 @@
         grid-template-columns: 1fr;
       }
 
-      .intro {
-        min-height: auto;
-      }
-
-      .intro {
-        padding: 20px;
-      }
-
-      .metric-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
       .projects {
         grid-template-columns: 1fr;
       }
@@ -1288,7 +1203,6 @@
         padding: 0 12px;
       }
 
-      .intro h1,
       .detail-main h1 {
         font-size: 42px;
       }
@@ -1308,14 +1222,6 @@
         flex-basis: auto;
         margin: 0;
         font-size: 16px;
-      }
-
-      .intro-copy {
-        font-size: 14px;
-      }
-
-      .metric-grid {
-        grid-template-columns: 1fr;
       }
 
       .marquee span {
@@ -1419,33 +1325,13 @@
     </div>
 
     <main class="list-view">
-      <section class="hero">
-        <div class="intro panel">
-          <div class="status-row">
-            <span class="pill">RTE开发者社区</span>
-            <span class="pill">PHYSICAL AI</span>
-            <span class="pill">FOUNDERS</span>
-          </div>
-          <h1><span class="text-glow">Physical</span> AI Camp</h1>
-          <p class="intro-copy">Physical AI Camp 汇集一批正在把 AI 带入真实世界的创业团队：从语音、视觉、记忆与陪伴硬件，到端侧芯片、桌面机器人和 Agent 基础设施。这里展示每个项目的产品形态、团队背景与现场联系方式，方便 Demo Day 观众快速了解、交流与连接。</p>
-          <div class="metric-grid" aria-label="活动数据">
-            <div class="metric"><b>16 个项目</b><span>覆盖 AI Agent、机器人、智能硬件、芯片、语音、多模态、陪伴与基础设施，现场集中展示产品 Demo 与团队能力。</span></div>
-            <div class="metric"><b>投资 × 开发者</b><span>与创始人面对面交流，了解产品、技术路线、商业模式与融资进展，寻找投资、合作与加入机会。</span></div>
-            <div class="metric"><b>现场 Connect</b><span>查看项目介绍、团队背景、产品演示与联系方式，活动现场快速建立连接，持续 Follow Up。</span></div>
-          </div>
-        </div>
-      </section>
-
       <section class="marquee" aria-label="横向信息墙">
-        <div class="marquee-track">
-          <span>HiDock</span><span>Diaro</span><span>叽里呱呱 AI 打印桌宠</span><span>梨谱</span><span>Disbrief</span><span>ClawStage</span><span>Hyperspace</span><span>Chance AI</span><span>极眸律动</span><span>festage</span><span>MemoPin</span><span>Memories.ai</span><span>WatcheRobot</span><span>Olares</span><span>Cerul</span><span>PICPAK</span>
-          <span>HiDock</span><span>Diaro</span><span>叽里呱呱 AI 打印桌宠</span><span>梨谱</span><span>Disbrief</span><span>ClawStage</span><span>Hyperspace</span><span>Chance AI</span><span>极眸律动</span><span>festage</span><span>MemoPin</span><span>Memories.ai</span><span>WatcheRobot</span><span>Olares</span><span>Cerul</span><span>PICPAK</span>
-        </div>
+        <div class="marquee-track" id="marqueeTrack"></div>
       </section>
 
       <section id="projects">
         <div class="section-head">
-          <h2>PROJECT <span class="text-glow">INDEX</span></h2>
+          <h2>COHORT <span class="text-glow">TEAMS</span></h2>
         </div>
         <div class="projects" id="projectList"></div>
       </section>
@@ -1858,7 +1744,6 @@
             "website": "",
             "category": "视觉交互",
             "stage": "语音/体感交互",
-            "logo": "assets/base/festage-logo.webp",
             "productImage": "assets/base/festage-logo.webp",
             "qrImage": "assets/base/festage-qr.jpeg",
             "likes": 108,
@@ -2157,6 +2042,21 @@
 
     const projectList = document.querySelector("#projectList");
     const detailView = document.querySelector("#detailView");
+    const marqueeTrack = document.querySelector("#marqueeTrack");
+
+    const PROJECT_SORT_NAMES = {
+      jiligugu: "Jiligugu",
+      jimumotion: "Jimumotion",
+      lipu: "Lipu"
+    };
+
+    function projectSortName(project) {
+      return PROJECT_SORT_NAMES[project.id] || project.name;
+    }
+
+    function sortedProjects() {
+      return [...projects].sort((a, b) => projectSortName(a).localeCompare(projectSortName(b), "en", { sensitivity: "base" }));
+    }
 
     function assetImg(src, alt) {
       return src ? `<img src="${src}" alt="${alt}" loading="lazy" decoding="async">` : "";
@@ -2198,36 +2098,37 @@
       }
     }
 
-    function likeCount(project) {
-      return Number.isFinite(likeState.counts?.[project.id]) ? likeState.counts[project.id] : 0;
-    }
-
     function isLiked(project) {
       return Boolean(likeState.liked?.[project.id]);
     }
 
-    function likeLabel(project) {
-      return `${isLiked(project) ? "LIKED" : "LIKE"} ${likeCount(project)}`;
+    function favoriteIcon(project) {
+      return isLiked(project) ? "♥" : "♡";
+    }
+
+    function favoriteLabel(project) {
+      return isLiked(project) ? "取消本地收藏" : "添加到本地收藏";
     }
 
     function renderLikeButton(project, extraClass = "") {
-      return `<button class="like${isLiked(project) ? " is-liked" : ""}${extraClass}" type="button" data-like="${project.id}" aria-pressed="${isLiked(project)}">${likeLabel(project)}</button>`;
+      const label = favoriteLabel(project);
+      return `<button class="like${isLiked(project) ? " is-liked" : ""}${extraClass}" type="button" data-like="${project.id}" aria-pressed="${isLiked(project)}" aria-label="${label}" title="${label}"><span aria-hidden="true">${favoriteIcon(project)}</span></button>`;
     }
 
     function syncLikeButtons(project) {
       document.querySelectorAll(`[data-like="${project.id}"]`).forEach((button) => {
+        const label = favoriteLabel(project);
         button.classList.toggle("is-liked", isLiked(project));
         button.setAttribute("aria-pressed", String(isLiked(project)));
-        button.textContent = likeLabel(project);
+        button.setAttribute("aria-label", label);
+        button.setAttribute("title", label);
+        button.querySelector("span").textContent = favoriteIcon(project);
       });
     }
 
     function toggleLike(project) {
-      likeState.counts ||= {};
       likeState.liked ||= {};
-      const nextLiked = !isLiked(project);
-      likeState.liked[project.id] = nextLiked;
-      likeState.counts[project.id] = Math.max(0, likeCount(project) + (nextLiked ? 1 : -1));
+      likeState.liked[project.id] = !isLiked(project);
       saveLikeState();
       syncLikeButtons(project);
     }
@@ -2276,7 +2177,7 @@
     }
 
     function renderList() {
-      projectList.innerHTML = projects.map((project) => `
+      projectList.innerHTML = sortedProjects().map((project) => `
         <a class="project-card" href="#/project/${project.id}" aria-label="查看 ${project.name} 项目详情">
           <div class="project-info">
             <div class="project-brandline">
@@ -2302,11 +2203,16 @@
       `).join("");
     }
 
+    function renderMarquee() {
+      const names = sortedProjects().map((project) => project.name);
+      marqueeTrack.innerHTML = [...names, ...names].map((name) => `<span>${name}</span>`).join("");
+    }
+
     function renderDetail(project) {
       detailView.innerHTML = `
         <section class="detail-hero">
           <div class="detail-main panel">
-            <button class="back" type="button" data-back><span><</span> Back to index</button>
+            <button class="back" type="button" data-back><span><</span> Back to cohort</button>
             <div class="detail-brand">
               <div class="detail-logo${logoClass(project)}">${project.logo ? assetImg(project.logo, `${project.name} logo`) : `<span>${initials(project.name)}</span>`}</div>
               <div class="detail-company">
@@ -2482,6 +2388,7 @@
     });
 
     renderList();
+    renderMarquee();
     route();
     updateTopbar();
     window.addEventListener("scroll", updateTopbar, { passive: true });

@@ -12,7 +12,7 @@ export const TRANSLATIONS = {
       badge: '2026 超音速计划',
       title: 'Physical AI Camp',
       subtitle: '寻找下一代「软硬结合」的 AI 创新者。打破屏幕边界，让 AI 触及物理世界。',
-      applyBtn: '立即加入超音速计划 2026',
+      applyBtn: '阅读 16 家团队介绍',
       deadlineLabel: '截止报名',
       organizerLabel: '发起方',
       organizer: 'RTE 开发者社区',
@@ -234,7 +234,7 @@ export const TRANSLATIONS = {
     },
     footer: {
       ctaTitle: '准备好改变 物理世界了吗？',
-      ctaBtn: '立即申请 2026 营地',
+      ctaBtn: '阅读 16 家团队介绍',
       contact: '联系我们',
       desc: '致力于构建全球领先的 物理 AI 开发社区',
       copyright: '© 2026 PHYSICAL AI CAMP. BY RTE COMMUNITY.'
@@ -261,7 +261,7 @@ export const TRANSLATIONS = {
       badge: '2026 Supersonic Program',
       title: 'Physical AI Camp',
       subtitle: 'Looking for the next generation of AI innovators in Hardware-Software Synergy. Break the screen boundary and let AI touch the physical world.',
-      applyBtn: 'APPLY FOR SUPERSONIC 2026',
+      applyBtn: 'READ 16 TEAM PROFILES',
       deadlineLabel: 'DEADLINE',
       organizerLabel: 'ORGANIZER',
       organizer: 'RTE Dev Community',
@@ -483,7 +483,7 @@ export const TRANSLATIONS = {
     },
     footer: {
       ctaTitle: 'READY TO CHANGE THE PHYSICAL WORLD?',
-      ctaBtn: 'APPLY FOR 2026 CAMP',
+      ctaBtn: 'READ 16 TEAM PROFILES',
       contact: 'CONTACT US',
       desc: 'Building the world-leading Physical AI development community.',
       copyright: '© 2026 PHYSICAL AI CAMP. BY RTE COMMUNITY.'

@@ -708,21 +708,23 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 38px;
-      height: 38px;
-      padding: 0;
-      border: 0;
-      color: rgba(255, 255, 255, 0.52);
-      background: transparent;
+      min-width: 76px;
+      height: 36px;
+      padding: 0 12px;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      color: rgba(255, 255, 255, 0.68);
+      background: rgba(255, 255, 255, 0.015);
       font-family: var(--font-mono);
-      font-size: 22px;
+      font-size: 12px;
+      font-weight: 700;
       line-height: 1;
-      transition: color 180ms ease, text-shadow 180ms ease, transform 180ms ease;
+      transition: border-color 180ms ease, background 180ms ease, color 180ms ease, box-shadow 180ms ease;
     }
 
     .like:hover {
       color: var(--neon-green);
-      transform: scale(1.08);
+      border-color: var(--neon-green);
+      background: rgba(0, 255, 0, 0.06);
     }
 
     .like:focus-visible {
@@ -732,7 +734,13 @@
 
     .like.is-liked {
       color: var(--neon-green);
-      text-shadow: 0 0 14px rgba(0, 255, 0, 0.62);
+      border-color: var(--neon-green);
+      background: rgba(0, 255, 0, 0.08);
+      box-shadow: 0 0 14px rgba(0, 255, 0, 0.18);
+    }
+
+    .like-mobile-title {
+      display: none;
     }
 
     .detail-status-row {
@@ -1182,6 +1190,56 @@
         grid-template-columns: 1fr 130px;
       }
 
+      .project-title {
+        align-items: center;
+        gap: 10px;
+      }
+
+      .project-title h3 {
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+
+      .project-title .arrow {
+        display: none;
+      }
+
+      .project-title .like-mobile-title {
+        display: inline-flex;
+        flex: 0 0 auto;
+        min-width: 68px;
+        height: 32px;
+        padding: 0 10px;
+        font-size: 11px;
+      }
+
+      .meta-like-row > .like {
+        display: none;
+      }
+
+      .detail-title-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: end;
+        gap: 12px;
+      }
+
+      .detail-title-row h1 {
+        min-width: 0;
+      }
+
+      .detail-title-row .like-mobile-title {
+        display: inline-flex;
+      }
+
+      .detail-title-row .detail-tagline {
+        grid-column: 1 / -1;
+      }
+
+      .detail-status-row > .like {
+        display: none;
+      }
+
       .aside {
         position: static;
       }
@@ -1214,12 +1272,6 @@
       .detail-main h1 {
         font-size: clamp(34px, 11vw, 42px);
         line-height: 0.96;
-      }
-
-      .detail-title-row {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 12px;
       }
 
       .detail-tagline {
@@ -2106,8 +2158,8 @@
       return Boolean(likeState.liked?.[project.id]);
     }
 
-    function favoriteIcon(project) {
-      return isLiked(project) ? "★" : "☆";
+    function favoriteButtonText(project) {
+      return isLiked(project) ? "已收藏" : "收藏";
     }
 
     function favoriteLabel(project) {
@@ -2116,7 +2168,7 @@
 
     function renderLikeButton(project, extraClass = "") {
       const label = favoriteLabel(project);
-      return `<button class="like${isLiked(project) ? " is-liked" : ""}${extraClass}" type="button" data-like="${project.id}" aria-pressed="${isLiked(project)}" aria-label="${label}" title="${label}"><span aria-hidden="true">${favoriteIcon(project)}</span></button>`;
+      return `<button class="like${isLiked(project) ? " is-liked" : ""}${extraClass}" type="button" data-like="${project.id}" aria-pressed="${isLiked(project)}" aria-label="${label}" title="${label}">${favoriteButtonText(project)}</button>`;
     }
 
     function syncLikeButtons(project) {
@@ -2126,7 +2178,7 @@
         button.setAttribute("aria-pressed", String(isLiked(project)));
         button.setAttribute("aria-label", label);
         button.setAttribute("title", label);
-        button.querySelector("span").textContent = favoriteIcon(project);
+        button.textContent = favoriteButtonText(project);
       });
     }
 
@@ -2191,6 +2243,7 @@
             <div class="project-title">
               <h3>${project.name}</h3>
               <span class="arrow">></span>
+              ${renderLikeButton(project, " like-mobile-title")}
             </div>
             <p>${project.tagline}</p>
             <div class="meta-like-row">
@@ -2234,6 +2287,7 @@
             </div>
             <div class="detail-title-row">
               <h1><span class="profile-name">${project.name}</span></h1>
+              ${renderLikeButton(project, " like-mobile-title")}
               ${project.tagline ? `<p class="detail-tagline">${project.tagline}</p>` : ""}
             </div>
             ${renderProductMedia(project)}

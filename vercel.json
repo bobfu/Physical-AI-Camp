@@ -1,4 +1,11 @@
 {
+  "redirects": [
+    {
+      "source": "/physical-ai-camp/projects/index.html",
+      "destination": "/physical-ai-camp/cohort",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     {
       "source": "/physical-ai-camp/assets/:path*",
@@ -7,6 +14,18 @@
     {
       "source": "/physical-ai-camp/projects/:path*",
       "destination": "/projects/:path*"
+    },
+    {
+      "source": "/physical-ai-camp/cohort",
+      "destination": "/projects/index.html"
+    },
+    {
+      "source": "/physical-ai-camp/cohort/",
+      "destination": "/projects/index.html"
+    },
+    {
+      "source": "/physical-ai-camp/cohort/:projectId",
+      "destination": "/projects/index.html"
     },
     {
       "source": "/physical-ai-camp",

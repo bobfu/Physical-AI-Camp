@@ -42,6 +42,64 @@ import { TRANSLATIONS } from './locales/i18n';
 
 type Language = 'zh' | 'en';
 
+const COHORT_TEAMS = [
+  { id: 'autoheart', name: 'PICPAK' },
+  { id: 'cerul', name: 'Cerul' },
+  { id: 'chance-ai', name: 'Chance AI' },
+  { id: 'clawstage', name: 'ClawStage' },
+  { id: 'diaro', name: 'Diaro' },
+  { id: 'disbrief', name: 'Disbrief' },
+  { id: 'festage', name: 'festage' },
+  { id: 'hidock', name: 'HiDock' },
+  { id: 'hyperspace', name: 'Hyperspace' },
+  { id: 'jiligugu', name: '叽里呱呱 AI 打印桌宠' },
+  { id: 'jimumotion', name: '极眸律动' },
+  { id: 'lipu', name: '梨谱' },
+  { id: 'memopin', name: 'MemoPin' },
+  { id: 'olares', name: 'Olares' },
+  { id: 'watcherobot', name: 'WatcheRobot' },
+  { id: 'memories-ai', name: 'Memories.ai' },
+];
+
+const CohortMarquee = () => {
+  const marqueeTeams = [...COHORT_TEAMS, ...COHORT_TEAMS];
+
+  return (
+    <section className="border-y border-neon-green/20 bg-neon-green/[0.035] overflow-hidden">
+      <div className="flex flex-col md:flex-row md:items-stretch">
+        <a
+          href={`${BASE_PATH}/cohort`}
+          className="relative z-20 flex shrink-0 items-center justify-between gap-5 border-b border-neon-green/20 bg-brutal-black/95 px-5 py-3 md:w-56 md:justify-start md:border-b-0 md:border-r md:px-8"
+        >
+          <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-neon-green">Cohort Teams</span>
+          <span className="font-mono text-[9px] uppercase tracking-widest text-gray-500">16 Teams</span>
+        </a>
+
+        <div className="relative min-w-0 flex-1 overflow-hidden py-4">
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-brutal-black/80 to-transparent md:w-20" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-brutal-black/80 to-transparent md:w-20" />
+          <div className="flex w-max animate-marquee whitespace-nowrap hover:[animation-play-state:paused]">
+            {marqueeTeams.map((team, index) => (
+              <a
+                key={`${team.id}-${index}`}
+                href={`${BASE_PATH}/cohort/${team.id}`}
+                className="group/team mx-5 inline-flex items-center gap-3 md:mx-8"
+              >
+                <span className="grid h-6 w-6 place-items-center border border-neon-green/30 bg-neon-green/5 font-mono text-[8px] font-bold text-neon-green transition-colors group-hover/team:bg-neon-green group-hover/team:text-black">
+                  {String((index % COHORT_TEAMS.length) + 1).padStart(2, '0')}
+                </span>
+                <span className="font-mono text-xs font-bold uppercase tracking-tight text-white transition-colors group-hover/team:text-neon-green md:text-sm">
+                  {team.name}
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 const LogoWall = ({ onViewAll, lang }: { onViewAll: () => void; lang: Language }) => {
   const [shuffledPartners, setShuffledPartners] = useState<Partner[]>([]);
   const [fixedIndex, setFixedIndex] = useState(0);
@@ -461,7 +519,7 @@ export default function App() {
             <span className="font-mono font-bold tracking-tighter text-sm sm:text-base md:text-xl group-hover:text-neon-green transition-colors">PHYSICAL AI CAMP 2026</span>
           </div>
           <div className="hidden lg:flex gap-8 font-mono text-[10px] md:text-xs uppercase tracking-widest shrink-0">
-            <a href={`${BASE_PATH}/projects/index.html`} className="hover:text-neon-green transition-colors">{t.nav.projects}</a>
+            <a href={`${BASE_PATH}/cohort`} className="hover:text-neon-green transition-colors">{t.nav.projects}</a>
             <a href="#community" className="hover:text-neon-green transition-colors">{t.nav.community}</a>
             <a href="#journey" className="hover:text-neon-green transition-colors">{t.nav.journey}</a>
             <a href="#resources" className="hover:text-neon-green transition-colors">{t.nav.resources}</a>
@@ -502,7 +560,7 @@ export default function App() {
                 className="lg:hidden absolute top-[calc(100%+1rem)] left-4 right-4 sm:left-6 sm:right-6 border border-white/15 bg-brutal-black/95 backdrop-blur-md p-4 shadow-2xl"
               >
                 <div className="flex flex-col font-mono text-xs uppercase tracking-widest">
-                  <a href={`${BASE_PATH}/projects/index.html`} onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-3 border-b border-white/10 hover:text-neon-green">{t.nav.projects}</a>
+                  <a href={`${BASE_PATH}/cohort`} onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-3 border-b border-white/10 hover:text-neon-green">{t.nav.projects}</a>
                   <a href="#community" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-3 border-b border-white/10 hover:text-neon-green">{t.nav.community}</a>
                   <a href="#journey" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-3 border-b border-white/10 hover:text-neon-green">{t.nav.journey}</a>
                   <a href="#resources" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-3 border-b border-white/10 hover:text-neon-green">{t.nav.resources}</a>
@@ -561,7 +619,7 @@ export default function App() {
                 </p>
                 <div className="flex flex-wrap gap-4 items-center">
                   <a
-                    href={`${BASE_PATH}/projects/index.html`}
+                    href={`${BASE_PATH}/cohort`}
                     className="bg-neon-green text-black px-8 py-4 font-bold uppercase flex items-center gap-2 hover:bg-white transition-colors group"
                   >
                     {t.hero.applyBtn} <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -611,6 +669,8 @@ export default function App() {
           <div className="absolute top-1/2 right-40 w-64 h-64 border border-white/20 rotate-45"></div>
         </div>
       </header>
+
+      <CohortMarquee />
 
       <LogoWall onViewAll={() => setIsPartnerModalOpen(true)} lang={lang} />
 
@@ -973,14 +1033,11 @@ export default function App() {
             
             <div className="flex flex-col items-center gap-6 mb-20">
               <a
-                href={`${BASE_PATH}/projects/index.html`}
+                href={`${BASE_PATH}/cohort`}
                 className="bg-neon-green text-black px-12 py-6 text-xl font-bold uppercase hover:bg-white transition-colors"
               >
                 {t.footer.ctaBtn}
               </a>
-              <div className="text-neon-green font-mono text-sm uppercase tracking-[0.2em] border-y border-neon-green/20 py-2">
-                {t.applyModal.deadline}
-              </div>
             </div>
 
             <div className="flex flex-wrap justify-center gap-12 mb-16">

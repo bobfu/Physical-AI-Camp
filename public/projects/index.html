@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Physical AI Camp Projects</title>
+  <title>Physical AI Camp Cohort</title>
   <link rel="icon" href="data:,">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1408,7 +1408,7 @@
           <span class="brand-title">PHYSICAL AI CAMP 2026</span>
         </a>
         <nav class="site-nav" aria-label="主导航">
-          <a href="/physical-ai-camp/projects/index.html">Cohort</a>
+          <a href="/physical-ai-camp/cohort">Cohort</a>
           <a href="/physical-ai-camp/#community" data-home-target="#community">Community</a>
           <a href="/physical-ai-camp/#journey" data-home-target="#journey">Journey</a>
           <a href="/physical-ai-camp/#resources" data-home-target="#resources">Resources</a>
@@ -1428,7 +1428,7 @@
         </button>
       </div>
       <nav class="mobile-nav" id="mobileNav" aria-label="移动端主导航">
-        <a href="/physical-ai-camp/projects/index.html">Cohort</a>
+        <a href="/physical-ai-camp/cohort">Cohort</a>
         <a href="/physical-ai-camp/#community" data-home-target="#community">Community</a>
         <a href="/physical-ai-camp/#journey" data-home-target="#journey">Journey</a>
         <a href="/physical-ai-camp/#resources" data-home-target="#resources">Resources</a>
@@ -2195,7 +2195,8 @@
     }
 
     function assetImg(src, alt) {
-      return src ? `<img src="${src}" alt="${alt}" loading="lazy" decoding="async">` : "";
+      const assetUrl = src && !/^(?:https?:|data:|\/)/.test(src) ? `/physical-ai-camp/projects/${src}` : src;
+      return assetUrl ? `<img src="${assetUrl}" alt="${alt}" loading="lazy" decoding="async">` : "";
     }
 
     function initials(name) {
@@ -2317,7 +2318,7 @@
 
     function renderList() {
       projectList.innerHTML = sortedProjects().map((project) => `
-        <a class="project-card" href="#/project/${project.id}" aria-label="查看 ${project.name} 项目详情">
+        <a class="project-card" href="/physical-ai-camp/cohort/${project.id}" aria-label="查看 ${project.name} Cohort 详情">
           <div class="project-info">
             <div class="project-brandline">
               <div class="project-logo${logoClass(project)}">${project.logo ? assetImg(project.logo, `${project.name} logo`) : `<span>${initials(project.name)}</span>`}</div>
@@ -2468,21 +2469,33 @@
     }
 
     function route() {
-      const match = location.hash.match(/^#\/project\/(.+)$/);
+      const legacyMatch = location.hash.match(/^#\/project\/(.+)$/);
+      if (legacyMatch) {
+        location.replace(`/physical-ai-camp/cohort/${legacyMatch[1]}`);
+        return;
+      }
+
+      const hashCohortMatch = location.hash.match(/^#\/cohort\/(.+)$/);
+      if (hashCohortMatch) {
+        location.replace(`/physical-ai-camp/cohort/${hashCohortMatch[1]}`);
+        return;
+      }
+
+      const match = location.pathname.match(/^\/physical-ai-camp\/cohort\/([^/]+)\/?$/);
       if (!match) {
         document.body.dataset.view = "list";
-        document.title = "Physical AI Camp Projects";
+        document.title = "Physical AI Camp Cohort";
         return;
       }
       const project = projects.find((item) => item.id === match[1]);
       if (!project) {
-        detailView.innerHTML = '<div class="empty panel">PROJECT SIGNAL NOT FOUND</div>';
+        detailView.innerHTML = '<div class="empty panel">COHORT SIGNAL NOT FOUND</div>';
         document.body.dataset.view = "detail";
         return;
       }
       renderDetail(project);
       document.body.dataset.view = "detail";
-      document.title = `${project.name} | Physical AI Camp`;
+      document.title = `${project.name} | Physical AI Camp Cohort`;
       window.scrollTo(0, 0);
     }
 
@@ -2529,7 +2542,7 @@
       }
 
       if (event.target.closest("[data-back]")) {
-        location.hash = "#/";
+        window.location.href = "/physical-ai-camp/cohort";
       }
 
       if (event.target.closest("#backToTop")) {

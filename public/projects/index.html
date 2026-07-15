@@ -1797,6 +1797,7 @@
             "stage": "软硬结合",
             "logo": "",
             "productImage": null,
+            "hideProductMedia": true,
             "qrImage": "",
             "hideContact": true,
             "likes": 115,
@@ -2246,6 +2247,8 @@
     }
 
     function renderProductMedia(project) {
+      if (project.hideProductMedia) return "";
+
       const gallery = Array.isArray(project.productImages) ? project.productImages.filter((item) => item?.src) : [];
 
       if (gallery.length > 1) {

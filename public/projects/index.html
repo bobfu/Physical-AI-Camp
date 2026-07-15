@@ -2230,7 +2230,27 @@
     }
 
     const LIKE_STORAGE_KEY = "physical-ai-camp-likes-v2";
+    const COHORT_SCROLL_STORAGE_KEY = "physical-ai-camp-cohort-scroll-v1";
     let likeState = loadLikeState();
+
+    function saveCohortScrollPosition() {
+      try {
+        sessionStorage.setItem(COHORT_SCROLL_STORAGE_KEY, String(window.scrollY));
+      } catch {
+        // Returning to the list still works when session storage is unavailable.
+      }
+    }
+
+    function restoreCohortScrollPosition() {
+      try {
+        const savedPosition = Number(sessionStorage.getItem(COHORT_SCROLL_STORAGE_KEY));
+        if (!Number.isFinite(savedPosition) || savedPosition <= 0) return;
+        sessionStorage.removeItem(COHORT_SCROLL_STORAGE_KEY);
+        requestAnimationFrame(() => window.scrollTo(0, savedPosition));
+      } catch {
+        // Browser history restoration remains available as a fallback.
+      }
+    }
 
     function loadLikeState() {
       try {
@@ -2498,6 +2518,7 @@
       if (!match) {
         document.body.dataset.view = "list";
         document.title = "Physical AI Camp Cohort";
+        restoreCohortScrollPosition();
         return;
       }
       const project = projects.find((item) => item.id === match[1]);
@@ -2554,7 +2575,12 @@
         if (project) toggleLike(project);
       }
 
+      if (event.target.closest(".project-card")) {
+        saveCohortScrollPosition();
+      }
+
       if (event.target.closest("[data-back]")) {
+        event.preventDefault();
         window.location.href = "/physical-ai-camp/cohort";
       }
 

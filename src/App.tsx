@@ -284,7 +284,7 @@ const Modal = ({ isOpen, onClose, wechatId, lang }: { isOpen: boolean; onClose: 
             </button>
             
             <div className="mb-8">
-              <Badge>Application</Badge>
+              <Badge>Contact</Badge>
               <h3 className="text-2xl font-bold uppercase tracking-tighter mb-2">{t.applyModal.title}</h3>
               <p className="text-neon-green font-mono text-[10px] uppercase tracking-widest mb-4">{t.applyModal.deadline}</p>
               <p className="text-gray-400 leading-relaxed">
@@ -379,6 +379,7 @@ const BASE_PATH = '/physical-ai-camp';
 export default function App() {
   const [lang, setLang] = useState<Language>('zh');
   const [scrolled, setScrolled] = useState(false);
+  const [showBackToTop, setShowBackToTop] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPartnerModalOpen, setIsPartnerModalOpen] = useState(false);
   const [isJourneyExpanded, setIsJourneyExpanded] = useState(false);
@@ -409,7 +410,10 @@ export default function App() {
   const t = TRANSLATIONS[lang];
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+      setShowBackToTop(window.scrollY > 480);
+    };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -519,6 +523,15 @@ export default function App() {
           </AnimatePresence>
         </div>
       </nav>
+
+      <button
+        type="button"
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        className={`fixed right-4 bottom-4 z-40 inline-flex h-8 items-center gap-1.5 border border-white/20 bg-brutal-black/90 px-2.5 font-mono text-[10px] font-bold tracking-[0.08em] text-gray-400 transition-all hover:border-neon-green hover:text-neon-green focus:border-neon-green focus:outline-none sm:right-6 sm:bottom-6 ${showBackToTop ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-2 opacity-0'}`}
+        aria-label="返回页面顶部"
+      >
+        ↑ TOP
+      </button>
 
       {/* Hero Section */}
       <header className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">

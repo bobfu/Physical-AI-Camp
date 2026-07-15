@@ -75,6 +75,42 @@
       backdrop-filter: blur(12px);
     }
 
+    .back-to-top {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 20;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 34px;
+      padding: 0 10px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      background: rgba(10, 10, 10, 0.92);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px);
+      transition: 180ms ease;
+    }
+
+    .back-to-top.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .back-to-top:hover,
+    .back-to-top:focus-visible {
+      border-color: var(--neon-green);
+      color: var(--neon-green);
+      outline: none;
+    }
+
     .topbar-inner {
       max-width: 80rem;
       width: 100%;
@@ -635,6 +671,30 @@
       line-height: 1.5;
       text-transform: uppercase;
       overflow-wrap: anywhere;
+    }
+
+    .showcase-badge {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      min-height: 24px;
+      margin-top: 7px;
+      padding: 0 8px;
+      border: 1px solid var(--neon-green);
+      color: #001900;
+      background: var(--neon-green);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      line-height: 1;
+      text-transform: uppercase;
+      box-shadow: 0 0 16px rgba(0, 255, 0, 0.28);
+    }
+
+    .project-company .showcase-badge,
+    .detail-company .showcase-badge {
+      display: flex;
     }
 
     .project-title h3 {
@@ -1260,12 +1320,20 @@
 
       .app {
         width: calc(100% - 20px);
-        padding-top: 12px;
+        padding-top: 92px;
         padding-bottom: 34px;
       }
 
       .brand strong {
         font-size: 15px;
+      }
+
+      .back-to-top {
+        right: 14px;
+        bottom: 14px;
+        height: 30px;
+        padding: 0 8px;
+        font-size: 9px;
       }
 
       .button {
@@ -1348,7 +1416,7 @@
         </nav>
         <div class="nav-actions">
           <button class="lang-toggle" type="button" aria-disabled="true" tabindex="-1">EN</button>
-          <button class="button nav-apply" type="button" data-open-apply>APPLY NOW</button>
+          <button class="button nav-apply" type="button" data-open-apply>CONTACT US</button>
         </div>
         <button class="mobile-menu-toggle" id="mobileMenuToggle" type="button" aria-label="打开导航菜单" aria-expanded="false" aria-controls="mobileNav">
           <svg class="menu-open" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -1365,7 +1433,7 @@
         <a href="/physical-ai-camp/#journey" data-home-target="#journey">Journey</a>
         <a href="/physical-ai-camp/#resources" data-home-target="#resources">Resources</a>
         <a href="/physical-ai-camp/#market" data-home-target="#market">Global</a>
-        <button class="button nav-apply" type="button" data-open-apply>APPLY NOW</button>
+        <button class="button nav-apply" type="button" data-open-apply>CONTACT US</button>
       </nav>
     </header>
 
@@ -1373,10 +1441,10 @@
       <button class="apply-backdrop" type="button" data-close-apply aria-label="关闭申请弹窗"></button>
       <div class="apply-dialog" role="dialog" aria-modal="true" aria-labelledby="applyTitle">
         <button class="apply-close" type="button" data-close-apply aria-label="关闭">×</button>
-        <div class="apply-badge">Application</div>
-        <h2 id="applyTitle">加入 Physical AI Camp 2026</h2>
-        <p class="apply-deadline">Applications are open</p>
-        <p class="apply-desc">如果你正在打造面向真实世界的 AI 产品、硬件或 Agent 应用，欢迎联系 RTE 开发者社区了解报名与合作方式。</p>
+        <div class="apply-badge">Contact</div>
+        <h2 id="applyTitle">联系 Physical AI Camp 2026</h2>
+        <p class="apply-deadline">Show your works</p>
+        <p class="apply-desc">申请已结束。如有项目展示、合作或交流意向，欢迎添加负责人微信并备注「Physical AI Camp」。</p>
         <div class="wechat-box">
           <div>
             <small>WeChat ID</small>
@@ -1403,6 +1471,7 @@
 
     <main class="detail" id="detailView"></main>
   </div>
+  <button class="back-to-top" id="backToTop" type="button" aria-label="返回页面顶部">↑ TOP</button>
 
   <script>
     const projects = [
@@ -1761,7 +1830,7 @@
             "id": "jimumotion",
             "name": "极眸律动",
             "company": "极眸律动",
-            "tagline": "AI 硬件项目",
+            "tagline": "新一代 AI 硬件",
             "detail": "极眸律动是一家专注于 AI 与运动健康方向的初创公司，核心团队来自光年之外、大疆、Meta，正在探索新一代 AI 硬件产品。",
             "teamBio": "谢青池，极眸律动创始人，连续创业者，前光年之外产品负责人。",
             "funding": "暂无融资需求。",
@@ -1773,6 +1842,7 @@
             "stage": "软硬结合",
             "logo": "",
             "productImage": null,
+            "hideProductMedia": true,
             "qrImage": "",
             "hideContact": true,
             "likes": 115,
@@ -1874,6 +1944,7 @@
       {
             "id": "memories-ai",
             "name": "Memories.ai",
+            "invitedShowcase": true,
             "company": "Memories.ai",
             "tagline": "AI that sees, remembers and acts",
             "detail": "Memories.ai is an AI company dedicated to reshaping machine perception and interaction. It has launched the world's first Large <strong>Visual Memory Model (LVMM)</strong>, breaking through the long-standing limitations of AI in video understanding.",
@@ -2113,7 +2184,14 @@
     }
 
     function sortedProjects() {
-      return [...projects].sort((a, b) => projectSortName(a).localeCompare(projectSortName(b), "en", { sensitivity: "base" }));
+      return [...projects].sort((a, b) => {
+        if (a.invitedShowcase !== b.invitedShowcase) return a.invitedShowcase ? 1 : -1;
+        return projectSortName(a).localeCompare(projectSortName(b), "en", { sensitivity: "base" });
+      });
+    }
+
+    function showcaseBadge(project) {
+      return project.invitedShowcase ? '<span class="showcase-badge">Invited Showcase</span>' : "";
     }
 
     function assetImg(src, alt) {
@@ -2214,6 +2292,8 @@
     }
 
     function renderProductMedia(project) {
+      if (project.hideProductMedia) return "";
+
       const gallery = Array.isArray(project.productImages) ? project.productImages.filter((item) => item?.src) : [];
 
       if (gallery.length > 1) {
@@ -2241,7 +2321,7 @@
           <div class="project-info">
             <div class="project-brandline">
               <div class="project-logo${logoClass(project)}">${project.logo ? assetImg(project.logo, `${project.name} logo`) : `<span>${initials(project.name)}</span>`}</div>
-              <div class="project-company">${project.company || "Physical AI Camp"}</div>
+              <div class="project-company">${project.company || "Physical AI Camp"}${showcaseBadge(project)}</div>
             </div>
             <div class="project-title">
               <h3>${project.name}</h3>
@@ -2278,6 +2358,7 @@
               <div class="detail-company">
                 ${project.company || "Physical AI Camp"}
                 ${project.website ? `<br><a href="${project.website}" target="_blank" rel="noreferrer">${websiteLabel(project.website)}</a>` : ""}
+                ${showcaseBadge(project)}
               </div>
             </div>
             <div class="status-row detail-status-row">
@@ -2334,6 +2415,7 @@
     }
 
     const topbar = document.querySelector("#topbar");
+    const backToTop = document.querySelector("#backToTop");
     const applyModal = document.querySelector("#applyModal");
     const copyWechat = document.querySelector("[data-copy-wechat]");
     const mobileMenuToggle = document.querySelector("#mobileMenuToggle");
@@ -2360,6 +2442,7 @@
 
     function updateTopbar() {
       topbar.classList.toggle("is-scrolled", window.scrollY > 20);
+      backToTop.classList.toggle("is-visible", window.scrollY > 480);
     }
 
     function openApplyModal() {
@@ -2447,6 +2530,10 @@
 
       if (event.target.closest("[data-back]")) {
         location.hash = "#/";
+      }
+
+      if (event.target.closest("#backToTop")) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
     });
 

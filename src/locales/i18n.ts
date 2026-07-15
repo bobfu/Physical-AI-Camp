@@ -6,7 +6,7 @@ export const TRANSLATIONS = {
       journey: 'JOURNEY',
       resources: 'RESOURCES',
       global: 'GLOBAL',
-      apply: 'APPLY NOW'
+      apply: 'CONTACT US'
     },
     hero: {
       badge: '2026 超音速计划',
@@ -29,8 +29,8 @@ export const TRANSLATIONS = {
       hint: '查看所有合作伙伴'
     },
     categories: {
-      Organizer: '发起单位',
-      'Real-Time AI Devkit': '实时 AI 开发套件',
+      Organizer: '发起方',
+      'Real-Time AI Devkit': 'Real-Time AI Devkit 支持方',
       VC: '投资机构',
       Community: '社区伙伴'
     },
@@ -168,9 +168,9 @@ export const TRANSLATIONS = {
         },
         {
           date: '',
-          month: 'JULY',
+          month: 'JULY 16',
           label: 'DEMO DAY',
-          location: '上海',
+          location: '上海世博天地',
           events: [
             { title: '结营 Demo Day 与结营仪式', desc: '向投资人、潜在客户及社区成员全面展示在这三个月中打磨出的实机产品与商业计划。' }
           ]
@@ -182,8 +182,8 @@ export const TRANSLATIONS = {
       subtitle: '为你准备好支撑起步 3-6 个月的专属技术包',
       items: [
         { title: '对话式 AI 引擎', desc: '声网对话式 AI 引擎 30 万分钟免费额度' },
-        { title: '实时交互免费资源包', desc: '商汤数字人、SpatialWalk 实时交互数字人、小宿科技搜索 API、小樱桃科技 SIP' },
-        { title: '多模态大模型', desc: '由 MiniMax、Z.AI Startup Program、阶跃星辰、月之暗面提供的语音模型（TTS、ASR 等）和 LLM Token 额度支持。' },
+        { title: '实时交互免费资源包', desc: '商汤数字人、SpatialWalk 实时交互数字人、小樱桃科技 SIP' },
+        { title: '多模态大模型', desc: '由 MiniMax、Z.AI Startup Program、阶跃星辰、月之暗面、Google Cloud 提供的语音模型（TTS、ASR 等）和 LLM Token 额度支持。' },
         { title: '硬件试用', desc: '声网 R1/R2 开发板试用、Seeed SenseCAP Watcher 开发板试用' },
         { title: 'Build in Public 流量扶持', desc: '小红书科技流量支持' }
       ]
@@ -240,9 +240,9 @@ export const TRANSLATIONS = {
       copyright: '© 2026 PHYSICAL AI CAMP. BY RTE COMMUNITY.'
     },
     applyModal: {
-      title: '立即加入超音速计划 2026',
-      deadline: '截止报名：2026 年 4 月 20 日 24:00',
-      desc: '请添加负责人微信为好友并备注「Physical AI Camp 报名」，我们将尽快与你联系。',
+      title: '联系 Physical AI Camp 2026',
+      deadline: 'Show your works',
+      desc: '申请已结束。如有项目展示、合作或交流意向，欢迎添加负责人微信并备注「Physical AI Camp」。',
       copySuccess: '已复制 ID',
       copyLabel: '复制 ID',
       gotIt: '知道了'
@@ -255,7 +255,7 @@ export const TRANSLATIONS = {
       journey: 'JOURNEY',
       resources: 'RESOURCES',
       global: 'GLOBAL',
-      apply: 'APPLY NOW'
+      apply: 'CONTACT US'
     },
     hero: {
       badge: '2026 Supersonic Program',
@@ -417,9 +417,9 @@ export const TRANSLATIONS = {
         },
         {
           date: '',
-          month: 'JULY',
+          month: 'JULY 16',
           label: 'DEMO DAY',
-          location: 'Shanghai',
+          location: 'Shanghai Expo World',
           events: [
             { title: 'Final Project Demo Day & Closing Ceremony', desc: 'Showcase your real machine Demo and business plan to investors and potential partners.' }
           ]
@@ -489,9 +489,9 @@ export const TRANSLATIONS = {
       copyright: '© 2026 PHYSICAL AI CAMP. BY RTE COMMUNITY.'
     },
     applyModal: {
-      title: 'JOIN SUPERSONIC PROGRAM 2026',
-      deadline: 'DEADLINE: APRIL 20, 2026, 24:00',
-      desc: 'Please add our coordinator on WeChat and mention "Physical AI Camp Application". We will contact you soon.',
+      title: 'CONTACT PHYSICAL AI CAMP 2026',
+      deadline: 'SHOW YOUR WORKS',
+      desc: 'Applications are closed. For project showcases, collaboration, or conversation, add our coordinator on WeChat and mention “Physical AI Camp”.',
       copySuccess: 'ID COPIED',
       copyLabel: 'COPY ID',
       gotIt: 'GOT IT'

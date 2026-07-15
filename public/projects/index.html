@@ -637,6 +637,30 @@
       overflow-wrap: anywhere;
     }
 
+    .showcase-badge {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      min-height: 24px;
+      margin-top: 7px;
+      padding: 0 8px;
+      border: 1px solid var(--neon-green);
+      color: #001900;
+      background: var(--neon-green);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      line-height: 1;
+      text-transform: uppercase;
+      box-shadow: 0 0 16px rgba(0, 255, 0, 0.28);
+    }
+
+    .project-company .showcase-badge,
+    .detail-company .showcase-badge {
+      display: flex;
+    }
+
     .project-title h3 {
       font-size: clamp(25px, 3.6vw, 42px);
       font-weight: 900;
@@ -1874,6 +1898,7 @@
       {
             "id": "memories-ai",
             "name": "Memories.ai",
+            "invitedShowcase": true,
             "company": "Memories.ai",
             "tagline": "AI that sees, remembers and acts",
             "detail": "Memories.ai is an AI company dedicated to reshaping machine perception and interaction. It has launched the world's first Large <strong>Visual Memory Model (LVMM)</strong>, breaking through the long-standing limitations of AI in video understanding.",
@@ -2113,7 +2138,14 @@
     }
 
     function sortedProjects() {
-      return [...projects].sort((a, b) => projectSortName(a).localeCompare(projectSortName(b), "en", { sensitivity: "base" }));
+      return [...projects].sort((a, b) => {
+        if (a.invitedShowcase !== b.invitedShowcase) return a.invitedShowcase ? 1 : -1;
+        return projectSortName(a).localeCompare(projectSortName(b), "en", { sensitivity: "base" });
+      });
+    }
+
+    function showcaseBadge(project) {
+      return project.invitedShowcase ? '<span class="showcase-badge">Invited Showcase</span>' : "";
     }
 
     function assetImg(src, alt) {
@@ -2241,7 +2273,7 @@
           <div class="project-info">
             <div class="project-brandline">
               <div class="project-logo${logoClass(project)}">${project.logo ? assetImg(project.logo, `${project.name} logo`) : `<span>${initials(project.name)}</span>`}</div>
-              <div class="project-company">${project.company || "Physical AI Camp"}</div>
+              <div class="project-company">${project.company || "Physical AI Camp"}${showcaseBadge(project)}</div>
             </div>
             <div class="project-title">
               <h3>${project.name}</h3>
@@ -2278,6 +2310,7 @@
               <div class="detail-company">
                 ${project.company || "Physical AI Camp"}
                 ${project.website ? `<br><a href="${project.website}" target="_blank" rel="noreferrer">${websiteLabel(project.website)}</a>` : ""}
+                ${showcaseBadge(project)}
               </div>
             </div>
             <div class="status-row detail-status-row">

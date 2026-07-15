@@ -374,6 +374,8 @@ const FAQItem = ({ question, answer }: { question: string; answer: string; key?:
 
 // --- Main App ---
 
+const BASE_PATH = '/physical-ai-camp';
+
 export default function App() {
   const [lang, setLang] = useState<Language>('zh');
   const [scrolled, setScrolled] = useState(false);
@@ -386,9 +388,9 @@ export default function App() {
   useEffect(() => {
     const handleUrlChange = () => {
       const path = window.location.pathname;
-      if (path === '/en') {
+      if (path === `${BASE_PATH}/en`) {
         setLang('en');
-      } else if (path === '/zh') {
+      } else if (path === `${BASE_PATH}/zh`) {
         setLang('zh');
       } else {
         const params = new URLSearchParams(window.location.search);
@@ -431,7 +433,7 @@ export default function App() {
     const newLang = lang === 'zh' ? 'en' : 'zh';
     setLang(newLang);
     // Update path without reloading
-    window.history.pushState({}, '', `/${newLang}`);
+    window.history.pushState({}, '', `${BASE_PATH}/${newLang}`);
   };
 
   return (
@@ -447,7 +449,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center relative">
           <div 
             className="flex items-center gap-2 cursor-pointer group"
-            onClick={() => window.location.href = '/'}
+            onClick={() => window.location.href = BASE_PATH}
           >
             <div className="w-8 h-8 bg-neon-green flex items-center justify-center group-hover:bg-white transition-colors">
               <Zap className="w-5 h-5 text-black" />
@@ -455,7 +457,7 @@ export default function App() {
             <span className="font-mono font-bold tracking-tighter text-sm sm:text-base md:text-xl group-hover:text-neon-green transition-colors">PHYSICAL AI CAMP 2026</span>
           </div>
           <div className="hidden lg:flex gap-8 font-mono text-[10px] md:text-xs uppercase tracking-widest shrink-0">
-            <a href="/projects/index.html" className="hover:text-neon-green transition-colors">{t.nav.projects}</a>
+            <a href={`${BASE_PATH}/projects/index.html`} className="hover:text-neon-green transition-colors">{t.nav.projects}</a>
             <a href="#community" className="hover:text-neon-green transition-colors">{t.nav.community}</a>
             <a href="#journey" className="hover:text-neon-green transition-colors">{t.nav.journey}</a>
             <a href="#resources" className="hover:text-neon-green transition-colors">{t.nav.resources}</a>
@@ -496,7 +498,7 @@ export default function App() {
                 className="lg:hidden absolute top-[calc(100%+1rem)] left-4 right-4 sm:left-6 sm:right-6 border border-white/15 bg-brutal-black/95 backdrop-blur-md p-4 shadow-2xl"
               >
                 <div className="flex flex-col font-mono text-xs uppercase tracking-widest">
-                  <a href="/projects/index.html" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-3 border-b border-white/10 hover:text-neon-green">{t.nav.projects}</a>
+                  <a href={`${BASE_PATH}/projects/index.html`} onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-3 border-b border-white/10 hover:text-neon-green">{t.nav.projects}</a>
                   <a href="#community" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-3 border-b border-white/10 hover:text-neon-green">{t.nav.community}</a>
                   <a href="#journey" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-3 border-b border-white/10 hover:text-neon-green">{t.nav.journey}</a>
                   <a href="#resources" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-3 border-b border-white/10 hover:text-neon-green">{t.nav.resources}</a>
@@ -546,7 +548,7 @@ export default function App() {
                 </p>
                 <div className="flex flex-wrap gap-4 items-center">
                   <a
-                    href="/projects/index.html"
+                    href={`${BASE_PATH}/projects/index.html`}
                     className="bg-neon-green text-black px-8 py-4 font-bold uppercase flex items-center gap-2 hover:bg-white transition-colors group"
                   >
                     {t.hero.applyBtn} <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -958,7 +960,7 @@ export default function App() {
             
             <div className="flex flex-col items-center gap-6 mb-20">
               <a
-                href="/projects/index.html"
+                href={`${BASE_PATH}/projects/index.html`}
                 className="bg-neon-green text-black px-12 py-6 text-xl font-bold uppercase hover:bg-white transition-colors"
               >
                 {t.footer.ctaBtn}

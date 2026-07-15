@@ -1,0 +1,24 @@
+{
+  "rewrites": [
+    {
+      "source": "/physical-ai-camp/assets/:path*",
+      "destination": "/assets/:path*"
+    },
+    {
+      "source": "/physical-ai-camp/projects/:path*",
+      "destination": "/projects/:path*"
+    },
+    {
+      "source": "/physical-ai-camp",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/physical-ai-camp/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/physical-ai-camp/:path*",
+      "destination": "/index.html"
+    }
+  ]
+}

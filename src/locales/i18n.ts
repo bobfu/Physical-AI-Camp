@@ -182,8 +182,8 @@ export const TRANSLATIONS = {
       subtitle: '为你准备好支撑起步 3-6 个月的专属技术包',
       items: [
         { title: '对话式 AI 引擎', desc: '声网对话式 AI 引擎 30 万分钟免费额度' },
-        { title: '实时交互免费资源包', desc: '商汤数字人、SpatialWalk 实时交互数字人、小樱桃科技 SIP' },
-        { title: '多模态大模型', desc: '由 MiniMax、Z.AI Startup Program、阶跃星辰、月之暗面、Google Cloud 提供的语音模型（TTS、ASR 等）和 LLM Token 额度支持。' },
+        { title: '实时交互免费资源包', desc: '商汤数字人、Spatius.ai 实时交互数字人、小樱桃科技 SIP' },
+        { title: '多模态大模型', desc: '由 MiniMax、Z.AI Startup Program、阶跃星辰、月之暗面、Google Cloud、亚马逊云科技提供的语音模型（TTS、ASR 等）和 LLM Token 额度支持。' },
         { title: '硬件试用', desc: '声网 R1/R2 开发板试用、Seeed SenseCAP Watcher 开发板试用' },
         { title: 'Build in Public 流量扶持', desc: '小红书科技流量支持' }
       ]
@@ -431,8 +431,8 @@ export const TRANSLATIONS = {
       subtitle: 'A specialized technical package to support your first 3-6 months',
       items: [
         { title: 'CONVERSATIONAL AI ENGINE', desc: '300,000 free minutes for Agora Conversational AI Engine' },
-        { title: 'REAL-TIME INTERACTION PACK', desc: 'Resource support for SenseTime Digital Human, SpatialWalk Interactive Human, etc.' },
-        { title: 'MULTIMODAL LLMS', desc: 'Token credits and model support from MiniMax, Z.AI Startup Program, StepFun, Moonshot AI, etc.' },
+        { title: 'REAL-TIME INTERACTION PACK', desc: 'Resource support for SenseTime Digital Human, Spatius.ai Interactive Human, etc.' },
+        { title: 'MULTIMODAL LLMS', desc: 'Token credits and model support from MiniMax, Z.AI Startup Program, StepFun, Moonshot AI, Google Cloud, and 亚马逊云科技.' },
         { title: 'HARDWARE TRIAL', desc: 'Trials for Agora R1/R2 and Seeed SenseCAP Watcher development boards.' },
         { title: 'BUILD IN PUBLIC SUPPORT', desc: 'Traffic support from Xiaohongshu Tech' }
       ]

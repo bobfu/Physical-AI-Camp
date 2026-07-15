@@ -18,7 +18,7 @@ export const PARTNERS_LIST: Partner[] = [
   // Real-Time AI Devkit
   { id: 'shenwang_duihuashi_ai', name_zh: "声网对话式 AI", category: "Real-Time AI Devkit" },
   { id: 'shangtang', name_zh: "商汤", category: "Real-Time AI Devkit" },
-  { id: 'spatialwalk', name_zh: "SpatialWalk", category: "Real-Time AI Devkit" },
+  { id: 'spatialwalk', name_zh: "Spatius.ai", category: "Real-Time AI Devkit" },
   { id: 'xiaoyingtao_keji', name_zh: "小樱桃科技", category: "Real-Time AI Devkit" },
   { id: 'minimax', name_zh: "MiniMax", category: "Real-Time AI Devkit" },
   { id: 'z_ai_startup_program', name_zh: "Z.AI Startup Program", category: "Real-Time AI Devkit" },

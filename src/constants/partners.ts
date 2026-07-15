@@ -26,12 +26,14 @@ export const PARTNERS_LIST: Partner[] = [
   { id: 'yue_zhi_an_mian', name_zh: "月之暗面", category: "Real-Time AI Devkit" },
   { id: 'seeed', name_zh: "Seeed", category: "Real-Time AI Devkit" },
   { id: 'google_cloud', name_zh: "Google Cloud", name_en: "Google Cloud", category: "Real-Time AI Devkit" },
+  { id: 'aws', name_zh: "亚马逊云科技", name_en: "亚马逊云科技", category: "Real-Time AI Devkit" },
   // VC
   { id: 'wuyuan_ziben', name_zh: "五源资本", category: "VC" },
   { id: 'gaolin_ziben', name_zh: "高瓴资本", category: "VC" },
   { id: 'jiacheng_ziben', name_zh: "嘉程资本", category: "VC" },
   { id: 'zhenge_jijin', name_zh: "真格基金", category: "VC" },
   { id: 'atypical_ventures', name_zh: "Atypical Ventures", category: "VC" },
+  { id: 'monolith', name_zh: "Monolith", category: "VC" },
   // 社区伙伴
   { id: 's_chuang', name_zh: "S 创", category: "Community" },
   { id: 'chaihuo_chuangke_kongjian', name_zh: "柴火创客空间", category: "Community" },

@@ -9,6 +9,20 @@ const __dirname = path.dirname(__filename);
 async function startServer() {
   const app = express();
   const PORT = 3000;
+  const cohortPage = path.join(
+    process.cwd(),
+    process.env.NODE_ENV !== "production" ? 'public' : 'dist',
+    'projects',
+    'index.html'
+  );
+
+  app.get(['/physical-ai-camp/cohort', '/physical-ai-camp/cohort/', '/physical-ai-camp/cohort/:projectId'], (_req, res) => {
+    res.sendFile(cohortPage);
+  });
+
+  app.get('/physical-ai-camp/projects/index.html', (_req, res) => {
+    res.redirect(302, '/physical-ai-camp/cohort');
+  });
 
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {

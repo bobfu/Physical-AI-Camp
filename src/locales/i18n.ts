@@ -68,7 +68,7 @@ export const TRANSLATIONS = {
       items: [
         {
           title: '技术拐点',
-          desc: '随着 Realtime API 和视觉/语音基础模型的成熟，AI 正在脱离纯粹的软件形态。我们正处于从「屏幕交互」走向「具身智能与物理交互」的转折点。'
+          desc: '随着 real-time 和 interaction models 的成熟，AI 正在脱离纯粹的软件形态。我们正处于从「屏幕交互」走向「具身智能与物理交互」的转折点。'
         },
         {
           title: '出海与代际差',
@@ -237,7 +237,7 @@ export const TRANSLATIONS = {
       ctaBtn: '16 家团队介绍',
       contact: '联系我们',
       desc: '致力于构建全球领先的 物理 AI 开发社区',
-      copyright: '© 2026 PHYSICAL AI CAMP. BY RTE COMMUNITY.'
+      copyright: '© 2026 PHYSICAL AI CAMP. BY RTE DEV COMMUNITY.'
     },
     applyModal: {
       title: '联系 Physical AI Camp 2026',
@@ -317,7 +317,7 @@ export const TRANSLATIONS = {
       items: [
         {
           title: 'TECH INFLECTION',
-          desc: 'With the maturity of Realtime APIs and vision/voice models, AI is leaving the pure software form. We are at the turning point from screen interaction to embodied intelligence.'
+          desc: 'With the maturity of real-time and interaction models, AI is leaving the pure software form. We are at the turning point from screen interaction to embodied intelligence.'
         },
         {
           title: 'GLOBAL ARBITRAGE',
@@ -486,7 +486,7 @@ export const TRANSLATIONS = {
       ctaBtn: '16 TEAM PROFILES',
       contact: 'CONTACT US',
       desc: 'Building the world-leading Physical AI development community.',
-      copyright: '© 2026 PHYSICAL AI CAMP. BY RTE COMMUNITY.'
+      copyright: '© 2026 PHYSICAL AI CAMP. BY RTE DEV COMMUNITY.'
     },
     applyModal: {
       title: 'CONTACT PHYSICAL AI CAMP 2026',
